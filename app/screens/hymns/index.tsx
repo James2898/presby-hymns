@@ -1,10 +1,17 @@
 import * as React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { TextInput } from "react-native-paper";
+
+import Search from "../../components/Search";
+import RadioButton from "../../components/RadioButton";
 
 export const HymnsScreen = () => {
+  const [local, setLocale] = React.useState<"eng" | "tag">("eng");
+
   return (
     <View style={Styles.container}>
-      <Text style={Styles.header}>Hymns Screen</Text>
+      <Search color={"#6481E5"} />
+      <RadioButton color={"#6481E5"} />
     </View>
   );
 };
@@ -17,8 +24,6 @@ const Styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
   },
 });
 
