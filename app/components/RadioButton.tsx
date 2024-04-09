@@ -3,9 +3,9 @@ import * as React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { RadioButton as RadioBtn } from "react-native-paper";
 
-const RadioButton = ({ color, status, onPress }) => {
+const RadioButton = ({ color, status, onPress, size }) => {
   return (
-    <View style={Styles.radioButtonGroup(color)}>
+    <View style={Styles.radioButtonGroup}>
       <RadioBtn
         value="first"
         color={color}
@@ -15,7 +15,7 @@ const RadioButton = ({ color, status, onPress }) => {
           onPress("eng");
         }}
       />
-      <Text style={Styles.text(color)}>English</Text>
+      <Text style={Styles.text({ color, size })}>English</Text>
       <RadioBtn
         value="second"
         color={color}
@@ -25,23 +25,20 @@ const RadioButton = ({ color, status, onPress }) => {
           onPress("tag");
         }}
       />
-      <Text style={Styles.text(color)}>Filipino</Text>
+      <Text style={Styles.text({ color, size })}>Filipino</Text>
     </View>
   );
 };
 
 const Styles = StyleSheet.create({
-  radioButtonGroup: (color: any) => ({
+  radioButtonGroup: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-  }),
-  radioBtn: (color: any) => ({
-    fontSize: 32,
-  }),
-  text: (color: any) => ({
+  },
+  text: ({ color, size }) => ({
     color: `${color}`,
-    fontSize: 23,
+    fontSize: size,
   }),
 });
 

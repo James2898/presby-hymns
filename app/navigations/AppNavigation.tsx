@@ -2,7 +2,7 @@ import React from "react";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { ImageBackground, StyleSheet } from "react-native";
+import { Text, ImageBackground, StyleSheet } from "react-native";
 
 import { HomeScreen } from "../screens/home";
 import { HymnsScreen } from "../screens/hymns";

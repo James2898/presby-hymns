@@ -4,7 +4,7 @@ import { View, FlatList, Text, StyleSheet, Pressable } from "react-native";
 import hymnDetail from "../screens/hymns/hymnDetail";
 import { useNavigation } from "@react-navigation/native";
 
-const ItemList = ({ arr, color }) => {
+const ItemList = ({ arr, color, onPress }) => {
   const navigation = useNavigation();
   return (
     <FlatList
@@ -17,11 +17,7 @@ const ItemList = ({ arr, color }) => {
             </Text>
           </View>
           <View style={Styles.title(color)}>
-            <Pressable
-              onPress={() =>
-                navigation.navigate("HymnDetail", { color: color })
-              }
-            >
+            <Pressable onPress={onPress}>
               <Text key={`${index}-title`} style={Styles.text(color)}>
                 {item.title}
               </Text>

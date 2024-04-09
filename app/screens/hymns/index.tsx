@@ -24,14 +24,27 @@ export const HymnsScreen = ({}) => {
     });
   }, [locale]);
 
+  const handleItemClick = () =>
+    // @ts-ignore
+    navigation.navigate("HymnDetail", {
+      color: color,
+      locale: locale,
+      setLocale: setLocale,
+    });
+
   return (
     <View style={Styles.container}>
       <Search color={color} />
-      <RadioButton color={color} status={locale} onPress={setLocale} />
+      <RadioButton
+        color={color}
+        status={locale}
+        onPress={setLocale}
+        size={23}
+      />
       {locale === "eng" ? (
-        <ItemList arr={hymnEng} color={color} />
+        <ItemList arr={hymnEng} color={color} onPress={handleItemClick} />
       ) : (
-        <ItemList arr={hymnTag} color={color} />
+        <ItemList arr={hymnTag} color={color} onPress={handleItemClick} />
       )}
     </View>
   );
