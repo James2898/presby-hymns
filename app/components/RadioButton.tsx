@@ -3,17 +3,16 @@ import * as React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { RadioButton as RadioBtn } from "react-native-paper";
 
-const RadioButton = ({ color }) => {
-  const [checked, setChecked] = React.useState<"first" | "second">("first");
+const RadioButton = ({ color, status, onPress }) => {
   return (
     <View style={Styles.radioButtonGroup(color)}>
       <RadioBtn
         value="first"
         color={color}
         style={Styles.radioBtn}
-        status={checked === "first" ? "checked" : "unchecked"}
+        status={status === "eng" ? "checked" : "unchecked"}
         onPress={() => {
-          setChecked("first");
+          onPress("eng");
         }}
       />
       <Text style={Styles.text(color)}>English</Text>
@@ -21,9 +20,9 @@ const RadioButton = ({ color }) => {
         value="second"
         color={color}
         style={Styles.radioBtn}
-        status={checked === "second" ? "checked" : "unchecked"}
+        status={status === "tag" ? "checked" : "unchecked"}
         onPress={() => {
-          setChecked("second");
+          onPress("tag");
         }}
       />
       <Text style={Styles.text(color)}>Filipino</Text>

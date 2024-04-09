@@ -10,37 +10,38 @@ import { ResponsiveReadingScreen } from "../screens/responsive";
 import { CatechisimScreen } from "../screens/catechisim";
 import { CreditsScreen } from "../screens/credits";
 
-const options = {
-  hymns: {
-    headerStyle: {
-      backgroundColor: "#6481E5",
-    },
-    headerTintColor: "#fff",
-  },
-  responsiveReading: {
-    title: "Responsive Reading",
-    headerStyle: {
-      backgroundColor: "#EF5C2E",
-    },
-    headerTintColor: "#fff",
-  },
-  catechisim: {
-    title: "Shorter Catechism",
-    headerStyle: {
-      backgroundColor: "#235B09",
-    },
-    headerTintColor: "#fff",
-  },
-  credits: {
-    headerStyle: {
-      backgroundColor: "#6481E5",
-    },
-    headerTintColor: "#fff",
-  },
-};
-
 const Stack = createStackNavigator();
-const MainNavigator = () => {
+const MainNavigator = ({ locale, setLocale }) => {
+  const hymnColor = locale === "eng" ? "#6481E5" : "#A72828";
+  const options = {
+    hymns: {
+      headerStyle: {
+        backgroundColor: hymnColor,
+      },
+      headerTintColor: "#fff",
+    },
+    responsiveReading: {
+      title: "Responsive Reading",
+      headerStyle: {
+        backgroundColor: "#EF5C2E",
+      },
+      headerTintColor: "#fff",
+    },
+    catechisim: {
+      title: "Shorter Catechism",
+      headerStyle: {
+        backgroundColor: "#235B09",
+      },
+      headerTintColor: "#fff",
+    },
+    credits: {
+      headerStyle: {
+        backgroundColor: "#6481E5",
+      },
+      headerTintColor: "#fff",
+    },
+  };
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -50,7 +51,9 @@ const MainNavigator = () => {
       />
       <Stack.Screen
         name="Hymns"
-        component={HymnsScreen}
+        component={(props) => (
+          <HymnsScreen locale={locale} setLocale={setLocale} />
+        )}
         options={options.hymns}
       />
       <Stack.Screen
@@ -74,10 +77,10 @@ const MainNavigator = () => {
 
 const image = require("../../assets/images/church-picture.png");
 
-const AppContainer = () => {
+const AppContainer = ({ locale, setLocale }) => {
   return (
     <NavigationContainer>
-      <MainNavigator />
+      <MainNavigator locale={locale} setLocale={setLocale} />
     </NavigationContainer>
   );
 };
