@@ -6,17 +6,23 @@ import { ImageBackground, StyleSheet } from "react-native";
 
 import { HomeScreen } from "../screens/home";
 import { HymnsScreen } from "../screens/hymns";
+import { HymnDetail } from "../screens/hymns/hymnDetail";
 import { ResponsiveReadingScreen } from "../screens/responsive";
 import { CatechisimScreen } from "../screens/catechisim";
 import { CreditsScreen } from "../screens/credits";
 
 const Stack = createStackNavigator();
-const MainNavigator = ({ locale, setLocale }) => {
-  const hymnColor = locale === "eng" ? "#6481E5" : "#A72828";
+const MainNavigator = () => {
   const options = {
     hymns: {
       headerStyle: {
-        backgroundColor: hymnColor,
+        backgroundColor: "#6481E5",
+      },
+      headerTintColor: "#fff",
+    },
+    hymnDetail: {
+      headerStyle: {
+        backgroundColor: "#6481E5",
       },
       headerTintColor: "#fff",
     },
@@ -51,10 +57,13 @@ const MainNavigator = ({ locale, setLocale }) => {
       />
       <Stack.Screen
         name="Hymns"
-        component={(props) => (
-          <HymnsScreen locale={locale} setLocale={setLocale} />
-        )}
+        component={HymnsScreen}
         options={options.hymns}
+      />
+      <Stack.Screen
+        name="HymnDetail"
+        component={HymnDetail}
+        options={options.hymnDetail}
       />
       <Stack.Screen
         name="ResponsiveReading"
@@ -77,10 +86,10 @@ const MainNavigator = ({ locale, setLocale }) => {
 
 const image = require("../../assets/images/church-picture.png");
 
-const AppContainer = ({ locale, setLocale }) => {
+const AppContainer = () => {
   return (
     <NavigationContainer>
-      <MainNavigator locale={locale} setLocale={setLocale} />
+      <MainNavigator />
     </NavigationContainer>
   );
 };

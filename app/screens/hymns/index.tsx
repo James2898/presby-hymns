@@ -6,15 +6,33 @@ import Search from "../../components/Search";
 import RadioButton from "../../components/RadioButton";
 import ItemList from "../../components/ItemList";
 import { hymnEng, hymnTag } from "../../../const/hymns";
+import { useNavigation } from "@react-navigation/native";
 
-export const HymnsScreen = ({ locale, setLocale }) => {
-  const color = locale === "eng" ? "#6481E5" : "#A72828";
+export const HymnsScreen = ({}) => {
+  const navigation = useNavigation();
+
+  const [locale, setLocale] = React.useState("eng");
+  const color = React.useMemo(() => {
+    return locale === "eng" ? "#6481E5" : "#A72828";
+  }, [locale]);
+
+  React.useEffect(() => {
+    navigation.setOptions({
+      headerStyle: {
+        backgroundColor: color,
+      },
+    });
+  }, [locale]);
 
   return (
     <View style={Styles.container}>
       <Search color={color} />
       <RadioButton color={color} status={locale} onPress={setLocale} />
-      <ItemList arr={locale === "eng" ? hymnEng : hymnTag} color={color} />
+      {locale === "eng" ? (
+        <ItemList arr={hymnEng} color={color} />
+      ) : (
+        <ItemList arr={hymnTag} color={color} />
+      )}
     </View>
   );
 };

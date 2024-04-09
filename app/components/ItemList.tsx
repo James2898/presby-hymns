@@ -1,8 +1,11 @@
 // @ts-nocheck
 import * as React from "react";
-import { View, FlatList, Text, StyleSheet } from "react-native";
+import { View, FlatList, Text, StyleSheet, Pressable } from "react-native";
+import hymnDetail from "../screens/hymns/hymnDetail";
+import { useNavigation } from "@react-navigation/native";
 
 const ItemList = ({ arr, color }) => {
+  const navigation = useNavigation();
   return (
     <FlatList
       data={arr}
@@ -14,9 +17,15 @@ const ItemList = ({ arr, color }) => {
             </Text>
           </View>
           <View style={Styles.title(color)}>
-            <Text key={`${index}-title`} style={Styles.text(color)}>
-              {item.title}
-            </Text>
+            <Pressable
+              onPress={() =>
+                navigation.navigate("HymnDetail", { color: color })
+              }
+            >
+              <Text key={`${index}-title`} style={Styles.text(color)}>
+                {item.title}
+              </Text>
+            </Pressable>
           </View>
         </View>
       )}
