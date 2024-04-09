@@ -1,9 +1,11 @@
+// @ts-nocheck
 import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 
 import RadioButton from "../../components/RadioButton";
-import { MaterialIcons } from "@expo/vector-icons";
+import HymnToolbar from "../../components/HymnToolbar";
 
 export const HymnDetail = ({ route }) => {
   // TODO: RECREATE TO REDUX
@@ -42,17 +44,17 @@ export const HymnDetail = ({ route }) => {
         </View>
       ),
       headerStyle: {
+        elevation: 0,
+        shadowOpacity: 0,
         backgroundColor: color,
       },
     });
   }, [color, locale, setLocale]);
 
   return (
-    <View>
-      <Text>
-        {color}
-        {locale}
-      </Text>
+    // @ts-ignore
+    <View style={Styles.bodyContainer(color)}>
+      <HymnToolbar color={color} />
     </View>
   );
 };
@@ -73,6 +75,11 @@ const Styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+  bodyContainer: (color) => ({
+    borderWidth: 8,
+    height: "100%",
+    borderColor: color,
+  }),
 });
 
 export default HymnDetail;
