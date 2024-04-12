@@ -5,7 +5,7 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import * as React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Pressable } from "react-native";
 
 const HymnToolbar = ({ color }) => {
   return (
@@ -15,9 +15,13 @@ const HymnToolbar = ({ color }) => {
         <MaterialCommunityIcons name="music" size={32} />
       </View>
       <View style={Styles.fontButtons}>
-        <FontAwesome name="plus" size={24} color={color} />
+        <Pressable onPress={() => alert("Increase Font")}>
+          <FontAwesome name="plus" size={24} color={color} />
+        </Pressable>
         <Text style={Styles.fontSize}>Aa</Text>
-        <FontAwesome name="minus" size={24} color={color} />
+        <Pressable onPress={() => alert("Decrease Font")}>
+          <FontAwesome name="minus" size={24} color={color} />
+        </Pressable>
       </View>
     </View>
   );

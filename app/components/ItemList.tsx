@@ -17,7 +17,7 @@ const ItemList = ({ arr, color, onPress }) => {
             </Text>
           </View>
           <View style={Styles.title(color)}>
-            <Pressable onPress={onPress}>
+            <Pressable onPress={() => onPress(item.no)}>
               <Text key={`${index}-title`} style={Styles.text(color)}>
                 {item.title}
               </Text>

@@ -24,9 +24,10 @@ export const HymnsScreen = ({}) => {
     });
   }, [locale]);
 
-  const handleItemClick = () =>
+  const handleItemClick = (HymnNo) =>
     // @ts-ignore
     navigation.navigate("HymnDetail", {
+      no: HymnNo,
       color: color,
       locale: locale,
       setLocale: setLocale,
