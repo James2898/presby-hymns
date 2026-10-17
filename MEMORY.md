@@ -22,6 +22,11 @@
   - **Context:** The standard integration path is: push feature branch (once approved by user), open a Pull Request targeting `main`, and merge the PR on GitHub.
   - **Action:** Never merge feature branches directly into local `main` unless the user explicitly gives a manual override (e.g., "merge locally to main").
 
+- **GUARD-004** | Pull Request Assignment
+  - **Rule:** **ALWAYS ASSIGN PULL REQUESTS TO THE USER (@me / @James2898) UPON CREATION.**
+  - **Context:** The repository owner and sole maintainer monitors open work, reviews, and notifications through GitHub's assignee filters. Unassigned PRs slip through personal dashboard views.
+  - **Action:** Whenever creating a pull request (`gh pr create`), always include `--assignee "@me"` (or assign immediately after creation).
+
 ---
 
 ## UI State
