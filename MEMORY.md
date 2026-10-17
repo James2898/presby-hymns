@@ -17,6 +17,11 @@
   - **Context:** Whenever the user shares a Google Stitch design or link, the design, copy, content, and layout must first be analyzed and grilled against project specs, technical reality, and non-functional requirements. Building prematurely bypasses human design review and risks baking in fabricated claims or misaligned UI patterns.
   - **Action:** Inspect the Stitch design, conduct an adversarial grill of the layout, copy, and behavior against `docs/`, present the analysis to the user, and await explicit approval before writing or updating any implementation code.
 
+- **GUARD-003** | PR and Main Merge Workflow
+  - **Rule:** **DEFAULT MERGE WORKFLOW IS VIA PULL REQUEST TO MAIN ON REMOTE.**
+  - **Context:** The standard integration path is: push feature branch (once approved by user), open a Pull Request targeting `main`, and merge the PR on GitHub.
+  - **Action:** Never merge feature branches directly into local `main` unless the user explicitly gives a manual override (e.g., "merge locally to main").
+
 ---
 
 ## UI State
