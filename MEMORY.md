@@ -12,6 +12,11 @@
   - **Context:** The user requires live verification on local devices/desktop before any commit is pushed to remote PR branches. Pushing unverified or buggy commits pollutes PR history and can mislead reviewers.
   - **Action:** Stage and commit changes locally only. Explicitly ask for user verification and confirmation before running `git push`.
 
+- **GUARD-002** | Google Stitch Design Intake & Verification
+  - **Rule:** **DO NOT BUILD OR IMPLEMENT UPON RECEIVING A GOOGLE STITCH DESIGN WITHOUT EXPLICIT USER PERMISSION.**
+  - **Context:** Whenever the user shares a Google Stitch design or link, the design, copy, content, and layout must first be analyzed and grilled against project specs, technical reality, and non-functional requirements. Building prematurely bypasses human design review and risks baking in fabricated claims or misaligned UI patterns.
+  - **Action:** Inspect the Stitch design, conduct an adversarial grill of the layout, copy, and behavior against `docs/`, present the analysis to the user, and await explicit approval before writing or updating any implementation code.
+
 ---
 
 ## UI State
@@ -20,6 +25,11 @@
   - **Root Cause:** In `flutter_riverpod: ^3.4.3`, legacy state classes (`StateNotifier`, `StateNotifierProvider`, `StateProvider`) were moved out of the default export into `legacy.dart`, and duplicating provider aliases in `ProviderScope`/`ProviderContainer` `overrides` triggered runtime assertion errors.
   - **Resolution:** Imported `package:flutter_riverpod/legacy.dart` for legacy providers and ensured only canonical providers (not duplicate aliases like `databaseProvider = appDatabaseProvider`) are supplied in `overrides`.
   - **Prevention:** When using Riverpod 3.x, import legacy constructs from `package:flutter_riverpod/legacy.dart` (or migrate to `Notifier`/`AsyncNotifier`), and always override canonical provider definitions rather than aliased references.
+
+- **BUG-006** | 2026-10-18 | Feature: `Hymn Viewer Transposition & Chord Controls`
+  - **Root Cause:** Coupling key transposition controls to chord presence prevented vocalists and accompanists singing text-only/Tagalog hymns from receiving tonic pitch cues and pitch adjustment.
+  - **Resolution:** Decoupled Key Transposition (`PitchShiftController` / transposition selector) from chord-specific controls (`Capo`, `CAGED`, `Hide Chords`), ensuring pitch transposition remains universally accessible regardless of chord notation availability.
+  - **Prevention:** Always decouple vocal pitch cues and Key Transposition from chord-specific rendering controls (Capo, CAGED, Hide Chords) when displaying music with optional chord markup.
 
 ---
 
@@ -44,4 +54,18 @@
   - **Root Cause:** In `tool/build_content.dart`, `plainText` (which strips all chord brackets) was inserted into `hymn_texts.chordpro_body`, permanently losing chord markup during SQLite compilation.
   - **Resolution:** Stored the raw `.cho` file text in the builder memory map and inserted `enEntry.raw` / `tlEntry.raw` directly into `chordpro_body` while keeping `cleanPlain` for `lyrics_text` (FTS indexing).
   - **Prevention:** Ensure the raw ChordPro markup is preserved in `chordpro_body` so runtime parsers and transposer engines can extract chord-over-syllable layouts.
+
+- **BUG-008** | 2026-10-18 | Feature: `Database Content Pipeline (Chord Syntax Validation)`
+  - **Root Cause:** Naive bracket detection (`\[.*?\]`) treated non-chord structural tags (e.g., `[Verse]`, `[Chorus]`, `[Refrain]`) as valid musical chords during database compilation and validation.
+  - **Resolution:** Updated validation logic in `test/data/database_integrity_test.dart` to assert chord tokens against standard musical syntax regex (`^[A-G](?:b|#)?(?:m|maj|min|dim|aug|sus|add)?[0-9]*(?:\/[A-G](?:b|#)?)?$`), discarding metadata/structural tags from chord processing.
+  - **Prevention:** Always validate extracted chord tokens against standard musical chord syntax rather than relying on generic square bracket matching.
+
+---
+
+## Performance
+
+- **BUG-007** | 2026-10-18 | Feature: `Bundled SQLite Asset Cold-Start Optimization`
+  - **Root Cause:** Loading bundled database assets into RAM via `rootBundle.load()` on every app startup to compare byte sizes caused high memory overhead and degraded cold-start performance.
+  - **Resolution:** Implemented a version stamp check via `SharedPreferences` before invoking `rootBundle.load()`, reading the bundled asset into memory only when a database schema or asset migration is genuinely required.
+  - **Prevention:** Never load bundled binary assets into memory to check freshness; compare persistent metadata (e.g., `SharedPreferences` version or build number) before allocating RAM for asset blobs.
 
