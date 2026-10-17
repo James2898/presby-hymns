@@ -80,21 +80,23 @@ void main() {
   int tlCount = 0;
   int chordsCount = 0;
 
-  final Map<int, SongDoc> enDocs = {};
+  final Map<int, ({SongDoc doc, String raw})> enDocs = {};
   for (final f in enFiles) {
     if (!f.path.endsWith('.cho')) continue;
-    final doc = ChordProParser.parse(f.readAsStringSync());
+    final raw = f.readAsStringSync();
+    final doc = ChordProParser.parse(raw);
     if (doc.number != null) {
-      enDocs[doc.number!] = doc;
+      enDocs[doc.number!] = (doc: doc, raw: raw);
     }
   }
 
-  final Map<int, SongDoc> tlDocs = {};
+  final Map<int, ({SongDoc doc, String raw})> tlDocs = {};
   for (final f in tlFiles) {
     if (!f.path.endsWith('.cho')) continue;
-    final doc = ChordProParser.parse(f.readAsStringSync());
+    final raw = f.readAsStringSync();
+    final doc = ChordProParser.parse(raw);
     if (doc.number != null) {
-      tlDocs[doc.number!] = doc;
+      tlDocs[doc.number!] = (doc: doc, raw: raw);
     }
   }
 
@@ -102,8 +104,10 @@ void main() {
   final allNumbers = {...enDocs.keys, ...tlDocs.keys}.toList()..sort();
 
   for (final num in allNumbers) {
-    final enDoc = enDocs[num];
-    final tlDoc = tlDocs[num];
+    final enEntry = enDocs[num];
+    final tlEntry = tlDocs[num];
+    final enDoc = enEntry?.doc;
+    final tlDoc = tlEntry?.doc;
     final key = enDoc?.key ?? tlDoc?.key ?? 'C';
 
     // Insert into hymns
@@ -131,7 +135,7 @@ void main() {
         enDoc.year,
         enDoc.sections.where((s) => s.type == SectionType.verse).length,
         hasChords ? 1 : 0,
-        plain,
+        enEntry!.raw,
         cleanPlain,
         enDoc.firstLineSnippet,
       ]);
@@ -156,7 +160,7 @@ void main() {
         tlDoc.year,
         tlDoc.sections.where((s) => s.type == SectionType.verse).length,
         hasChords ? 1 : 0,
-        plain,
+        tlEntry!.raw,
         cleanPlain,
         tlDoc.firstLineSnippet,
       ]);
@@ -179,5 +183,5 @@ void main() {
   final testSearch = db.select("SELECT * FROM hymn_fts WHERE hymn_fts MATCH '\"banal\"*' LIMIT 3;");
   print('Verification FTS match on "banal": found ${testSearch.length} rows.');
 
-  db.dispose();
+  db.close();
 }

@@ -4,6 +4,7 @@ import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 part 'app_database.g.dart';
 
@@ -46,9 +47,11 @@ class AppDatabase extends _$AppDatabase {
       final dbFolder = await getApplicationDocumentsDirectory();
       final file = File(p.join(dbFolder.path, 'hymns.db'));
 
+      final blob = await rootBundle.load('assets/db/hymns.db');
+      final needsCopy = !await file.exists() || (await file.length()) != blob.lengthInBytes;
+
       // Copy from bundled asset if not exists or updating
-      if (!await file.exists()) {
-        final blob = await rootBundle.load('assets/db/hymns.db');
+      if (needsCopy) {
         final buffer = blob.buffer;
         await file.writeAsBytes(
           buffer.asUint8List(blob.offsetInBytes, blob.lengthInBytes),
@@ -59,3 +62,9 @@ class AppDatabase extends _$AppDatabase {
     });
   }
 }
+
+final appDatabaseProvider = Provider<AppDatabase>((ref) {
+  final db = AppDatabase();
+  ref.onDispose(() => db.close());
+  return db;
+});
