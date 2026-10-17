@@ -5,8 +5,12 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'app_database.g.dart';
+
+const int kAppDbVersion = 1;
+const String kDbVersionPrefKey = 'app_db_content_version';
 
 class Hymns extends Table {
   IntColumn get id => integer()();
@@ -47,16 +51,22 @@ class AppDatabase extends _$AppDatabase {
       final dbFolder = await getApplicationDocumentsDirectory();
       final file = File(p.join(dbFolder.path, 'hymns.db'));
 
-      final blob = await rootBundle.load('assets/db/hymns.db');
-      final needsCopy = !await file.exists() || (await file.length()) != blob.lengthInBytes;
+      final prefs = await SharedPreferences.getInstance();
+      final storedVersion = prefs.getInt(kDbVersionPrefKey);
+
+      final needsCopy = !await file.exists() ||
+          storedVersion == null ||
+          storedVersion < kAppDbVersion;
 
       // Copy from bundled asset if not exists or updating
       if (needsCopy) {
+        final blob = await rootBundle.load('assets/db/hymns.db');
         final buffer = blob.buffer;
         await file.writeAsBytes(
           buffer.asUint8List(blob.offsetInBytes, blob.lengthInBytes),
           flush: true,
         );
+        await prefs.setInt(kDbVersionPrefKey, kAppDbVersion);
       }
       return NativeDatabase.createInBackground(file);
     });
