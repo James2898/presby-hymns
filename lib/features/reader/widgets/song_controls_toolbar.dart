@@ -112,7 +112,7 @@ class _SongControlsToolbarState extends State<SongControlsToolbar> {
     const primaryColor = Color(0xFF00357F);
     final summaryText = widget.hasChords
         ? 'Capo ${widget.capo} • Key ${widget.soundingKey}'
-        : 'Text Size ${widget.fontSize.toInt()}px';
+        : 'Key ${widget.soundingKey} • Text Size ${widget.fontSize.toInt()}px';
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -179,74 +179,74 @@ class _SongControlsToolbarState extends State<SongControlsToolbar> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // AC-14: If no chords, show only Size row!
-                  if (widget.hasChords) ...[
-                    // Key Transposition Row
-                    Row(
-                      children: [
-                        const SizedBox(
-                          width: 44,
-                          child: Text(
-                            'KEY',
-                            style: TextStyle(
-                              fontFamily: 'Space Grotesk',
-                              fontSize: 11,
-                              fontWeight: FontWeight.w700,
-                              color: primaryColor,
-                              letterSpacing: 0.5,
-                            ),
+                  // Universal Key Transposition Row (AC-2)
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 44,
+                        child: Text(
+                          'KEY',
+                          style: TextStyle(
+                            fontFamily: 'Space Grotesk',
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: primaryColor,
+                            letterSpacing: 0.5,
                           ),
                         ),
-                        _SmallBtn(
-                          label: '-1',
-                          onTap: () => widget.onTransposeStep(-1),
-                        ),
-                        const SizedBox(width: 4),
-                        InkWell(
-                          onTap: () => _showKeyPicker(context),
-                          borderRadius: BorderRadius.circular(8),
-                          child: Container(
-                            height: 30,
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF004AAD),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  widget.soundingKey,
-                                  style: const TextStyle(
-                                    fontFamily: 'Inter',
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
+                      ),
+                      _SmallBtn(
+                        label: '-1',
+                        onTap: () => widget.onTransposeStep(-1),
+                      ),
+                      const SizedBox(width: 4),
+                      InkWell(
+                        onTap: () => _showKeyPicker(context),
+                        borderRadius: BorderRadius.circular(8),
+                        child: Container(
+                          height: 30,
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF004AAD),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Row(
+                            children: [
+                              Text(
+                                widget.soundingKey,
+                                style: const TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
                                 ),
-                                const Icon(Icons.arrow_drop_down, size: 16, color: Colors.white),
-                              ],
-                            ),
+                              ),
+                              const Icon(Icons.arrow_drop_down, size: 16, color: Colors.white),
+                            ],
                           ),
                         ),
-                        const SizedBox(width: 4),
-                        _SmallBtn(
-                          label: '+1',
-                          onTap: () => widget.onTransposeStep(1),
+                      ),
+                      const SizedBox(width: 4),
+                      _SmallBtn(
+                        label: '+1',
+                        onTap: () => widget.onTransposeStep(1),
+                      ),
+                      const SizedBox(width: 8),
+                      TextButton(
+                        onPressed: widget.onReset,
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          minimumSize: const Size(40, 30),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
-                        const SizedBox(width: 8),
-                        TextButton(
-                          onPressed: widget.onReset,
-                          style: TextButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            minimumSize: const Size(40, 30),
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          child: const Text('Reset', style: TextStyle(fontSize: 11, color: primaryColor)),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
+                        child: const Text('Reset', style: TextStyle(fontSize: 11, color: primaryColor)),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
 
+                  // Chord-specific controls: Capo and CAGED (Gated strictly by hasChords)
+                  if (widget.hasChords) ...[
                     // Capo Row (0 to 7)
                     Row(
                       children: [

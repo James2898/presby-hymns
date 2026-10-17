@@ -235,4 +235,76 @@ void main() {
     expect(find.byIcon(Icons.format_align_right), findsOneWidget);
     expect(find.byIcon(Icons.format_align_justify), findsOneWidget);
   });
+
+  testWidgets('Reader Screen allows key transposition and shows key indicator for hymns without chords',
+      (WidgetTester tester) async {
+    // Seed Hymn #4: Lyrics-only Tagalog hymn without chords (hasChords = 0)
+    await db.into(db.hymns).insert(
+          HymnsCompanion.insert(
+            id: const Value(4),
+            hymnNumber: const Value(4),
+            tuneName: const Value('AMAZING GRACE'),
+            meter: const Value('C.M.'),
+            originalKey: 'G',
+          ),
+        );
+
+    await db.into(db.hymnTexts).insert(
+          HymnTextsCompanion.insert(
+            hymnId: 4,
+            language: 'TL',
+            title: 'Dakilang Biyaya',
+            sortTitle: 'DAKILANG BIYAYA',
+            verseCount: 3,
+            hasChords: 0,
+            chordproBody: '{title: Dakilang Biyaya}\n{key: G}\nDakilang biyaya, kay tamis ng tunog\n',
+            lyricsText: 'Dakilang biyaya, kay tamis ng tunog\n',
+            firstLine: 'Dakilang biyaya, kay tamis ng tunog',
+          ),
+        );
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          reader.databaseProvider.overrideWithValue(db),
+        ],
+        child: const MaterialApp(
+          home: ReaderScreen(hymnId: 4, initialLanguage: 'TL'),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 200));
+
+    // Summary displays Key and Text Size without Capo
+    expect(find.textContaining('Key G • Text Size'), findsOneWidget);
+    expect(find.textContaining('Capo'), findsNothing);
+
+    // Bottom pitch cue shows original key
+    expect(find.text('♪ G Cue'), findsOneWidget);
+
+    // Expand SONG CONTROLS
+    await tester.tap(find.text('SONG CONTROLS'));
+    await tester.pumpAndSettle();
+
+    // Universal KEY row is visible even though hasChords == 0
+    expect(find.text('KEY'), findsOneWidget);
+    expect(find.text('-1'), findsOneWidget);
+    expect(find.text('+1'), findsOneWidget);
+    expect(find.text('Reset'), findsOneWidget);
+
+    // Capo, CAGED, and Hide Chords are NOT visible
+    expect(find.text('CAPO'), findsNothing);
+    expect(find.text('CAGED'), findsNothing);
+    expect(find.text('Hide Chords'), findsNothing);
+
+    // Tap '+1' to transpose from G to G# (sharpKey)
+    await tester.tap(find.text('+1'));
+    await tester.pumpAndSettle();
+
+    // Key indicator in toolbar updates to G#
+    expect(find.text('G#'), findsWidgets);
+    // Bottom pitch cue updates to G# Cue
+    expect(find.text('♪ G# Cue'), findsOneWidget);
+  });
 }
