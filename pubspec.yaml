@@ -44,6 +44,7 @@ dependencies:
   url_launcher: ^6.3.3
   package_info_plus: ^10.2.2
   audioplayers: ^6.8.1
+  shared_preferences_android: ">=2.4.28 <2.5.0"
 
 dev_dependencies:
   flutter_test:

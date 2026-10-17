@@ -2,8 +2,13 @@ name: Build & Release APK
 
 on:
   push:
+    branches:
+      - main
     tags:
       - 'v*'
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -40,7 +45,15 @@ jobs:
       - name: Prepare APK artifact
         run: cp build/app/outputs/flutter-apk/app-release.apk presby-hymns.apk
 
+      - name: Upload APK artifact for testing
+        uses: actions/upload-artifact@v4
+        with:
+          name: presby-hymns-apk
+          path: presby-hymns.apk
+          retention-days: 7
+
       - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
           files: presby-hymns.apk

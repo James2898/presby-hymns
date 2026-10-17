@@ -27,6 +27,11 @@
   - **Context:** The repository owner and sole maintainer monitors open work, reviews, and notifications through GitHub's assignee filters. Unassigned PRs slip through personal dashboard views.
   - **Action:** Whenever creating a pull request (`gh pr create`), always include `--assignee "@me"` (or assign immediately after creation).
 
+- **GUARD-005** | Targeted PR Scope Isolation
+  - **Rule:** **WHEN ASKED TO COMMIT AND OPEN A PR FOR A SPECIFIC TASK, STAGE ONLY THAT TASK'S FILES.**
+  - **Context:** Developers frequently have local experiments, uncommitted configs, or ongoing fixes in the workspace (e.g., build gradle tweaks, debug scripts) that are not part of the requested task. Staging `git add .` or blocking the user with scope questions adds friction.
+  - **Action:** Stage strictly the files relevant to the active user request/task (e.g., `git add README.md`). Leave unrelated modified or untracked files safely untouched in the local working tree.
+
 ---
 
 ## UI State
@@ -78,4 +83,13 @@
   - **Root Cause:** Loading bundled database assets into RAM via `rootBundle.load()` on every app startup to compare byte sizes caused high memory overhead and degraded cold-start performance.
   - **Resolution:** Implemented a version stamp check via `SharedPreferences` before invoking `rootBundle.load()`, reading the bundled asset into memory only when a database schema or asset migration is genuinely required.
   - **Prevention:** Never load bundled binary assets into memory to check freshness; compare persistent metadata (e.g., `SharedPreferences` version or build number) before allocating RAM for asset blobs.
+
+---
+
+## Build & Packaging
+
+- **BUG-009** | 2026-10-18 | Feature: `Android Release R8 ProGuard / SharedPreferences JNI NoSuchMethodError`
+  - **Root Cause:** In Android release builds (`flutter build apk --release`), `shared_preferences_android: 2.5.0` migrated to Pigeon JNI reflection, causing R8 to strip or rewrite Kotlin coroutine `Continuation` parameters on `getAll(...)`. On launch, this threw `PlatformException(NoSuchMethodError: no non-static method SharedPreferencesApiRegistrar.getAll...)`.
+  - **Resolution:** Constrained `shared_preferences_android: ">=2.4.28 <2.5.0"` (Method Channel architecture), added Kotlin coroutine / JNI keep rules in `android/app/proguard-rules.pro`, wired ProGuard in `android/app/build.gradle.kts`, and updated `.github/workflows/release.yml` to upload test APK artifacts before tagging public releases.
+  - **Prevention:** Always include Kotlin coroutines keep rules in `proguard-rules.pro` for Android release builds, pin federated plugins if major underlying IPC changes, and verify release APKs via CI artifacts prior to publishing GitHub releases.
 
