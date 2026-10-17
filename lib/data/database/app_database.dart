@@ -47,9 +47,11 @@ class AppDatabase extends _$AppDatabase {
       final dbFolder = await getApplicationDocumentsDirectory();
       final file = File(p.join(dbFolder.path, 'hymns.db'));
 
+      final blob = await rootBundle.load('assets/db/hymns.db');
+      final needsCopy = !await file.exists() || (await file.length()) != blob.lengthInBytes;
+
       // Copy from bundled asset if not exists or updating
-      if (!await file.exists()) {
-        final blob = await rootBundle.load('assets/db/hymns.db');
+      if (needsCopy) {
         final buffer = blob.buffer;
         await file.writeAsBytes(
           buffer.asUint8List(blob.offsetInBytes, blob.lengthInBytes),
