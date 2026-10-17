@@ -5,6 +5,15 @@
 
 ---
 
+## Workflow & Process Guards
+
+- **GUARD-001** | Git Push Authorization
+  - **Rule:** **DO NOT PUSH TO REMOTE WITHOUT EXPLICIT USER PERMISSION.**
+  - **Context:** The user requires live verification on local devices/desktop before any commit is pushed to remote PR branches. Pushing unverified or buggy commits pollutes PR history and can mislead reviewers.
+  - **Action:** Stage and commit changes locally only. Explicitly ask for user verification and confirmation before running `git push`.
+
+---
+
 ## UI State
 
 - **BUG-001** | 2026-10-17 | Feature: `Riverpod 3.x State Management`
@@ -25,3 +34,14 @@
   - **Root Cause:** Tests loading precompiled SQLite databases via `rootBundle.load('assets/db/hymns.db')` fail in headless test environments due to missing Flutter asset bundle context.
   - **Resolution:** Overrode `appDatabaseProvider` with an in-memory database instance `AppDatabase(NativeDatabase.memory())` within `testWidgets` / `ProviderScope.overrides`.
   - **Prevention:** Always override `appDatabaseProvider` with `AppDatabase(NativeDatabase.memory())` in widget and unit tests to ensure fast, isolated, headless test execution without asset dependencies.
+
+- **BUG-004** | 2026-10-18 | Feature: `SQLite Asset Cache Synchronization`
+  - **Root Cause:** When using precompiled bundled databases (`assets/db/hymns.db`), `_openConnection()` only copied the asset into `getApplicationDocumentsDirectory()` when `!await file.exists()`. Updates to the bundled asset were silently ignored, causing running desktop and mobile sandbox instances to serve stale cached SQLite data.
+  - **Resolution:** Added file size / freshness comparison `final needsCopy = !await file.exists() || (await file.length()) != blob.lengthInBytes;` in `lib/data/database/app_database.dart` so updated bundled assets automatically overwrite the container document copy on launch.
+  - **Prevention:** Never use a one-way `!file.exists()` guard for bundled database assets; always compare byte length or version to detect asset updates.
+
+- **BUG-005** | 2026-10-18 | Feature: `Database Content Pipeline (ChordPro Retention)`
+  - **Root Cause:** In `tool/build_content.dart`, `plainText` (which strips all chord brackets) was inserted into `hymn_texts.chordpro_body`, permanently losing chord markup during SQLite compilation.
+  - **Resolution:** Stored the raw `.cho` file text in the builder memory map and inserted `enEntry.raw` / `tlEntry.raw` directly into `chordpro_body` while keeping `cleanPlain` for `lyrics_text` (FTS indexing).
+  - **Prevention:** Ensure the raw ChordPro markup is preserved in `chordpro_body` so runtime parsers and transposer engines can extract chord-over-syllable layouts.
+
