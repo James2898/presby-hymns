@@ -21,7 +21,7 @@ class SearchBarWidget extends StatelessWidget {
         color: const Color(0xFFF3F3F6),
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-          color: const Color(0xFFC3C6D5).withOpacity(0.4),
+          color: const Color(0xFFC3C6D5).withValues(alpha: 0.4),
         ),
       ),
       child: TextField(

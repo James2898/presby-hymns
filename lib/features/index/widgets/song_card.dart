@@ -20,7 +20,7 @@ class SongCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -81,53 +81,30 @@ class SongCard extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (!item.isUnnumbered) ...[
+                          if (!item.isUnnumbered && !item.hasTagalog) ...[
                             Row(
                               children: [
-                                if (item.hasTagalog)
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 6,
-                                      vertical: 2,
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 6,
+                                    vertical: 2,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFF1F5F9),
+                                    border: Border.all(
+                                      color: const Color(0xFFE2E8F0),
                                     ),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFEFF6FF),
-                                      border: Border.all(
-                                        color: const Color(0xFFBFDBFE),
-                                      ),
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    child: const Text(
-                                      'ENG | TGL',
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xFF004AAD),
-                                      ),
-                                    ),
-                                  )
-                                else
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 6,
-                                      vertical: 2,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFF1F5F9),
-                                      border: Border.all(
-                                        color: const Color(0xFFE2E8F0),
-                                      ),
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    child: const Text(
-                                      'EN ONLY',
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xFF475569),
-                                      ),
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: const Text(
+                                    'EN ONLY',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF475569),
                                     ),
                                   ),
+                                ),
                               ],
                             ),
                             const SizedBox(height: 4),

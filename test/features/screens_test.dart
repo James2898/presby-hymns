@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:presby_hymns/data/database/app_database.dart';
 import 'package:presby_hymns/features/home/presentation/home_screen.dart';
-import 'package:presby_hymns/features/home/presentation/providers/catalog_stats_provider.dart';
 import 'package:presby_hymns/features/index/index_screen.dart';
 import 'package:presby_hymns/features/index/providers/index_provider.dart';
 import 'package:presby_hymns/features/reader/reader_screen.dart';
@@ -88,6 +87,31 @@ void main() {
             firstLine: 'Praise God from whom all blessings flow',
           ),
         );
+
+    // Seed Hymn #2 (for next/prev navigation testing)
+    await db.into(db.hymns).insert(
+          HymnsCompanion.insert(
+            id: const Value(3),
+            hymnNumber: const Value(2),
+            tuneName: const Value('ST ANNE'),
+            meter: const Value('C.M.'),
+            originalKey: 'C',
+          ),
+        );
+
+    await db.into(db.hymnTexts).insert(
+          HymnTextsCompanion.insert(
+            hymnId: 3,
+            language: 'EN',
+            title: 'O God, Our Help in Ages Past',
+            sortTitle: 'O GOD OUR HELP IN AGES PAST',
+            verseCount: 2,
+            hasChords: 1,
+            chordproBody: '{title: O God Our Help}\n{key: C}\n[C]O God, our help in ages past\n',
+            lyricsText: 'O God, our help in ages past\n',
+            firstLine: 'O God, our help in ages past',
+          ),
+        );
   });
 
   tearDown(() async {
@@ -114,9 +138,12 @@ void main() {
     // Catalog cards
     expect(find.text('English Hymnal'), findsOneWidget);
     expect(find.text('Tagalog Himnaryo'), findsOneWidget);
+    // Badges removed per user feedback (Item 6)
+    expect(find.text('Chords & Capo'), findsNothing);
+    expect(find.text('May Chords & Liriko'), findsNothing);
   });
 
-  testWidgets('Index Screen supports All/English/Tagalog filter tabs and sort toggle (AC-6, AC-7, AC-8, AC-10)',
+  testWidgets('Index Screen supports All/English/Tagalog filter tabs and sort toggle without sort label (AC-6, AC-7, AC-8, AC-10)',
       (WidgetTester tester) async {
     await tester.pumpWidget(
       ProviderScope(
@@ -140,13 +167,22 @@ void main() {
     expect(find.text('Number'), findsOneWidget);
     expect(find.text('Title'), findsOneWidget);
 
+    // "Sorted by ..." label removed per user feedback (Item 5)
+    expect(find.textContaining('Sorted by'), findsNothing);
+
+    // Leading back button exists on IndexScreen (Item 1)
+    expect(find.byTooltip('Back'), findsOneWidget);
+
+    // ENG | TGL badge removed per user feedback (Item 4)
+    expect(find.text('ENG | TGL'), findsNothing);
+
     // In Number sort (default), unnumbered section exists (AC-10)
     await tester.pumpAndSettle();
     expect(find.text('UNNUMBERED SONGS'), findsOneWidget);
     expect(find.text('Doxology'), findsOneWidget);
   });
 
-  testWidgets('Hymn Reader Screen displays header, controls toolbar, ChordPro lyrics (AC-11, AC-13, AC-14, AC-15)',
+  testWidgets('Hymn Reader Screen displays header, controls toolbar, ChordPro lyrics, and adjacent navigation (AC-11, AC-13, AC-14, AC-15)',
       (WidgetTester tester) async {
     await tester.pumpWidget(
       ProviderScope(
@@ -174,5 +210,19 @@ void main() {
 
     // AC-15 Bottom Pitch Cue
     expect(find.text('♪ D Cue'), findsOneWidget);
+
+    // Previous and Next Hymn Navigation (Item 2)
+    await tester.pumpAndSettle();
+    expect(find.text('Hymn #2'), findsWidgets);
+
+    // Tap Next Hymn button to navigate to Hymn #2
+    final nextBtn = find.widgetWithText(OutlinedButton, 'Hymn #2');
+    expect(nextBtn, findsOneWidget);
+    await tester.tap(nextBtn);
+    await tester.pumpAndSettle();
+
+    // Now reader displays Hymn #2
+    expect(find.text('O God, Our Help in Ages Past'), findsOneWidget);
+    expect(find.text('Hymn #1'), findsWidgets); // Can navigate back to Hymn #1
   });
 }

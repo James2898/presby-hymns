@@ -21,12 +21,14 @@ class ReaderPreferences {
   final String soundingKey;
   final int capo;
   final double fontSize;
+  final double lineSpacing;
   final bool hideChords;
 
   const ReaderPreferences({
     required this.soundingKey,
     this.capo = 0,
     this.fontSize = 19.0,
+    this.lineSpacing = 1.5,
     this.hideChords = false,
   });
 
@@ -34,12 +36,14 @@ class ReaderPreferences {
     String? soundingKey,
     int? capo,
     double? fontSize,
+    double? lineSpacing,
     bool? hideChords,
   }) {
     return ReaderPreferences(
       soundingKey: soundingKey ?? this.soundingKey,
       capo: capo ?? this.capo,
       fontSize: fontSize ?? this.fontSize,
+      lineSpacing: lineSpacing ?? this.lineSpacing,
       hideChords: hideChords ?? this.hideChords,
     );
   }

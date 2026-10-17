@@ -7,6 +7,7 @@ class LyricsCanvas extends StatelessWidget {
   final String soundingKey;
   final int capo;
   final double fontSize;
+  final double lineSpacing;
   final bool hideChords;
   final String language;
 
@@ -16,6 +17,7 @@ class LyricsCanvas extends StatelessWidget {
     required this.soundingKey,
     required this.capo,
     required this.fontSize,
+    this.lineSpacing = 1.5,
     required this.hideChords,
     required this.language,
   });
@@ -180,17 +182,19 @@ class LyricsCanvas extends StatelessWidget {
   }
 
   Widget _buildLyricLine(List<ChordLyricPair> pairs, {bool isEnding = false}) {
+    final spacingRatio = lineSpacing / 1.5;
+
     // If hiding chords, join all text directly
     if (hideChords) {
       final lineText = pairs.map((p) => p.text).join();
       return Padding(
-        padding: const EdgeInsets.only(bottom: 8),
+        padding: EdgeInsets.only(bottom: 8 * spacingRatio),
         child: Text(
           lineText,
           style: TextStyle(
             fontFamily: 'Source Serif 4',
             fontSize: fontSize,
-            height: 1.6,
+            height: lineSpacing,
             color: const Color(0xFF1A1C1E),
           ),
         ),
@@ -199,7 +203,7 @@ class LyricsCanvas extends StatelessWidget {
 
     // Synchronized Chord-over-syllable layout
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+      padding: EdgeInsets.only(bottom: 10 * spacingRatio),
       child: Wrap(
         crossAxisAlignment: WrapCrossAlignment.end,
         children: pairs.map((pair) {
@@ -232,7 +236,7 @@ class LyricsCanvas extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'Source Serif 4',
                   fontSize: fontSize,
-                  height: 1.3,
+                  height: 1.3 * spacingRatio,
                   color: isEnding ? const Color(0xFF735C00) : const Color(0xFF1A1C1E),
                 ),
               ),

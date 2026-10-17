@@ -32,22 +32,15 @@ class PresbyHymnsApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      home: const MainNavigationShell(),
+      home: const HomeNavigationHost(),
     );
   }
 }
 
-class MainNavigationShell extends ConsumerStatefulWidget {
-  const MainNavigationShell({super.key});
+class HomeNavigationHost extends ConsumerWidget {
+  const HomeNavigationHost({super.key});
 
-  @override
-  ConsumerState<MainNavigationShell> createState() => _MainNavigationShellState();
-}
-
-class _MainNavigationShellState extends ConsumerState<MainNavigationShell> {
-  int _currentIndex = 0;
-
-  void _openReader(int hymnId, String language) {
+  void _openReader(BuildContext context, int hymnId, String language) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => ReaderScreen(
@@ -58,58 +51,35 @@ class _MainNavigationShellState extends ConsumerState<MainNavigationShell> {
     );
   }
 
-  void _navigateToCatalog(String language) {
+  void _openIndex(BuildContext context, WidgetRef ref, String language) {
     if (language.toUpperCase() == 'TL') {
       ref.read(indexTabProvider.notifier).state = IndexTab.tagalog;
-    } else {
+    } else if (language.toUpperCase() == 'EN') {
       ref.read(indexTabProvider.notifier).state = IndexTab.english;
+    } else {
+      ref.read(indexTabProvider.notifier).state = IndexTab.all;
     }
-    setState(() {
-      _currentIndex = 1;
-    });
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => IndexScreen(
+          onHymnSelected: (hymnId, lang) {
+            _openReader(context, hymnId, lang);
+          },
+        ),
+      ),
+    );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: [
-          HomeScreen(
-            onHymnSelected: (hymnId, number, language) {
-              _openReader(hymnId, language);
-            },
-            onBrowseCatalog: (language) {
-              _navigateToCatalog(language);
-            },
-          ),
-          IndexScreen(
-            onHymnSelected: (hymnId, language) {
-              _openReader(hymnId, language);
-            },
-          ),
-        ],
-      ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex,
-        onDestinationSelected: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home_rounded),
-            label: 'Home',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.menu_book_outlined),
-            selectedIcon: Icon(Icons.menu_book_rounded),
-            label: 'Index',
-          ),
-        ],
-      ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    return HomeScreen(
+      onHymnSelected: (hymnId, number, language) {
+        _openReader(context, hymnId, language);
+      },
+      onBrowseCatalog: (language) {
+        _openIndex(context, ref, language);
+      },
     );
   }
 }

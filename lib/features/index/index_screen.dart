@@ -28,6 +28,18 @@ class _IndexScreenState extends ConsumerState<IndexScreen> {
   String? _activeLetter;
 
   @override
+  void initState() {
+    super.initState();
+    // Item 8: Reset search field and state whenever entering IndexScreen
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _searchController.clear();
+        ref.read(indexSearchQueryProvider.notifier).state = '';
+      }
+    });
+  }
+
+  @override
   void dispose() {
     _debounceTimer?.cancel();
     _scrollController.dispose();
@@ -68,6 +80,12 @@ class _IndexScreenState extends ConsumerState<IndexScreen> {
       appBar: AppBar(
         backgroundColor: const Color(0xFF00357F),
         elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.of(context).maybePop(),
+          tooltip: 'Back',
+        ),
+        titleSpacing: 0,
         title: const Row(
           children: [
             Icon(Icons.church, color: Colors.white, size: 22),
@@ -99,7 +117,7 @@ class _IndexScreenState extends ConsumerState<IndexScreen> {
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.04),
+                        color: Colors.black.withValues(alpha: 0.04),
                         blurRadius: 4,
                         offset: const Offset(0, 1),
                       ),

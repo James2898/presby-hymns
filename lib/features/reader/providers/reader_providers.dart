@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -74,6 +75,7 @@ class ReaderPreferencesNotifier extends StateNotifier<ReaderPreferences> {
           soundingKey: prefs?.getString('hymn.$hymnId.key') ?? originalKey,
           capo: prefs?.getInt('hymn.$hymnId.capo') ?? 0,
           fontSize: prefs?.getDouble('settings.fontSize') ?? 19.0,
+          lineSpacing: prefs?.getDouble('settings.lineSpacing') ?? 1.5,
           hideChords: prefs?.getBool('settings.hideChords') ?? false,
         ));
 
@@ -120,12 +122,45 @@ class ReaderPreferencesNotifier extends StateNotifier<ReaderPreferences> {
     await _prefs?.setDouble('settings.fontSize', newSize);
   }
 
+  Future<void> adjustLineSpacing(double delta) async {
+    final newSpacing = ((state.lineSpacing + delta) * 10).round() / 10;
+    final clamped = newSpacing.clamp(1.0, 2.5);
+    state = state.copyWith(lineSpacing: clamped);
+    await _prefs?.setDouble('settings.lineSpacing', clamped);
+  }
+
   Future<void> toggleHideChords() async {
     final newVal = !state.hideChords;
     state = state.copyWith(hideChords: newVal);
     await _prefs?.setBool('settings.hideChords', newVal);
   }
 }
+
+typedef AdjacentHymns = ({Hymn? previous, Hymn? next});
+
+/// Adjacent Numbered Hymns Provider
+final adjacentHymnsProvider = FutureProvider.family<AdjacentHymns, int?>((ref, hymnNumber) async {
+  if (hymnNumber == null) {
+    return (previous: null, next: null);
+  }
+  final db = ref.watch(databaseProvider);
+
+  // Previous hymn with hymn_number < current, ordered desc limit 1
+  final prev = await (db.select(db.hymns)
+        ..where((tbl) => tbl.hymnNumber.isNotNull() & tbl.hymnNumber.isSmallerThan(Variable(hymnNumber)))
+        ..orderBy([(tbl) => OrderingTerm(expression: tbl.hymnNumber, mode: OrderingMode.desc)])
+        ..limit(1))
+      .getSingleOrNull();
+
+  // Next hymn with hymn_number > current, ordered asc limit 1
+  final next = await (db.select(db.hymns)
+        ..where((tbl) => tbl.hymnNumber.isNotNull() & tbl.hymnNumber.isBiggerThan(Variable(hymnNumber)))
+        ..orderBy([(tbl) => OrderingTerm(expression: tbl.hymnNumber, mode: OrderingMode.asc)])
+        ..limit(1))
+      .getSingleOrNull();
+
+  return (previous: prev, next: next);
+});
 
 final readerPreferencesProvider = StateNotifierProvider.family<ReaderPreferencesNotifier, ReaderPreferences, ({int hymnId, String originalKey})>((ref, arg) {
   final prefsAsync = ref.watch(sharedPreferencesProvider);

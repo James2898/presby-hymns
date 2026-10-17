@@ -69,6 +69,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
           ],
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.menu_book_rounded, color: Color(0xFF00357F)),
+            tooltip: 'Hymn Index',
+            onPressed: () {
+              if (widget.onBrowseCatalog != null) {
+                widget.onBrowseCatalog!('ALL');
+              }
+            },
+          ),
+          const SizedBox(width: 8),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -89,7 +101,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               },
             ),
             if (searchState.query.trim().isNotEmpty) ...[
-              const SizedBox(height: 8),
+               const SizedBox(height: 8),
               SearchResultsDropdown(
                 results: searchState.results,
                 onHymnSelected: (hymnId, number, language) {
@@ -109,11 +121,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         'Liturgical psalmody & carols with lyrics and chords where available.',
                     count: stats.english.total,
                     countLabel: 'Hymns',
-                    badgeText: 'Chords & Capo',
                     primaryColor: const Color(0xFF00357F),
                     topBarColor: const Color(0xFF004AAD),
-                    badgeBackgroundColor: const Color(0xFFD9E2FF),
-                    badgeTextColor: const Color(0xFF001945),
                     buttonLabel: 'Browse English Hymns',
                     onTap: () {
                       if (widget.onBrowseCatalog != null) {
@@ -128,11 +137,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         'Banal na awitin at pagsambang may akmang tono ng gitara at titik sa Tagalog.',
                     count: stats.tagalog.total,
                     countLabel: 'Hymns',
-                    badgeText: 'May Chords & Liriko',
                     primaryColor: const Color(0xFF735C00),
                     topBarColor: const Color(0xFFFED65B),
-                    badgeBackgroundColor: const Color(0xFFFFE088),
-                    badgeTextColor: const Color(0xFF241A00),
                     buttonLabel: 'Tingnan sa Tagalog',
                     onTap: () {
                       if (widget.onBrowseCatalog != null) {

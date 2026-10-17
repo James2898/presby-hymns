@@ -5,7 +5,7 @@ class CatalogCard extends StatelessWidget {
   final String description;
   final int count;
   final String countLabel;
-  final String badgeText;
+  final String? badgeText;
   final Color primaryColor;
   final Color topBarColor;
   final Color badgeBackgroundColor;
@@ -19,11 +19,11 @@ class CatalogCard extends StatelessWidget {
     required this.description,
     required this.count,
     required this.countLabel,
-    required this.badgeText,
+    this.badgeText,
     required this.primaryColor,
     required this.topBarColor,
-    required this.badgeBackgroundColor,
-    required this.badgeTextColor,
+    this.badgeBackgroundColor = const Color(0xFFD9E2FF),
+    this.badgeTextColor = const Color(0xFF001945),
     required this.buttonLabel,
     required this.onTap,
   });
@@ -73,24 +73,25 @@ class CatalogCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 3,
-                      ),
-                      decoration: BoxDecoration(
-                        color: badgeBackgroundColor,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Text(
-                        badgeText,
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w700,
-                          color: badgeTextColor,
+                    if (badgeText != null)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 3,
+                        ),
+                        decoration: BoxDecoration(
+                          color: badgeBackgroundColor,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          badgeText!,
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w700,
+                            color: badgeTextColor,
+                          ),
                         ),
                       ),
-                    ),
                   ],
                 ),
                 const SizedBox(height: 10),

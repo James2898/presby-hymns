@@ -12,6 +12,10 @@ class ReaderHeader extends StatelessWidget implements PreferredSizeWidget {
   final String soundingKey;
   final String originalKey;
   final int capo;
+  final VoidCallback? onPreviousHymn;
+  final VoidCallback? onNextHymn;
+  final int? prevHymnNumber;
+  final int? nextHymnNumber;
 
   const ReaderHeader({
     super.key,
@@ -23,6 +27,10 @@ class ReaderHeader extends StatelessWidget implements PreferredSizeWidget {
     required this.soundingKey,
     required this.originalKey,
     required this.capo,
+    this.onPreviousHymn,
+    this.onNextHymn,
+    this.prevHymnNumber,
+    this.nextHymnNumber,
   });
 
   @override
@@ -131,6 +139,20 @@ Describe the problem:
               ),
             ),
       actions: [
+        if (hymnNumber != null) ...[
+          IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new, size: 16),
+            color: onPreviousHymn != null ? primaryColor : const Color(0xFFC3C6D5),
+            tooltip: onPreviousHymn != null ? 'Previous Hymn (#$prevHymnNumber)' : 'No Previous Hymn',
+            onPressed: onPreviousHymn,
+          ),
+          IconButton(
+            icon: const Icon(Icons.arrow_forward_ios, size: 16),
+            color: onNextHymn != null ? primaryColor : const Color(0xFFC3C6D5),
+            tooltip: onNextHymn != null ? 'Next Hymn (#$nextHymnNumber)' : 'No Next Hymn',
+            onPressed: onNextHymn,
+          ),
+        ],
         PopupMenuButton<String>(
           icon: const Icon(Icons.more_vert, color: primaryColor),
           onSelected: (value) {

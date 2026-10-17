@@ -31,7 +31,6 @@ class FilterTabs extends ConsumerWidget {
             ref: ref,
             tab: IndexTab.english,
             label: 'English',
-            dotColor: Colors.white,
             isActive: currentTab == IndexTab.english,
           ),
           _buildTab(
@@ -39,7 +38,6 @@ class FilterTabs extends ConsumerWidget {
             ref: ref,
             tab: IndexTab.tagalog,
             label: 'Tagalog',
-            dotColor: const Color(0xFFFED65B),
             isActive: currentTab == IndexTab.tagalog,
           ),
         ],
@@ -68,7 +66,7 @@ class FilterTabs extends ConsumerWidget {
             boxShadow: isActive
                 ? [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.08),
+                      color: Colors.black.withValues(alpha: 0.08),
                       blurRadius: 4,
                       offset: const Offset(0, 2),
                     ),
@@ -93,7 +91,7 @@ class FilterTabs extends ConsumerWidget {
                     color: dotColor,
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: Colors.black.withOpacity(0.12),
+                      color: Colors.black.withValues(alpha: 0.12),
                       width: 0.5,
                     ),
                   ),

@@ -7,6 +7,7 @@ class SongControlsToolbar extends StatefulWidget {
   final String originalKey;
   final int capo;
   final double fontSize;
+  final double lineSpacing;
   final bool hideChords;
   final ValueChanged<int> onTransposeStep;
   final ValueChanged<String> onSelectKey;
@@ -14,6 +15,7 @@ class SongControlsToolbar extends StatefulWidget {
   final ValueChanged<int> onSelectCapo;
   final ValueChanged<String> onSelectCaged;
   final ValueChanged<double> onAdjustFontSize;
+  final ValueChanged<double> onAdjustLineSpacing;
   final VoidCallback onToggleHideChords;
 
   const SongControlsToolbar({
@@ -23,6 +25,7 @@ class SongControlsToolbar extends StatefulWidget {
     required this.originalKey,
     required this.capo,
     required this.fontSize,
+    required this.lineSpacing,
     required this.hideChords,
     required this.onTransposeStep,
     required this.onSelectKey,
@@ -30,6 +33,7 @@ class SongControlsToolbar extends StatefulWidget {
     required this.onSelectCapo,
     required this.onSelectCaged,
     required this.onAdjustFontSize,
+    required this.onAdjustLineSpacing,
     required this.onToggleHideChords,
   });
 
@@ -429,6 +433,45 @@ class _SongControlsToolbarState extends State<SongControlsToolbar> {
                           ),
                         ),
                       ],
+                    ],
+                  ),
+
+                  // Line Spacing Row
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 44,
+                        child: Text(
+                          'LINES',
+                          style: TextStyle(
+                            fontFamily: 'Space Grotesk',
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: primaryColor,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ),
+                      _SmallBtn(
+                        label: '―',
+                        onTap: () => widget.onAdjustLineSpacing(-0.2),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          '${widget.lineSpacing.toStringAsFixed(1)}x',
+                          style: const TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      _SmallBtn(
+                        label: '＋',
+                        onTap: () => widget.onAdjustLineSpacing(0.2),
+                      ),
                     ],
                   ),
                 ],

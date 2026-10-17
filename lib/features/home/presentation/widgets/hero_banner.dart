@@ -29,10 +29,10 @@ class HeroBanner extends StatelessWidget {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.15),
+              color: Colors.white.withValues(alpha: 0.15),
               shape: BoxShape.circle,
               border: Border.all(
-                color: subtitleGold.withOpacity(0.5),
+                color: subtitleGold.withValues(alpha: 0.5),
                 width: 1.5,
               ),
             ),

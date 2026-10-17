@@ -24,12 +24,14 @@ class ReaderScreen extends ConsumerStatefulWidget {
 }
 
 class _ReaderScreenState extends ConsumerState<ReaderScreen> {
+  late int _currentHymnId;
   late String _currentLanguage;
   final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
+    _currentHymnId = widget.hymnId;
     _currentLanguage = widget.initialLanguage;
 
     // AC-16: Screen wake lock active during reading
@@ -55,9 +57,19 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     }
   }
 
+  void _navigateToHymn(int newHymnId) {
+    if (_currentHymnId == newHymnId) return;
+    setState(() {
+      _currentHymnId = newHymnId;
+    });
+    if (_scrollController.hasClients) {
+      _scrollController.jumpTo(0.0);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final readerAsync = ref.watch(readerDataProvider((hymnId: widget.hymnId, lang: _currentLanguage)));
+    final readerAsync = ref.watch(readerDataProvider((hymnId: _currentHymnId, lang: _currentLanguage)));
 
     // AC-11 & AC-12: Canvas tinting (EN: #FBF9F5, TG: #F5EFE6)
     final canvasBackgroundColor = _currentLanguage.toUpperCase() == 'TL'
@@ -83,8 +95,14 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
         }
 
         final isUnnumbered = data.hymn.hymnNumber == null;
+        final adjacentAsync = isUnnumbered
+            ? null
+            : ref.watch(adjacentHymnsProvider(data.hymn.hymnNumber));
+        final prevHymn = adjacentAsync?.value?.previous;
+        final nextHymn = adjacentAsync?.value?.next;
+
         final originalKey = data.hymn.originalKey;
-        final prefsKey = (hymnId: widget.hymnId, originalKey: originalKey);
+        final prefsKey = (hymnId: _currentHymnId, originalKey: originalKey);
         final prefs = ref.watch(readerPreferencesProvider(prefsKey));
         final prefsNotifier = ref.read(readerPreferencesProvider(prefsKey).notifier);
         final cueKey = ref.watch(cueKeyProvider);
@@ -103,6 +121,10 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
             soundingKey: prefs.soundingKey,
             originalKey: originalKey,
             capo: prefs.capo,
+            prevHymnNumber: prevHymn?.hymnNumber,
+            nextHymnNumber: nextHymn?.hymnNumber,
+            onPreviousHymn: prevHymn != null ? () => _navigateToHymn(prevHymn.id) : null,
+            onNextHymn: nextHymn != null ? () => _navigateToHymn(nextHymn.id) : null,
           ),
           bottomNavigationBar: isMissingCounterpart
               ? null
@@ -141,6 +163,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                         originalKey: originalKey,
                         capo: prefs.capo,
                         fontSize: prefs.fontSize,
+                        lineSpacing: prefs.lineSpacing,
                         hideChords: prefs.hideChords,
                         onTransposeStep: (step) => prefsNotifier.transpose(step),
                         onSelectKey: (k) => prefsNotifier.setSoundingKey(k),
@@ -148,6 +171,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                         onSelectCapo: (c) => prefsNotifier.setCapo(c),
                         onSelectCaged: (shape) => prefsNotifier.setCagedShape(shape),
                         onAdjustFontSize: (delta) => prefsNotifier.adjustFontSize(delta),
+                        onAdjustLineSpacing: (delta) => prefsNotifier.adjustLineSpacing(delta),
                         onToggleHideChords: () => prefsNotifier.toggleHideChords(),
                       ),
 
@@ -157,9 +181,65 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                         soundingKey: prefs.soundingKey,
                         capo: prefs.capo,
                         fontSize: prefs.fontSize,
+                        lineSpacing: prefs.lineSpacing,
                         hideChords: prefs.hideChords,
                         language: _currentLanguage,
                       ),
+
+                      // Next and Previous Numbered Hymn Navigation Row
+                      if (!isUnnumbered) ...[
+                        const SizedBox(height: 16),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: OutlinedButton.icon(
+                                style: OutlinedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                                  side: const BorderSide(color: Color(0xFFC3C6D5)),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                ),
+                                icon: const Icon(Icons.arrow_back, size: 16, color: Color(0xFF00357F)),
+                                label: Text(
+                                  prevHymn != null ? 'Hymn #${prevHymn.hymnNumber}' : 'First Hymn',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontFamily: 'Space Grotesk',
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w700,
+                                    color: prevHymn != null ? const Color(0xFF00357F) : const Color(0xFF9E9E9E),
+                                  ),
+                                ),
+                                onPressed: prevHymn != null ? () => _navigateToHymn(prevHymn.id) : null,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: OutlinedButton.icon(
+                                style: OutlinedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                                  side: const BorderSide(color: Color(0xFFC3C6D5)),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                ),
+                                iconAlignment: IconAlignment.end,
+                                icon: const Icon(Icons.arrow_forward, size: 16, color: Color(0xFF00357F)),
+                                label: Text(
+                                  nextHymn != null ? 'Hymn #${nextHymn.hymnNumber}' : 'Last Hymn',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontFamily: 'Space Grotesk',
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w700,
+                                    color: nextHymn != null ? const Color(0xFF00357F) : const Color(0xFF9E9E9E),
+                                  ),
+                                ),
+                                onPressed: nextHymn != null ? () => _navigateToHymn(nextHymn.id) : null,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
 
                       // Bottom spacing for docked Cue Bar
                       const SizedBox(height: 20),

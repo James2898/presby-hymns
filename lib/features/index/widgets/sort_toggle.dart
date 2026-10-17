@@ -38,17 +38,6 @@ class SortToggle extends ConsumerWidget {
             ],
           ),
         ),
-        const Spacer(),
-        Text(
-          activeSort == IndexSort.number
-              ? 'Sorted by Hymnal Number'
-              : 'Sorted Alphabetically',
-          style: const TextStyle(
-            fontSize: 12,
-            color: Color(0xFF737784),
-            fontStyle: FontStyle.italic,
-          ),
-        ),
       ],
     );
   }
@@ -71,7 +60,7 @@ class SortToggle extends ConsumerWidget {
           boxShadow: isActive
               ? [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.08),
+                    color: Colors.black.withValues(alpha: 0.08),
                     blurRadius: 3,
                     offset: const Offset(0, 1),
                   ),
