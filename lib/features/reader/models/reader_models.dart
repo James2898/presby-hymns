@@ -17,11 +17,19 @@ class ReaderHymnData {
   });
 }
 
+enum ReaderTextAlign {
+  left,
+  center,
+  right,
+  justify,
+}
+
 class ReaderPreferences {
   final String soundingKey;
   final int capo;
   final double fontSize;
   final double lineSpacing;
+  final ReaderTextAlign textAlign;
   final bool hideChords;
 
   const ReaderPreferences({
@@ -29,6 +37,7 @@ class ReaderPreferences {
     this.capo = 0,
     this.fontSize = 19.0,
     this.lineSpacing = 1.5,
+    this.textAlign = ReaderTextAlign.left,
     this.hideChords = false,
   });
 
@@ -37,6 +46,7 @@ class ReaderPreferences {
     int? capo,
     double? fontSize,
     double? lineSpacing,
+    ReaderTextAlign? textAlign,
     bool? hideChords,
   }) {
     return ReaderPreferences(
@@ -44,6 +54,7 @@ class ReaderPreferences {
       capo: capo ?? this.capo,
       fontSize: fontSize ?? this.fontSize,
       lineSpacing: lineSpacing ?? this.lineSpacing,
+      textAlign: textAlign ?? this.textAlign,
       hideChords: hideChords ?? this.hideChords,
     );
   }

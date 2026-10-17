@@ -224,5 +224,15 @@ void main() {
     // Now reader displays Hymn #2
     expect(find.text('O God, Our Help in Ages Past'), findsOneWidget);
     expect(find.text('Hymn #1'), findsWidgets); // Can navigate back to Hymn #1
+
+    // Expand SONG CONTROLS to reveal advanced formatting buttons
+    await tester.tap(find.text('SONG CONTROLS'));
+    await tester.pumpAndSettle();
+
+    // Text Alignment controls in SongControlsToolbar
+    expect(find.byIcon(Icons.format_align_left), findsOneWidget);
+    expect(find.byIcon(Icons.format_align_center), findsOneWidget);
+    expect(find.byIcon(Icons.format_align_right), findsOneWidget);
+    expect(find.byIcon(Icons.format_align_justify), findsOneWidget);
   });
 }

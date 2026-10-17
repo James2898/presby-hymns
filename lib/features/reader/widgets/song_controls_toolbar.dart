@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:presby_hymns/core/music/key_speller.dart';
+import 'package:presby_hymns/features/reader/models/reader_models.dart';
 
 class SongControlsToolbar extends StatefulWidget {
   final bool hasChords;
@@ -8,6 +9,7 @@ class SongControlsToolbar extends StatefulWidget {
   final int capo;
   final double fontSize;
   final double lineSpacing;
+  final ReaderTextAlign textAlign;
   final bool hideChords;
   final ValueChanged<int> onTransposeStep;
   final ValueChanged<String> onSelectKey;
@@ -16,6 +18,7 @@ class SongControlsToolbar extends StatefulWidget {
   final ValueChanged<String> onSelectCaged;
   final ValueChanged<double> onAdjustFontSize;
   final ValueChanged<double> onAdjustLineSpacing;
+  final ValueChanged<ReaderTextAlign> onSelectTextAlign;
   final VoidCallback onToggleHideChords;
 
   const SongControlsToolbar({
@@ -26,6 +29,7 @@ class SongControlsToolbar extends StatefulWidget {
     required this.capo,
     required this.fontSize,
     required this.lineSpacing,
+    required this.textAlign,
     required this.hideChords,
     required this.onTransposeStep,
     required this.onSelectKey,
@@ -34,6 +38,7 @@ class SongControlsToolbar extends StatefulWidget {
     required this.onSelectCaged,
     required this.onAdjustFontSize,
     required this.onAdjustLineSpacing,
+    required this.onSelectTextAlign,
     required this.onToggleHideChords,
   });
 
@@ -474,11 +479,100 @@ class _SongControlsToolbarState extends State<SongControlsToolbar> {
                       ),
                     ],
                   ),
+
+                  // Text Alignment Row
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 44,
+                        child: Text(
+                          'ALIGN',
+                          style: TextStyle(
+                            fontFamily: 'Space Grotesk',
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: primaryColor,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ),
+                      _AlignBtn(
+                        icon: Icons.format_align_left,
+                        tooltip: 'Left',
+                        isSelected: widget.textAlign == ReaderTextAlign.left,
+                        onTap: () => widget.onSelectTextAlign(ReaderTextAlign.left),
+                      ),
+                      const SizedBox(width: 4),
+                      _AlignBtn(
+                        icon: Icons.format_align_center,
+                        tooltip: 'Middle',
+                        isSelected: widget.textAlign == ReaderTextAlign.center,
+                        onTap: () => widget.onSelectTextAlign(ReaderTextAlign.center),
+                      ),
+                      const SizedBox(width: 4),
+                      _AlignBtn(
+                        icon: Icons.format_align_right,
+                        tooltip: 'Right',
+                        isSelected: widget.textAlign == ReaderTextAlign.right,
+                        onTap: () => widget.onSelectTextAlign(ReaderTextAlign.right),
+                      ),
+                      const SizedBox(width: 4),
+                      _AlignBtn(
+                        icon: Icons.format_align_justify,
+                        tooltip: 'Justified',
+                        isSelected: widget.textAlign == ReaderTextAlign.justify,
+                        onTap: () => widget.onSelectTextAlign(ReaderTextAlign.justify),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
           ],
         ],
+      ),
+    );
+  }
+}
+
+class _AlignBtn extends StatelessWidget {
+  final IconData icon;
+  final String tooltip;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _AlignBtn({
+    required this.icon,
+    required this.tooltip,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: tooltip,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(6),
+        child: Container(
+          width: 32,
+          height: 28,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: isSelected ? const Color(0xFF004AAD) : const Color(0xFFF3F3F6),
+            borderRadius: BorderRadius.circular(6),
+            border: Border.all(
+              color: isSelected ? const Color(0xFF004AAD) : const Color(0xFFC3C6D5),
+            ),
+          ),
+          child: Icon(
+            icon,
+            size: 16,
+            color: isSelected ? Colors.white : const Color(0xFF1A1C1E),
+          ),
+        ),
       ),
     );
   }

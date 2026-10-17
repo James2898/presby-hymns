@@ -76,8 +76,16 @@ class ReaderPreferencesNotifier extends StateNotifier<ReaderPreferences> {
           capo: prefs?.getInt('hymn.$hymnId.capo') ?? 0,
           fontSize: prefs?.getDouble('settings.fontSize') ?? 19.0,
           lineSpacing: prefs?.getDouble('settings.lineSpacing') ?? 1.5,
+          textAlign: _parseAlign(prefs?.getString('settings.textAlign')),
           hideChords: prefs?.getBool('settings.hideChords') ?? false,
         ));
+
+  static ReaderTextAlign _parseAlign(String? name) {
+    return ReaderTextAlign.values.firstWhere(
+      (e) => e.name == name,
+      orElse: () => ReaderTextAlign.left,
+    );
+  }
 
   Future<void> setSoundingKey(String key) async {
     state = state.copyWith(soundingKey: key);
@@ -127,6 +135,11 @@ class ReaderPreferencesNotifier extends StateNotifier<ReaderPreferences> {
     final clamped = newSpacing.clamp(1.0, 2.5);
     state = state.copyWith(lineSpacing: clamped);
     await _prefs?.setDouble('settings.lineSpacing', clamped);
+  }
+
+  Future<void> setTextAlign(ReaderTextAlign align) async {
+    state = state.copyWith(textAlign: align);
+    await _prefs?.setString('settings.textAlign', align.name);
   }
 
   Future<void> toggleHideChords() async {

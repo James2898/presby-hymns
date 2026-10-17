@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:presby_hymns/core/chordpro/chordpro_parser.dart';
 import 'package:presby_hymns/core/music/key_speller.dart';
+import 'package:presby_hymns/features/reader/models/reader_models.dart';
 
 class LyricsCanvas extends StatelessWidget {
   final SongDoc songDoc;
@@ -8,6 +9,7 @@ class LyricsCanvas extends StatelessWidget {
   final int capo;
   final double fontSize;
   final double lineSpacing;
+  final ReaderTextAlign textAlign;
   final bool hideChords;
   final String language;
 
@@ -18,6 +20,7 @@ class LyricsCanvas extends StatelessWidget {
     required this.capo,
     required this.fontSize,
     this.lineSpacing = 1.5,
+    this.textAlign = ReaderTextAlign.left,
     required this.hideChords,
     required this.language,
   });
@@ -187,26 +190,46 @@ class LyricsCanvas extends StatelessWidget {
     // If hiding chords, join all text directly
     if (hideChords) {
       final lineText = pairs.map((p) => p.text).join();
+      final flutterAlign = switch (textAlign) {
+        ReaderTextAlign.center => TextAlign.center,
+        ReaderTextAlign.right => TextAlign.right,
+        ReaderTextAlign.justify => TextAlign.justify,
+        ReaderTextAlign.left => TextAlign.left,
+      };
+
       return Padding(
         padding: EdgeInsets.only(bottom: 8 * spacingRatio),
-        child: Text(
-          lineText,
-          style: TextStyle(
-            fontFamily: 'Source Serif 4',
-            fontSize: fontSize,
-            height: lineSpacing,
-            color: const Color(0xFF1A1C1E),
+        child: SizedBox(
+          width: double.infinity,
+          child: Text(
+            lineText,
+            textAlign: flutterAlign,
+            style: TextStyle(
+              fontFamily: 'Source Serif 4',
+              fontSize: fontSize,
+              height: lineSpacing,
+              color: const Color(0xFF1A1C1E),
+            ),
           ),
         ),
       );
     }
 
+    final wrapAlign = switch (textAlign) {
+      ReaderTextAlign.center => WrapAlignment.center,
+      ReaderTextAlign.right => WrapAlignment.end,
+      ReaderTextAlign.justify || ReaderTextAlign.left => WrapAlignment.start,
+    };
+
     // Synchronized Chord-over-syllable layout
     return Padding(
       padding: EdgeInsets.only(bottom: 10 * spacingRatio),
-      child: Wrap(
-        crossAxisAlignment: WrapCrossAlignment.end,
-        children: pairs.map((pair) {
+      child: SizedBox(
+        width: double.infinity,
+        child: Wrap(
+          alignment: wrapAlign,
+          crossAxisAlignment: WrapCrossAlignment.end,
+          children: pairs.map((pair) {
           final displayedChord = pair.chord != null && pair.chord!.isNotEmpty
               ? CapoResolver.fingeredChord(pair.chord!, capo, soundingKey)
               : null;
@@ -243,6 +266,7 @@ class LyricsCanvas extends StatelessWidget {
             ],
           );
         }).toList(),
+        ),
       ),
     );
   }

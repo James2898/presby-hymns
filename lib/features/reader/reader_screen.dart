@@ -164,6 +164,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                         capo: prefs.capo,
                         fontSize: prefs.fontSize,
                         lineSpacing: prefs.lineSpacing,
+                        textAlign: prefs.textAlign,
                         hideChords: prefs.hideChords,
                         onTransposeStep: (step) => prefsNotifier.transpose(step),
                         onSelectKey: (k) => prefsNotifier.setSoundingKey(k),
@@ -172,6 +173,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                         onSelectCaged: (shape) => prefsNotifier.setCagedShape(shape),
                         onAdjustFontSize: (delta) => prefsNotifier.adjustFontSize(delta),
                         onAdjustLineSpacing: (delta) => prefsNotifier.adjustLineSpacing(delta),
+                        onSelectTextAlign: (align) => prefsNotifier.setTextAlign(align),
                         onToggleHideChords: () => prefsNotifier.toggleHideChords(),
                       ),
 
@@ -182,6 +184,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                         capo: prefs.capo,
                         fontSize: prefs.fontSize,
                         lineSpacing: prefs.lineSpacing,
+                        textAlign: prefs.textAlign,
                         hideChords: prefs.hideChords,
                         language: _currentLanguage,
                       ),
