@@ -64,18 +64,18 @@ class ReaderMetadataCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                 decoration: BoxDecoration(
                   color: const Color(0xFF004AAD),
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(18),
                 ),
                 child: Text(
                   hymnNumber != null ? 'HYMN #$hymnNumber' : 'SONG',
                   style: const TextStyle(
                     fontFamily: 'Space Grotesk',
-                    fontSize: 12,
+                    fontSize: 15,
                     fontWeight: FontWeight.w700,
-                    letterSpacing: 0.8,
+                    letterSpacing: 0.9,
                     color: Colors.white,
                   ),
                 ),

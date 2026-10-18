@@ -22,6 +22,7 @@ class _CueBarState extends State<CueBar> {
   final AudioPlayer _player = AudioPlayer();
   StreamSubscription? _playerSub;
   bool _isPlaying = false;
+  bool _isExpanded = false;
 
   @override
   void initState() {
@@ -145,129 +146,188 @@ class _CueBarState extends State<CueBar> {
 
   @override
   Widget build(BuildContext context) {
+    const primaryColor = Color(0xFF00357F);
+
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.95),
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+      decoration: const BoxDecoration(
+        color: Colors.white,
         border: Border(
-          top: BorderSide(color: const Color(0xFFC3C6D5).withValues(alpha: 0.4)),
+          top: BorderSide(color: Color(0xFFC3C6D5), width: 1),
         ),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x14000000),
-            blurRadius: 10,
-            offset: Offset(0, -2),
-          ),
-        ],
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       child: SafeArea(
         top: false,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            // Left: Cue descriptor
-            Row(
-              children: [
-                Container(
-                  width: 8,
-                  height: 8,
-                  decoration: BoxDecoration(
-                    color: _isPlaying ? const Color(0xFF735C00) : const Color(0xFFC3C6D5),
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            // Collapsible Drawer Handle + Header
+            InkWell(
+              onTap: () => setState(() => _isExpanded = !_isExpanded),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      'Pitch Pipe / Tonic Cue',
-                      style: TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF1A1C1E),
+                    Container(
+                      width: 32,
+                      height: 3,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFC3C6D5),
+                        borderRadius: BorderRadius.circular(2),
                       ),
                     ),
-                    Text(
-                      '2-second acoustic tone',
-                      style: TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 10,
-                        color: Color(0xFF434653),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-
-            // Right: Key selector & Cue button
-            Row(
-              children: [
-                InkWell(
-                  onTap: _showKeyPicker,
-                  borderRadius: BorderRadius.circular(8),
-                  child: Container(
-                    height: 32,
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF3F3F6),
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: const Color(0xFFC3C6D5)),
-                    ),
-                    child: Row(
+                    const SizedBox(height: 2),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'KEY: ',
-                          style: TextStyle(
+                        Row(
+                          children: [
+                            Icon(
+                              _isExpanded ? Icons.expand_more : Icons.expand_less,
+                              size: 18,
+                              color: primaryColor,
+                            ),
+                            const SizedBox(width: 6),
+                            const Text(
+                              'PITCH PIPE / TONIC CUE',
+                              style: TextStyle(
+                                fontFamily: 'Space Grotesk',
+                                fontSize: 11,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 0.8,
+                                color: primaryColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          'Key $_effectiveCueKey • 2s tone',
+                          style: const TextStyle(
                             fontFamily: 'Inter',
-                            fontSize: 10,
-                            fontWeight: FontWeight.w700,
+                            fontSize: 11,
                             color: Color(0xFF434653),
                           ),
                         ),
-                        Text(
-                          _effectiveCueKey,
-                          style: const TextStyle(
-                            fontFamily: 'Space Grotesk',
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF00357F),
-                          ),
-                        ),
-                        const Icon(Icons.arrow_drop_down, size: 16, color: Color(0xFF434653)),
                       ],
                     ),
-                  ),
+                  ],
                 ),
-                const SizedBox(width: 8),
-                ElevatedButton.icon(
-                  onPressed: _isPlaying ? null : _playTonicCue,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFED65B),
-                    foregroundColor: const Color(0xFF745C00),
-                    elevation: 0,
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
-                    minimumSize: const Size(80, 34),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  icon: const Icon(Icons.music_note, size: 16),
-                  label: Text(
-                    '♪ $_effectiveCueKey Cue',
-                    style: const TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
+
+            if (_isExpanded) ...[
+              const Divider(height: 1, thickness: 1, color: Color(0xFFE8E8EA)),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Left: Cue descriptor
+                    Row(
+                      children: [
+                        Container(
+                          width: 8,
+                          height: 8,
+                          decoration: BoxDecoration(
+                            color: _isPlaying ? const Color(0xFF735C00) : const Color(0xFFC3C6D5),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        const Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Pitch Pipe / Tonic Cue',
+                              style: TextStyle(
+                                fontFamily: 'Inter',
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF1A1C1E),
+                              ),
+                            ),
+                            Text(
+                              '2-second acoustic tone',
+                              style: TextStyle(
+                                fontFamily: 'Inter',
+                                fontSize: 10,
+                                color: Color(0xFF434653),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+
+                    // Right: Key selector & Cue button
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: _showKeyPicker,
+                          borderRadius: BorderRadius.circular(8),
+                          child: Container(
+                            height: 32,
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF3F3F6),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: const Color(0xFFC3C6D5)),
+                            ),
+                            child: Row(
+                              children: [
+                                const Text(
+                                  'KEY: ',
+                                  style: TextStyle(
+                                    fontFamily: 'Inter',
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w700,
+                                    color: Color(0xFF434653),
+                                  ),
+                                ),
+                                Text(
+                                  _effectiveCueKey,
+                                  style: const TextStyle(
+                                    fontFamily: 'Space Grotesk',
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF00357F),
+                                  ),
+                                ),
+                                const Icon(Icons.arrow_drop_down, size: 16, color: Color(0xFF434653)),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        ElevatedButton.icon(
+                          onPressed: _isPlaying ? null : _playTonicCue,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFFFED65B),
+                            foregroundColor: const Color(0xFF745C00),
+                            elevation: 0,
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+                            minimumSize: const Size(80, 34),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          icon: const Icon(Icons.music_note, size: 16),
+                          label: Text(
+                            '♪ $_effectiveCueKey Cue',
+                            style: const TextStyle(
+                              fontFamily: 'Inter',
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ],
         ),
       ),

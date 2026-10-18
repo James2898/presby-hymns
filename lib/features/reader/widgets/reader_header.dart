@@ -125,13 +125,11 @@ Describe the problem:
                 children: [
                   _LangButton(
                     label: 'English',
-                    icon: Icons.menu_book,
                     isSelected: currentLang.toUpperCase() == 'EN',
                     onTap: () => onLanguageChanged('EN'),
                   ),
                   _LangButton(
                     label: 'Tagalog',
-                    icon: Icons.translate,
                     isSelected: currentLang.toUpperCase() == 'TL',
                     onTap: () => onLanguageChanged('TL'),
                   ),
@@ -180,13 +178,11 @@ Describe the problem:
 
 class _LangButton extends StatelessWidget {
   final String label;
-  final IconData icon;
   final bool isSelected;
   final VoidCallback onTap;
 
   const _LangButton({
     required this.label,
-    required this.icon,
     required this.isSelected,
     required this.onTap,
   });
@@ -197,7 +193,7 @@ class _LangButton extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
         decoration: BoxDecoration(
           color: isSelected ? const Color(0xFF004AAD) : Colors.transparent,
           borderRadius: BorderRadius.circular(18),
@@ -205,25 +201,14 @@ class _LangButton extends StatelessWidget {
               ? [const BoxShadow(color: Colors.black12, blurRadius: 2, offset: Offset(0, 1))]
               : null,
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              size: 15,
-              color: isSelected ? Colors.white : const Color(0xFF434653),
-            ),
-            const SizedBox(width: 4),
-            Text(
-              label,
-              style: TextStyle(
-                fontFamily: 'Inter',
-                fontSize: 13,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                color: isSelected ? Colors.white : const Color(0xFF434653),
-              ),
-            ),
-          ],
+        child: Text(
+          label,
+          style: TextStyle(
+            fontFamily: 'Inter',
+            fontSize: 13,
+            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+            color: isSelected ? Colors.white : const Color(0xFF434653),
+          ),
         ),
       ),
     );
