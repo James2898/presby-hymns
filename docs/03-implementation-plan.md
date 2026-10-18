@@ -26,7 +26,7 @@ flowchart LR
 | M3 | v0.3 | Yes | Key CUE + Report a problem |
 | M4 | v1.0 | Yes | All 900 texts in; checker clean; NFRs met |
 
-Each release = APK via Firebase App Distribution with release notes.
+Each release = APK via GitHub Actions CI artifact (`presby-hymns-apk`) on Pull Requests, and GitHub Releases (`v*` tags) with release notes.
 
 ## 2. Content Track (runs in parallel)
 
@@ -67,7 +67,7 @@ Track progress with `build/content-report.md` (counts, chord coverage %).
 - Index: tabs, Number/Title sort, A–Z rail (Title only), sparse Tagalog, unnumbered at end, in-tab search, availability + key badges.
 - Reader (text only): metadata, verses/chorus/ending rendering, language switch + scroll reset + canvas tint, empty state, unnumbered (no switcher), font size (global, persisted), wake lock.
 - Settings persistence (font size, index tab/sort).
-- Firebase App Distribution set-up; signing keystore.
+- GitHub Actions CI release workflow (`presby-hymns-apk`) and GitHub Releases set-up; signing keystore.
 
 **Acceptance**
 1. Typing `1` shows exactly EN #1 and TL #1; `600` shows an empty state.
