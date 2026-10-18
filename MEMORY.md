@@ -30,7 +30,12 @@
 - **GUARD-005** | Targeted PR Scope Isolation
   - **Rule:** **WHEN ASKED TO COMMIT AND OPEN A PR FOR A SPECIFIC TASK, STAGE ONLY THAT TASK'S FILES.**
   - **Context:** Developers frequently have local experiments, uncommitted configs, or ongoing fixes in the workspace (e.g., build gradle tweaks, debug scripts) that are not part of the requested task. Staging `git add .` or blocking the user with scope questions adds friction.
-  - **Action:** Stage strictly the files relevant to the active user request/task (e.g., `git add README.md`). Leave unrelated modified or untracked files safely untouched in the local working tree.
+  - **Action:** Read `MEMORY.md` and switch to a feature/fix branch before modifying tracked files. Stage strictly the files relevant to the active task, and **never run `git checkout -- <file>`, `git restore`, or `git clean` on files you did not modify in the current session**.
+
+- **GUARD-006** | Android APK CI Artifact Verification & Release Tag Gate
+  - **Rule:** **TEST ANDROID CHANGES VIA THE GITHUB ACTIONS PR ARTIFACT (`presby-hymns-apk`) BEFORE MERGING OR TAGGING A RELEASE.**
+  - **Context:** The local macOS environment does not have the Android SDK installed (`flutter build apk` cannot run locally). Pushing a `v*` tag immediately publishes a public GitHub Release.
+  - **Action:** Do not run local `flutter build apk` or `flutter doctor` to check for an Android SDK. Instead, open a PR (once push is approved) so CI builds and uploads the `presby-hymns-apk` artifact, wait for the user to verify the APK on their phone, merge the PR to `main`, and only create/push a `v*` release tag when explicitly instructed.
 
 ---
 
