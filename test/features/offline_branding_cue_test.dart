@@ -122,6 +122,13 @@ void main() {
 
     test('build/content-report.md records PASS validation status (AC-20)', () {
       final reportFile = File('build/content-report.md');
+      if (!reportFile.existsSync()) {
+        final res = Process.runSync(Platform.resolvedExecutable, [
+          'run',
+          'tool/build_content.dart',
+        ]);
+        expect(res.exitCode, equals(0), reason: 'build_content.dart must succeed: ${res.stderr}');
+      }
       expect(
         reportFile.existsSync(),
         isTrue,
