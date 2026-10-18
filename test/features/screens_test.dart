@@ -197,9 +197,11 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 200));
 
-    // AC-11 Language toggle
+    // AC-11 Language toggle (without icons)
     expect(find.text('English'), findsOneWidget);
     expect(find.text('Tagalog'), findsOneWidget);
+    expect(find.byIcon(Icons.menu_book), findsNothing);
+    expect(find.byIcon(Icons.translate), findsNothing);
 
     // AC-13 Synchronized ChordPro layout
     expect(find.text('Holy, Holy, Holy! Lord God Almighty!'), findsOneWidget);
@@ -208,8 +210,20 @@ void main() {
     // AC-14 Controls summary
     expect(find.textContaining('Capo 0'), findsOneWidget);
 
-    // AC-15 Bottom Pitch Cue
+    // AC-15 Bottom Pitch Cue Drawer (collapsed/hidden by default, non-floating)
+    expect(find.text('PITCH PIPE / TONIC CUE'), findsOneWidget);
+    expect(find.text('Key D • 2s tone'), findsOneWidget);
+    expect(find.text('♪ D Cue'), findsNothing);
+
+    // Expand the Pitch Pipe / Tonic Cue drawer and verify body appears
+    await tester.tap(find.text('PITCH PIPE / TONIC CUE'));
+    await tester.pumpAndSettle();
     expect(find.text('♪ D Cue'), findsOneWidget);
+
+    // Collapse the Pitch Pipe / Tonic Cue drawer again
+    await tester.tap(find.text('PITCH PIPE / TONIC CUE'));
+    await tester.pumpAndSettle();
+    expect(find.text('♪ D Cue'), findsNothing);
 
     // Previous and Next Hymn Navigation (Item 2)
     await tester.pumpAndSettle();
@@ -218,6 +232,8 @@ void main() {
     // Tap Next Hymn button to navigate to Hymn #2
     final nextBtn = find.widgetWithText(OutlinedButton, 'Hymn #2');
     expect(nextBtn, findsOneWidget);
+    await tester.ensureVisible(nextBtn);
+    await tester.pumpAndSettle();
     await tester.tap(nextBtn);
     await tester.pumpAndSettle();
 
@@ -280,7 +296,13 @@ void main() {
     expect(find.textContaining('Key G • Text Size'), findsOneWidget);
     expect(find.textContaining('Capo'), findsNothing);
 
-    // Bottom pitch cue shows original key
+    // Bottom pitch cue drawer is collapsed by default and shows summary key
+    expect(find.text('Key G • 2s tone'), findsOneWidget);
+    expect(find.text('♪ G Cue'), findsNothing);
+
+    // Expand bottom pitch cue drawer to see cue button
+    await tester.tap(find.text('PITCH PIPE / TONIC CUE'));
+    await tester.pumpAndSettle();
     expect(find.text('♪ G Cue'), findsOneWidget);
 
     // Expand SONG CONTROLS
