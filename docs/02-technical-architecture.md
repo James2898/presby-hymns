@@ -320,7 +320,7 @@ Rebuild isolation: `LyricsCanvas` watches only `SongDoc`, display offset, `shape
 - Source ingest: Google Docs exported as text / markdown / docx, ingested by `tool/import_gdoc.dart` into `.cho` files during M0.
 - Simulation: local Android Emulator with 2 GB RAM profile to benchmark cold start (<1.5s) and search (<50ms).
 - Build: `flutter build apk --release --split-per-abi --dart-define=REPORT_EMAIL=…`.
-- Distribution: Firebase App Distribution via CLI (no Firebase SDK in the app).
+- Distribution: GitHub Actions CI workflow artifact (`presby-hymns-apk`) on Pull Requests for testing, and GitHub Releases (`v*` tags) for versioned releases (no Firebase SDK or Firebase CLI).
 - Signing: release keystore stored outside the repo; backed up.
 
 ## 14. Resource Budget

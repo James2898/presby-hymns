@@ -26,21 +26,33 @@ class HeroBanner extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: 48,
-            height: 48,
+            width: 52,
+            height: 52,
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.15),
+              color: Colors.white,
               shape: BoxShape.circle,
-              border: Border.all(
-                color: subtitleGold.withValues(alpha: 0.5),
-                width: 1.5,
-              ),
+              border: Border.all(color: subtitleGold, width: 1.5),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0x33000000),
+                  blurRadius: 6,
+                  offset: Offset(0, 2),
+                ),
+              ],
             ),
-            child: const Center(
-              child: Icon(
-                Icons.church_rounded,
-                color: Colors.white,
-                size: 26,
+            child: ClipOval(
+              child: Image.asset(
+                'assets/images/app_logo.png',
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Center(
+                    child: Icon(
+                      Icons.church_rounded,
+                      color: presbyterianBlue,
+                      size: 28,
+                    ),
+                  );
+                },
               ),
             ),
           ),

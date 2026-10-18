@@ -8,6 +8,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] — 2026-10-18
 
 ### Added
+- **Draft 1 App Branding & Adaptive Launcher Icons (`TASK-20261018-8d1`)**:
+  - Implemented approved Draft 1 branding icon across Android adaptive launcher mipmap densities (`mdpi`, `hdpi`, `xhdpi`, `xxhdpi`, `xxxhdpi`) with pure white background (`#FFFFFF`), solid blue cross (`#004AAD`), radiant sunburst rays (`#FED65B`), and gold accent (`#D4AF37`).
+  - Updated `HeroBanner` (`lib/features/home/presentation/widgets/hero_banner.dart`) to render high-resolution Draft 1 branding asset `assets/images/app_logo.png` with graceful church icon fallback.
+  - Affected files: `android/app/src/main/res/`, `assets/images/app_logo.png`, `lib/features/home/presentation/widgets/hero_banner.dart`
+- **100% Offline Typography Asset Bundling (`TASK-20261018-8d1`)**:
+  - Physically bundled 11 TrueType Font files in `assets/fonts/` for Space Grotesk, Source Serif 4, and Inter across standard weights (regular, italic, medium, bold).
+  - Declared local font families and assets in `pubspec.yaml`, ensuring 100% offline rendering with zero network/CDN dependencies.
+  - Affected files: `assets/fonts/`, `pubspec.yaml`
+- **Audio Cue Tone Generator & Direct Asset Playback (`TASK-20261018-8d1`)**:
+  - Added standalone CLI synthesis tool `tool/render_cue_tones.dart` generating 12 equal-temperament chromatic OGG tones spanning C4–B4 with raised-cosine click-free amplitude envelope ramps.
+  - Updated `CueBar` (`lib/features/reader/widgets/cue_bar.dart`) for resilient direct asset playback, removing synthetic delays and adding non-blocking SnackBar error feedback.
+  - Affected files: `tool/render_cue_tones.dart`, `assets/audio/cue/`, `lib/features/reader/widgets/cue_bar.dart`
+- **Strict Content Integrity Checker Tooling (`TASK-20261018-8d1`)**:
+  - Implemented `tool/build_content.dart` validation pass verifying BUG-008 chord regex, contiguous verse numbering (1..N), bilingual EN/TL key matching, and BUG-005 raw ChordPro preservation before compiling `assets/db/hymns.db`.
+  - Added automated Markdown reporting to `build/content-report.md`.
+  - Corrected verse continuity anomalies in `content/en/038.cho`, `082.cho`, `121.cho`, and `169.cho`.
+  - Affected files: `tool/build_content.dart`, `build/content-report.md`, `assets/db/hymns.db`, `content/en/`
+- **Distribution Documentation Standardization (`TASK-20261018-8d1`)**:
+  - Removed all references to Firebase App Distribution across project documentation, standardizing test APK distribution on GitHub Actions CI artifact (`presby-hymns-apk`) on PRs (GUARD-006) and GitHub Releases (`v*` tags).
+  - Affected files: `docs/01-project-overview.md`, `docs/02-technical-architecture.md`, `docs/03-implementation-plan.md`
 - **Musical Chord Token Regex Integrity Verification (`TASK-20261018-8c1`)**:
   - Enforced musical chord token validation in `test/data/database_integrity_test.dart` against `^[A-G](?:b|#)?(?:m|maj|min|dim|aug|sus|add)?[0-9]*(?:\/[A-G](?:b|#)?)?$` for all hymns with chord annotations.
 

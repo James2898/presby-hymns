@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Radiant Sunburst Rays (#FED65B) -->
+    <!-- North / South / East / West rays -->
+    <path
+        android:fillColor="#FED65B"
+        android:pathData="M51,48 L54,16 L57,48 Z" />
+    <path
+        android:fillColor="#FED65B"
+        android:pathData="M51,48 L54,80 L57,48 Z" />
+    <path
+        android:fillColor="#FED65B"
+        android:pathData="M48,51 L16,48 L48,45 Z" />
+    <path
+        android:fillColor="#FED65B"
+        android:pathData="M60,51 L92,48 L60,45 Z" />
+    <!-- Diagonal rays -->
+    <path
+        android:fillColor="#FED65B"
+        android:pathData="M50,46 L27,21 L53,44 Z" />
+    <path
+        android:fillColor="#FED65B"
+        android:pathData="M55,44 L81,21 L58,46 Z" />
+    <path
+        android:fillColor="#FED65B"
+        android:pathData="M50,50 L27,75 L53,52 Z" />
+    <path
+        android:fillColor="#FED65B"
+        android:pathData="M55,52 L81,75 L58,50 Z" />
+    <!-- Intermediate rays -->
+    <path
+        android:fillColor="#FED65B"
+        android:pathData="M52,47 L39,18 L55,46 Z" />
+    <path
+        android:fillColor="#FED65B"
+        android:pathData="M53,46 L69,18 L56,47 Z" />
+    <path
+        android:fillColor="#FED65B"
+        android:pathData="M49,49 L20,35 L50,46 Z" />
+    <path
+        android:fillColor="#FED65B"
+        android:pathData="M49,47 L20,61 L50,50 Z" />
+    <path
+        android:fillColor="#FED65B"
+        android:pathData="M58,46 L88,35 L59,49 Z" />
+    <path
+        android:fillColor="#FED65B"
+        android:pathData="M59,50 L88,61 L58,47 Z" />
+    <path
+        android:fillColor="#FED65B"
+        android:pathData="M52,49 L39,78 L55,50 Z" />
+    <path
+        android:fillColor="#FED65B"
+        android:pathData="M53,50 L69,78 L56,49 Z" />
+
+    <!-- Solid Blue Christian Cross (#004AAD) -->
+    <!-- Vertical stem -->
+    <path
+        android:fillColor="#004AAD"
+        android:pathData="M49,20 H59 V80 H49 Z" />
+    <!-- Horizontal crossbar -->
+    <path
+        android:fillColor="#004AAD"
+        android:pathData="M31,36 H77 V46 H31 Z" />
+
+    <!-- Yellow / Gold Accent Banner beneath cross (#D4AF37) -->
+    <path
+        android:fillColor="#D4AF37"
+        android:pathData="M24,86 H84 V90 H24 Z" />
+</vector>

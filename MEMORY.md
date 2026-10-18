@@ -37,6 +37,11 @@
   - **Context:** The local macOS environment does not have the Android SDK installed (`flutter build apk` cannot run locally). Pushing a `v*` tag immediately publishes a public GitHub Release.
   - **Action:** Do not run local `flutter build apk` or `flutter doctor` to check for an Android SDK. Instead, open a PR (once push is approved) so CI builds and uploads the `presby-hymns-apk` artifact, wait for the user to verify the APK on their phone, merge the PR to `main`, and only create/push a `v*` release tag when explicitly instructed.
 
+- **GUARD-007** | Dart MCP Tool Diagnostics
+  - **Rule:** **INITIALIZE ROOTS OR CONNECT TO DTD BEFORE INVOKING DART MCP DIAGNOSTICS.**
+  - **Context:** `dart-mcp-server` tools (like `analyze_files` or `widget_inspector`) reject calls with `No roots set` or unattached sessions if the root URI or active DTD instance is not initialized.
+  - **Action:** When diagnosing or live-verifying with `dart-mcp-server`, initialize the project root via `roots(command: "add", uris: ["file://..."])` or connect to an active runtime via `dtd(command: "connect")` prior to calling analysis or inspection tools.
+
 ---
 
 ## UI State
@@ -67,8 +72,8 @@
 
 - **BUG-004** | 2026-10-18 | Feature: `SQLite Asset Cache Synchronization`
   - **Root Cause:** When using precompiled bundled databases (`assets/db/hymns.db`), `_openConnection()` only copied the asset into `getApplicationDocumentsDirectory()` when `!await file.exists()`. Updates to the bundled asset were silently ignored, causing running desktop and mobile sandbox instances to serve stale cached SQLite data.
-  - **Resolution:** Added file size / freshness comparison `final needsCopy = !await file.exists() || (await file.length()) != blob.lengthInBytes;` in `lib/data/database/app_database.dart` so updated bundled assets automatically overwrite the container document copy on launch.
-  - **Prevention:** Never use a one-way `!file.exists()` guard for bundled database assets; always compare byte length or version to detect asset updates.
+  - **Resolution:** Added `kAppDbVersion` version tracking in `lib/data/database/app_database.dart` so updated bundled assets automatically overwrite the container document copy on launch when `storedVersion < kAppDbVersion`.
+  - **Prevention:** Whenever `tool/build_content.dart` updates `assets/db/hymns.db`, increment `kAppDbVersion` in `lib/data/database/app_database.dart` within the same commit to guarantee client-side SQLite cache invalidation across desktop and mobile devices.
 
 - **BUG-005** | 2026-10-18 | Feature: `Database Content Pipeline (ChordPro Retention)`
   - **Root Cause:** In `tool/build_content.dart`, `plainText` (which strips all chord brackets) was inserted into `hymn_texts.chordpro_body`, permanently losing chord markup during SQLite compilation.
@@ -97,4 +102,10 @@
   - **Root Cause:** In Android release builds (`flutter build apk --release`), `shared_preferences_android: 2.5.0` migrated to Pigeon JNI reflection, causing R8 to strip or rewrite Kotlin coroutine `Continuation` parameters on `getAll(...)`. On launch, this threw `PlatformException(NoSuchMethodError: no non-static method SharedPreferencesApiRegistrar.getAll...)`.
   - **Resolution:** Constrained `shared_preferences_android: ">=2.4.28 <2.5.0"` (Method Channel architecture), added Kotlin coroutine / JNI keep rules in `android/app/proguard-rules.pro`, wired ProGuard in `android/app/build.gradle.kts`, and updated `.github/workflows/release.yml` to upload test APK artifacts before tagging public releases.
   - **Prevention:** Always include Kotlin coroutines keep rules in `proguard-rules.pro` for Android release builds, pin federated plugins if major underlying IPC changes, and verify release APKs via CI artifacts prior to publishing GitHub releases.
+
+- **BUG-010** | 2026-10-18 | Feature: `CI Build & Gitignored Test Artifacts`
+  - **Root Cause:** Tests in `offline_branding_cue_test.dart` asserted the existence of `build/content-report.md`. Because `/build/` is gitignored, clean checkouts on GitHub Actions runners failed during `flutter test`.
+  - **Resolution:** Added self-generating fallback (`Process.runSync('dart', ['run', 'tool/build_content.dart'])`) in tests if the artifact is missing, and added a dedicated `Compile and validate content` step in `.github/workflows/release.yml` before `flutter test`.
+  - **Prevention:** Tests asserting generated artifacts in gitignored paths must be self-generating if the file does not exist, and CI workflows must execute compilation/codegen scripts before running the test suite.
+
 

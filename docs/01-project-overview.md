@@ -28,11 +28,11 @@ v1 is a **lyric reader and musician's chord workbench**:
 | Item | Decision |
 | :--- | :--- |
 | Distribution | **Internal only.** Not published to Play Store / App Store. |
-| Platform (v1) | **Android only**, distributed as APK via **Firebase App Distribution** (free). |
+| Platform (v1) | **Android only**, distributed as APK via **GitHub Actions CI artifact (`presby-hymns-apk`)** on PRs and **GitHub Releases** (`v*`). |
 | Application ID | `com.badzbordz.hymns` (personal/private project namespace). |
 | Reference Device | Local Android Emulator configured with **2 GB RAM & low-end profile** (e.g. Pixel 3a / generic 360dp phone) to simulate target hardware. |
 | Source Content | Existing texts exported from **Google Docs**; parser/importer script converts to `.cho` in M0. |
-| Branding Asset | Generic dignified hymnal & cross icon. |
+| Branding Asset | Approved Draft 1 branding icon (white background `#FFFFFF`, solid blue cross `#004AAD`, yellow sunburst rays, and yellow "PRESBYTERIAN HYMNS" banner text). |
 | iOS | Deferred until a paid Apple Developer account exists (free accounts expire builds every 7 days). |
 | Accounts | Free accounts only; no in-app login. |
 | Maintainer / reviewer | Single developer, who is also content reviewer and release approver. |
@@ -156,7 +156,7 @@ Visual source of truth: Stitch project **"Bilingual Presbyterian Hymnal App"** +
 | D16 | Report-a-song via `mailto:`, clipboard fallback. |
 | D17 | Least-config targets: Android first, Flutter default SDK minimums. |
 | D18 | No auto-scroll in v1. |
-| D19 | Android-only v1 via Firebase App Distribution. |
+| D19 | Android-only v1 via GitHub Actions CI APK artifacts (`presby-hymns-apk`) on PRs and GitHub Releases (`v*`). |
 | D20 | Key CUE in v1 using pre-rendered tones (no SoundFont). |
 | D21 | Every hymn has a key; key badge shown whenever a key exists. |
 | D22 | Refrain written once (`{chorus}`), rendered after every verse. |

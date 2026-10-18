@@ -36,6 +36,9 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Compile and validate content
+        run: dart run tool/build_content.dart
+
       - name: Run automated test suite
         run: flutter test
 
