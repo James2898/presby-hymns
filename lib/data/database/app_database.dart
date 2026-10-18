@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 part 'app_database.g.dart';
 
-const int kAppDbVersion = 1;
+const int kAppDbVersion = 2;
 const String kDbVersionPrefKey = 'app_db_content_version';
 
 class Hymns extends Table {
