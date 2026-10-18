@@ -17,6 +17,7 @@
 ## Working Tree & Scope Isolation Guard
 - **Create or switch to a work branch before editing tracked files** (do not edit directly on `main`).
 - **Stage only files belonging to your task.** Leave unrelated modified or untracked files untouched in the working tree.
+- **List any remaining unstaged/untracked files in your commit report** with a one-line note on whether they are safe to include in the PR if the user wants them folded in.
 - **NEVER run `git checkout <file>`, `git restore`, or `git reset` on files you did not modify in the current session**, as parallel sessions may have active work in the tree.
 
 ## Android APK Verification & Release Tag Gate
