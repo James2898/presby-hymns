@@ -48,3 +48,6 @@ app.*.map.json
 
 # Widget Preview related
 .widget_preview/
+
+# AI workflow memory & scratchpad
+MEMORY.md
