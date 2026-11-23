@@ -3,16 +3,29 @@
 {key: C}
 
 {start_of_verse: 1}
-Ako ay iyo, tinig Mo’y Dinig
-Badya saki’y Pag-ibig
-Kaya’t Matindi kong ninanais Na sa Iyo’y Humilig
-Ilapit Mo Ako O! Hesus sa kinamatayan mong Krus Ilapit mo
-Ngayon O! Panginoon! Sa Dugo Mong Dumaloy
-Pakabanalin sa Paglilingkod Nang Ako ay Mapuspos
-Kaya’t ng matatag na Pagtitiwala Iyo’y Sumunod
-Ilapit Mo Ako O! Hesus sa kinamatayan mong Krus Ilapit mo
-Ngayon O! Panginoon! Sa Dugo Mong Dumaloy
-May Kalaliman Ng ‘yong Pag-ibig na Di ko pa Malirip Nguni’t Ang Ilog Ay Kung Matawid Saka Ko Mababatid
-Ilapit Mo Ako O! Hesus sa kinamatayan mong Krus Ilapit mo
-Ngayon O! Panginoon! Sa Dugo Mong Dumaloy
+[C] Ako ay iyo, tinig [F] Mo’y Dinig
+Badya [C] saki’y Pag-i-[G7] big
+Kaya’t [C] Matindi kong nina-[F] nais
+Na sa [C] Iyo’y [G7] Humi-[C] lig.
+{end_of_verse}
+
+{start_of_chorus}
+Ilapit Mo [C] Ako O! Hesus sa kinamatayan mong [F] Krus
+Ilapit mo [C] Ngayon O! Pangino-[G7] on!
+Sa Dugo [C] Mong Duma-[F] loy,
+Sa Dugo [C] Mong [G7] Duma-[C] loy.
+{end_of_chorus}
+
+{start_of_verse: 2}
+[C] Pakabanalin sa Pag-[F] lilingkod
+Nang A-[C] ko ay Mapus-[G7] pos
+Kaya’t [C] ng matatag na Pag-[F] titiwala
+I-[C] yo’y [G7] Sumu-[C] nod.
+{end_of_verse}
+
+{start_of_verse: 3}
+May [C] Kalaliman Ng ‘yong [F] Pag-ibig
+na Di [C] ko pa Mali-[G7] rip
+Nguni’t [C] Ang Ilog Ay Kung [F] Matawid
+Saka [C] Ko [G7] Maba-[C] batid.
 {end_of_verse}

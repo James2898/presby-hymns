@@ -3,43 +3,36 @@
 {key: C}
 
 {start_of_verse: 1}
-Darating ang Isang araw Sa Lupa
-Ako’y papanaw Sasakin ang Katwaan
-Sa tahanan ng Maykapal
-Mamasdan ng mukhaan
-Dahil sa ‘king katubusan
-Mamasdan ng mukhaan
-Dahil sa ‘king katubusan
-Masdan ng Mukhaang tunay
-Masdan ng mukhaang tunay
-Darating ang Isang Araw
-Bahay ko ay mabubuwal
-Nguni’t ito’y aking alam
-Ako’y sasakalangitan
-Mamasdan ng mukhaan
-Dahil sa ‘king katubusan
-Mamasdan ng mukhaan
-Dahil sa ‘king katubusan
-Masdan ng Mukhaang tunay
-Masdan ng mukhaang tunay
-Darating ang Isang araw
-Nasa lupa ay lilisan
-Nguni’t Diyos ko’t magsasaysay
-Mabuti’t tapat na bantay
-Mamasdan ng mukhaan
-Dahil sa ‘king katubusan
-Mamasdan ng mukhaan
-Dahil sa ‘king katubusan
-Masdan ng Mukhaang tunay
-Masdan ng mukhaang tunay
-Darating ang isang araw
-Yao’y aking hihintay
-Nang kung pinto’y kanyang buksan
-Kaluluwa ko’y masayahan
-Mamasdan ng mukhaan
-Dahil sa ‘king katubusan
-Mamasdan ng mukhaan
-Dahil sa ‘king katubusan
-Masdan ng Mukhaang tunay
-Masdan ng mukhaang tunay
+Da-[C] rating ang Isang araw Sa Lupa
+Ako’y papanaw Sa-[G7] sakin ang Katwaan
+Sa [C] tahanan ng Maykapal,
+Mamasdan ng [G7] mukhaang tu-[C] nay.
+{end_of_verse}
+
+{start_of_chorus}
+Mamasdan ng [F] mukhaan
+Dahil sa ‘king [C] katubusan
+Mamasdan ng [F] mukhaan
+Dahil sa ‘king [G7] katubu-[C] san.
+{end_of_chorus}
+
+{start_of_verse: 2}
+Da-[C] rating ang Isang Araw
+Bahay ko ay mabu-[G7] buwal
+Ngu-[C] ni’t ito’y aking alam
+Ako’y sa-[G7] sakalangitan. [C]
+{end_of_verse}
+
+{start_of_verse: 3}
+Da-[C] rating ang Isang araw
+Nasa lupa ay lili-[G7] san
+Ngu-[C] ni’t Diyos ko’t magsasaysay
+Mabuti’t [G7] tapat na ban-[C] tay.
+{end_of_verse}
+
+{start_of_verse: 4}
+Da-[C] rating ang isang araw
+Yao’y aking hihin-[G7] tay
+Nang [C] kung pinto’y kanyang buksan
+Kaluluwa [G7] ko’y masayahan. [C]
 {end_of_verse}
