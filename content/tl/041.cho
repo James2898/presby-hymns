@@ -3,30 +3,35 @@
 {key: C}
 
 {start_of_verse: 1}
-May makalilinis ba Sa karumhan ng puso, At huhugas sa sala?
-Tanging dugo ni Kristo!
-Balong ng pagasa, Panlinis sa puso ko,
-Panghuhugas sa sala,
-Tanging ang dugo ni Kristo
-Kung patawad ang nais,
+[C] May makalilinis ba
+Sa karumhan ng puso, At huhugas sa sala?
+[G7] Tanging dugo ni [C] Kristo!
+{end_of_verse}
+
+{start_of_chorus}
+[C] Balong ng pagasa,
+Pan-[G7] linis sa puso ko,
+Pang-[C] huhugas sa sala,
+[G7] Tanging ang dugo ni [C] Kristo.
+{end_of_chorus}
+
+{start_of_verse: 2}
+[C] Kung patawad ang nais,
 Magpasakop kay Kristo!
 Puso mo ay lilinisin,
-Tanging sa dugo ni Kristo
-Balong ng pagasa, Panlinis sa puso ko,
-Panghuhugas sa sala,
-Tanging ang dugo ni Kristo
-Tayo’y may katubusan
+[G7] Tanging sa dugo ni [C] Kristo.
+{end_of_verse}
+
+{start_of_verse: 3}
+[C] Tayo’y may katubusan
 Dahil sa dugo ni Kristo,
-Ang ating kabanalan ,
-Tanging dugo ni Kristo.
-Balong ng pagasa, Panlinis sa puso ko,
-Panghuhugas sa sala,
-Tanging ang dugo ni Kristo
-Siya ang ating pagasa
+Ang ating kabanalan,
+[G7] Tanging dugo ni [C] Kristo.
+{end_of_verse}
+
+{start_of_verse: 4}
+[C] Siya ang ating pagasa
 At kapayapaang tunay,
 Lapit na’t manalig ka
-Sa dugo ni Kristo lamang
-Balong ng pagasa, Panlinis sa puso ko,
-Panghuhugas sa sala,
-Tanging ang dugo ni Kristo
+[G7] Sa dugo ni Kristo [C] lamang.
 {end_of_verse}

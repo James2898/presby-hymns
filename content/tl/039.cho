@@ -3,24 +3,36 @@
 {key: C}
 
 {start_of_verse: 1}
-“Ibubuhos ang biyaya” pangako ng pagliyag
-Panahon ng kasiglahan, Nagmula sa itaas
-Saganang Pala, Ang kailangan namin,
-Pala  saganang pala, Awang natak sa paligid, Sami’y pasaganain
-“Ibubuhos ang biyaya” mahalaga’t pambuhay
-Dinggin sa gulod ang ugong, ng masaganang ulan
-Saganang Pala, Ang kailangan namin,
-Pala  saganang pala, Awang natak sa paligid, Sami’y pasaganain
-“Ibubuhos ang biyaya”
-Sa amin ang ibigay,
-Panginoo’y kasiglaha’t,
-Salita’y  parangalan
-Saganang Pala, Ang kailangan namin,
-Pala  saganang pala, Awang natak sa paligid, Sami’y pasaganain
-“Ibubuhos ang biyaya”
-Ipadala nang agad,
-ngayon sa Diyos naghahayag,
-kay Hesus tumatawag .
-Saganang Pala, Ang kailangan namin,
-Pala  saganang pala, Awang natak sa paligid, Sami’y pasaganain
+[C] “Ibubuhos ang biyaya”
+pangako ng pag-[G7] liyag
+Panahon ng [C] kasiglahan,
+Nag-[G7] mula sa ita-[C] as.
+{end_of_verse}
+
+{start_of_chorus}
+[C] Saganang Pala,
+Ang kailangan na-[G7] min,
+[C] Pala saganang [F] pala,
+Awang natak sa pa-[C] ligid, Sami’y pa-[G7] sagana-[C] in.
+{end_of_chorus}
+
+{start_of_verse: 2}
+[C] “Ibubuhos ang biyaya”
+mahalaga’t pam-[G7] buhay
+Dinggin sa [C] gulod ang ugong,
+ng [G7] masaganang u-[C] lan.
+{end_of_verse}
+
+{start_of_verse: 3}
+[C] “Ibubuhos ang biyaya”
+Sa amin ang i-[G7] bigay,
+Panginoo’y [C] kasiglaha’t,
+Sa-[G7] lita’y paranga-[C] lan.
+{end_of_verse}
+
+{start_of_verse: 4}
+[C] “Ibubuhos ang biyaya”
+Ipadala nang a-[G7] gad,
+ngayon sa [C] Diyos naghahayag,
+kay [G7] Hesus tumata-[C] wag.
 {end_of_verse}

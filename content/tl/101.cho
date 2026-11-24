@@ -3,16 +3,29 @@
 {key: C}
 
 {start_of_verse: 1}
-Hesus kong ligayang tunay, At sa akin ay buhay,
-Sa landas ng kahirapan, Na tagpuan ay ikaw.
-Sa piling mong hirang,
-Sa piling mong hirang,
-Hindi ang lugod at yamang, Ang hanap ko ang dangal,
-Kaya’t ang katotohanan nagtagpuan ay ikaw.
-Sa piling mong hirang,
-Sa piling mong hirang,
-Iyong patnubayan ako , Sa aking paglalakbay,
-Hanggan makarating ako sa walang hanggan buhay
-Sa piling mong hirang,
-Sa piling mong hirang.
+[C] Hesus kong ligayang tunay,
+[F] At sa akin [C] ay buhay,
+Sa landas ng kahirapan,
+[G7] Natagpuan [C] ay Ikaw.
+{end_of_verse}
+
+{start_of_chorus}
+Sa piling [F] Mong hi-[C] rang,
+Sa piling [G7] Mong hi-[C] rang,
+Sa lan-[F] das ng kahi-[C] rapan,
+Natag-[G7] puan ay I-[C] kaw.
+{end_of_chorus}
+
+{start_of_verse: 2}
+[C] Hindi ang lugod at yaman,
+[F] Ang hanap ko’y [C] ang dangal,
+Kaya’t ang katotohanan
+[G7] Natagpuan [C] ay Ikaw.
+{end_of_verse}
+
+{start_of_verse: 3}
+[C] Iyong patnubayan ako,
+[F] Sa aking pag-[C] lalakbay,
+Hanggang makarating ako
+[G7] Sa walang hang-[C] gang buhay.
 {end_of_verse}

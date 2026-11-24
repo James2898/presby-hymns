@@ -51,3 +51,4 @@ app.*.map.json
 
 # AI workflow memory & scratchpad
 MEMORY.md
+.qa/
