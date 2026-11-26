@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] — 2026-11-26
+
+### Added
+- **Complete 173-Hymn Musical Chord Catalog (`PR #11`)**:
+  - Annotated all 173 English hymns (`content/en/001.cho`–`173.cho`) and all 115 Tagalog hymns (`content/tl/001.cho`–`115.cho`) with ChordPro chord progressions.
+  - Validated 11,225 musical chord tokens across 288 hymn texts with 0 syntax or verse continuity anomalies.
+- **Traditional Hymnal Concert Key Alignment (`PR #12`)**:
+  - Aligned Hymns `#002` and `#011`–`#173` (EN & TL pairs) to their traditional hymnal keys (`G`, `Eb`, `Ab`, `F`, `Bb`, `D`, `C`, `Db`) with proper enharmonic spelling and 100% EN/TL key parity.
+
+### Changed
+- **Android App Display Label (`PR #12`)**:
+  - Updated `android:label` in `android/app/src/main/AndroidManifest.xml` from `presby_hymns` to `Presbyterian Hymns`.
+- **Database Asset & Cache Invalidation**:
+  - Rebuilt `assets/db/hymns.db` with the full 288-text chord catalog and FTS5 index.
+  - Bumped `kAppDbVersion` to `3` in `lib/data/database/app_database.dart` so existing installs automatically refresh their local database cache.
+- **Build & Tooling (`PR #11`)**:
+  - Bumped Android Gradle Plugin (AGP) to `9.1.1` in `android/settings.gradle.kts` for Flutter stable compatibility.
+
 ## [0.2.0] — 2026-10-19
 
 ### Added
