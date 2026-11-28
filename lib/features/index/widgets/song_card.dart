@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:presby_hymns/core/theme/app_colors.dart';
 import '../models/index_item.dart';
 
 class SongCard extends StatelessWidget {
@@ -16,17 +17,10 @@ class SongCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 6,
-            offset: const Offset(0, 2),
-          ),
-        ],
         border: Border.all(
-          color: const Color(0xFFEEEFF0),
+          color: AppColors.border,
           width: 1,
         ),
       ),
@@ -48,7 +42,7 @@ class SongCard extends StatelessWidget {
                         width: 48,
                         height: 48,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFD9E2FF),
+                          color: AppColors.primaryTint,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Column(
@@ -59,7 +53,7 @@ class SongCard extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 9,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xFF00357F),
+                                color: AppColors.primary,
                                 letterSpacing: 0.5,
                               ),
                             ),
@@ -68,7 +62,7 @@ class SongCard extends StatelessWidget {
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xFF00357F),
+                                color: AppColors.primary,
                                 height: 1.1,
                               ),
                             ),
@@ -82,39 +76,23 @@ class SongCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           if (!item.isUnnumbered && !item.hasTagalog) ...[
-                            Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 6,
-                                    vertical: 2,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFF1F5F9),
-                                    border: Border.all(
-                                      color: const Color(0xFFE2E8F0),
-                                    ),
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  child: const Text(
-                                    'EN ONLY',
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFF475569),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                            const Text(
+                              'EN ONLY',
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 0.6,
+                                color: AppColors.accentText,
+                              ),
                             ),
-                            const SizedBox(height: 4),
+                            const SizedBox(height: 2),
                           ],
                           Text(
                             item.title,
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
-                              color: Color(0xFF1A1C1E),
+                              color: AppColors.textPrimary,
                               height: 1.25,
                             ),
                             maxLines: 2,
@@ -127,7 +105,7 @@ class SongCard extends StatelessWidget {
                               style: const TextStyle(
                                 fontSize: 13,
                                 fontStyle: FontStyle.italic,
-                                color: Color(0xFF434653),
+                                color: AppColors.textMuted,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -139,7 +117,7 @@ class SongCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 10),
-                const Divider(height: 1, color: Color(0xFFF3F3F6)),
+                const Divider(height: 1, color: AppColors.border),
                 const SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -149,7 +127,7 @@ class SongCard extends StatelessWidget {
                         item.metadataLine.isEmpty ? '—' : item.metadataLine,
                         style: const TextStyle(
                           fontSize: 12,
-                          color: Color(0xFF737784),
+                          color: AppColors.textMuted,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -162,7 +140,7 @@ class SongCard extends StatelessWidget {
                         const Icon(
                           Icons.music_note,
                           size: 14,
-                          color: Color(0xFF004AAD),
+                          color: AppColors.accentText,
                         ),
                         const SizedBox(width: 2),
                         Text(
@@ -170,7 +148,7 @@ class SongCard extends StatelessWidget {
                           style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            color: Color(0xFF004AAD),
+                            color: AppColors.accentText,
                           ),
                         ),
                       ],

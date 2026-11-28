@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:presby_hymns/core/theme/app_colors.dart';
 import '../providers/index_provider.dart';
 
 class FilterTabs extends ConsumerWidget {
@@ -13,8 +14,8 @@ class FilterTabs extends ConsumerWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(4.0),
       decoration: BoxDecoration(
-        color: const Color(0xFFEEEFF0),
-        borderRadius: BorderRadius.circular(999),
+        color: AppColors.surfaceSubtle,
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
         children: [
@@ -61,17 +62,8 @@ class FilterTabs extends ConsumerWidget {
           duration: const Duration(milliseconds: 180),
           padding: const EdgeInsets.symmetric(vertical: 8),
           decoration: BoxDecoration(
-            color: isActive ? const Color(0xFF00357F) : Colors.transparent,
-            borderRadius: BorderRadius.circular(999),
-            boxShadow: isActive
-                ? [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.08),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                  ]
-                : null,
+            color: isActive ? AppColors.primary : Colors.transparent,
+            borderRadius: BorderRadius.circular(8),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -80,7 +72,7 @@ class FilterTabs extends ConsumerWidget {
                 Icon(
                   icon,
                   size: 16,
-                  color: isActive ? Colors.white : const Color(0xFF434653),
+                  color: isActive ? Colors.white : AppColors.textMuted,
                 ),
                 const SizedBox(width: 6),
               ] else if (dotColor != null) ...[
@@ -103,7 +95,7 @@ class FilterTabs extends ConsumerWidget {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
-                  color: isActive ? Colors.white : const Color(0xFF434653),
+                  color: isActive ? Colors.white : AppColors.textMuted,
                 ),
               ),
             ],

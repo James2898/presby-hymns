@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:presby_hymns/core/theme/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ReaderHeader extends StatelessWidget implements PreferredSizeWidget {
@@ -90,7 +91,7 @@ Describe the problem:
 
   @override
   Widget build(BuildContext context) {
-    const primaryColor = Color(0xFF00357F);
+    const primaryColor = AppColors.primary;
 
     return AppBar(
       backgroundColor: Colors.transparent,
@@ -114,11 +115,11 @@ Describe the problem:
               ),
             )
           : Container(
-              height: 38,
+              height: 36,
               padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
-                color: const Color(0xFFEEEEEF),
-                borderRadius: BorderRadius.circular(20),
+                color: AppColors.surfaceSubtle,
+                borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -140,13 +141,13 @@ Describe the problem:
         if (hymnNumber != null) ...[
           IconButton(
             icon: const Icon(Icons.arrow_back_ios_new, size: 16),
-            color: onPreviousHymn != null ? primaryColor : const Color(0xFFC3C6D5),
+            color: onPreviousHymn != null ? primaryColor : AppColors.borderStrong,
             tooltip: onPreviousHymn != null ? 'Previous Hymn (#$prevHymnNumber)' : 'No Previous Hymn',
             onPressed: onPreviousHymn,
           ),
           IconButton(
             icon: const Icon(Icons.arrow_forward_ios, size: 16),
-            color: onNextHymn != null ? primaryColor : const Color(0xFFC3C6D5),
+            color: onNextHymn != null ? primaryColor : AppColors.borderStrong,
             tooltip: onNextHymn != null ? 'Next Hymn (#$nextHymnNumber)' : 'No Next Hymn',
             onPressed: onNextHymn,
           ),
@@ -195,11 +196,8 @@ class _LangButton extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF004AAD) : Colors.transparent,
-          borderRadius: BorderRadius.circular(18),
-          boxShadow: isSelected
-              ? [const BoxShadow(color: Colors.black12, blurRadius: 2, offset: Offset(0, 1))]
-              : null,
+          color: isSelected ? AppColors.primary : Colors.transparent,
+          borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
           label,
@@ -207,7 +205,7 @@ class _LangButton extends StatelessWidget {
             fontFamily: 'Inter',
             fontSize: 13,
             fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-            color: isSelected ? Colors.white : const Color(0xFF434653),
+            color: isSelected ? Colors.white : AppColors.textMuted,
           ),
         ),
       ),

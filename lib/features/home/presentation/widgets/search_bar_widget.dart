@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:presby_hymns/core/theme/app_colors.dart';
 
 class SearchBarWidget extends StatelessWidget {
   final TextEditingController controller;
@@ -18,10 +19,10 @@ class SearchBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFFF3F3F6),
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-          color: const Color(0xFFC3C6D5).withValues(alpha: 0.4),
+          color: AppColors.border,
         ),
       ),
       child: TextField(
@@ -29,17 +30,17 @@ class SearchBarWidget extends StatelessWidget {
         onChanged: onChanged,
         style: const TextStyle(
           fontSize: 14,
-          color: Color(0xFF1A1C1E),
+          color: AppColors.textPrimary,
         ),
         decoration: InputDecoration(
           hintText: 'Search by hymn #, title, or lyrics...',
           hintStyle: const TextStyle(
             fontSize: 13,
-            color: Color(0xFF737784),
+            color: AppColors.textMuted,
           ),
           prefixIcon: const Icon(
             Icons.search,
-            color: Color(0xFF434653),
+            color: AppColors.textMuted,
             size: 20,
           ),
           suffixIcon: isLoading
@@ -54,7 +55,7 @@ class SearchBarWidget extends StatelessWidget {
               : controller.text.isNotEmpty
                   ? IconButton(
                       icon: const Icon(Icons.close, size: 18),
-                      color: const Color(0xFF434653),
+                      color: AppColors.textMuted,
                       onPressed: onClear,
                     )
                   : null,

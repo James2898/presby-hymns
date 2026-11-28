@@ -1,25 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:presby_hymns/core/theme/app_colors.dart';
 
 class HeroBanner extends StatelessWidget {
   const HeroBanner({super.key});
-
-  static const Color presbyterianBlue = Color(0xFF004AAD);
-  static const Color subtitleGold = Color(0xFFFFE088);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: presbyterianBlue,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x24000000),
-            blurRadius: 10,
-            offset: Offset(0, 4),
-          ),
-        ],
+        color: AppColors.primary,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.primaryDark),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
       child: Column(
@@ -31,14 +23,7 @@ class HeroBanner extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
-              border: Border.all(color: subtitleGold, width: 1.5),
-              boxShadow: const [
-                BoxShadow(
-                  color: Color(0x33000000),
-                  blurRadius: 6,
-                  offset: Offset(0, 2),
-                ),
-              ],
+              border: Border.all(color: AppColors.accent, width: 1.5),
             ),
             child: ClipOval(
               child: Image.asset(
@@ -48,7 +33,7 @@ class HeroBanner extends StatelessWidget {
                   return const Center(
                     child: Icon(
                       Icons.church_rounded,
-                      color: presbyterianBlue,
+                      color: AppColors.primary,
                       size: 28,
                     ),
                   );
@@ -76,7 +61,7 @@ class HeroBanner extends StatelessWidget {
               fontSize: 11,
               fontWeight: FontWeight.w600,
               letterSpacing: 1.0,
-              color: subtitleGold,
+              color: AppColors.accentOnDark,
             ),
           ),
         ],

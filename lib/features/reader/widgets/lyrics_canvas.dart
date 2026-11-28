@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:presby_hymns/core/chordpro/chordpro_parser.dart';
 import 'package:presby_hymns/core/music/key_speller.dart';
+import 'package:presby_hymns/core/theme/app_colors.dart';
 import 'package:presby_hymns/features/reader/models/reader_models.dart';
 
 class LyricsCanvas extends StatelessWidget {
@@ -69,15 +70,9 @@ class LyricsCanvas extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x06000000),
-            blurRadius: 4,
-            offset: Offset(0, 2),
-          ),
-        ],
+        border: Border.all(color: AppColors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,9 +84,10 @@ class LyricsCanvas extends StatelessWidget {
                 width: 30,
                 height: 30,
                 alignment: Alignment.center,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFFED65B),
+                decoration: BoxDecoration(
+                  color: AppColors.accentSoft,
                   shape: BoxShape.circle,
+                  border: Border.all(color: AppColors.accent, width: 1),
                 ),
                 child: Text(
                   '${verse.number ?? 1}',
@@ -99,7 +95,7 @@ class LyricsCanvas extends StatelessWidget {
                     fontFamily: 'Space Grotesk',
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF735C00), // Contrast ratio >= 6:1 (passes AAA-large)
+                    color: AppColors.accentText,
                   ),
                 ),
               ),
@@ -109,7 +105,7 @@ class LyricsCanvas extends StatelessWidget {
                   fontFamily: 'Inter',
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
-                  color: Color(0xFF434653),
+                  color: AppColors.textMuted,
                   letterSpacing: 0.5,
                 ),
               ),
@@ -125,44 +121,51 @@ class LyricsCanvas extends StatelessWidget {
   Widget _buildChorusBlock(Section chorus) {
     final label = language.toUpperCase() == 'TL' ? 'KORO' : 'REFRAIN';
 
-    return Container(
-      margin: const EdgeInsets.only(left: 4),
-      padding: const EdgeInsets.all(16),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
+    return Padding(
+      padding: const EdgeInsets.only(left: 4),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.only(
           topRight: Radius.circular(12),
           bottomRight: Radius.circular(12),
         ),
-        border: Border(
-          left: BorderSide(
-            color: Color(0xFF6E1628), // Crimson left-rule (tertiary)
-            width: 4,
-          ),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              const Icon(Icons.repeat, size: 14, color: Color(0xFF6E1628)),
-              const SizedBox(width: 4),
-              Text(
-                label,
-                style: const TextStyle(
-                  fontFamily: 'Space Grotesk',
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 0.8,
-                  color: Color(0xFF6E1628),
-                ),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: const BoxDecoration(
+            color: AppColors.surface,
+            border: Border(
+              top: BorderSide(color: AppColors.border),
+              right: BorderSide(color: AppColors.border),
+              bottom: BorderSide(color: AppColors.border),
+              left: BorderSide(
+                color: AppColors.accent,
+                width: 3.5,
               ),
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  const Icon(Icons.repeat, size: 14, color: AppColors.accentText),
+                  const SizedBox(width: 4),
+                  Text(
+                    label,
+                    style: const TextStyle(
+                      fontFamily: 'Space Grotesk',
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0.8,
+                      color: AppColors.accentText,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              ...chorus.lines.map((line) => _buildLyricLine(line)),
             ],
           ),
-          const SizedBox(height: 10),
-          ...chorus.lines.map((line) => _buildLyricLine(line)),
-        ],
+        ),
       ),
     );
   }
@@ -172,8 +175,8 @@ class LyricsCanvas extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
         decoration: BoxDecoration(
-          color: const Color(0xFFEEEEF0),
-          borderRadius: BorderRadius.circular(20),
+          color: AppColors.surfaceSubtle,
+          borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
           children: [
@@ -208,7 +211,7 @@ class LyricsCanvas extends StatelessWidget {
               fontFamily: 'Source Serif 4',
               fontSize: fontSize,
               height: lineSpacing,
-              color: const Color(0xFF1A1C1E),
+              color: isEnding ? AppColors.accentText : AppColors.textPrimary,
             ),
           ),
         ),
@@ -248,7 +251,7 @@ class LyricsCanvas extends StatelessWidget {
                           fontFamily: 'Space Grotesk',
                           fontSize: fontSize * 0.72,
                           fontWeight: FontWeight.w700,
-                          color: const Color(0xFF00357F),
+                          color: AppColors.primary,
                         ),
                       )
                     : const SizedBox.shrink(),
@@ -260,7 +263,7 @@ class LyricsCanvas extends StatelessWidget {
                   fontFamily: 'Source Serif 4',
                   fontSize: fontSize,
                   height: 1.3 * spacingRatio,
-                  color: isEnding ? const Color(0xFF735C00) : const Color(0xFF1A1C1E),
+                  color: isEnding ? AppColors.accentText : AppColors.textPrimary,
                 ),
               ),
             ],

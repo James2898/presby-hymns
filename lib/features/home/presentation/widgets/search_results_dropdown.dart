@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:presby_hymns/core/theme/app_colors.dart';
 import '../../domain/models/search_hit.dart';
 
 class SearchResultsDropdown extends StatelessWidget {
@@ -17,16 +18,16 @@ class SearchResultsDropdown extends StatelessWidget {
       return Container(
         padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.surface,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: const Color(0xFFE2E2E5)),
+          border: Border.all(color: AppColors.border),
         ),
         child: const Center(
           child: Text(
             'No hymns found matching your query.',
             style: TextStyle(
               fontSize: 13,
-              color: Color(0xFF737784),
+              color: AppColors.textMuted,
               fontStyle: FontStyle.italic,
             ),
           ),
@@ -36,16 +37,9 @@ class SearchResultsDropdown extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE2E2E5)),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x14000000),
-            blurRadius: 10,
-            offset: Offset(0, 4),
-          ),
-        ],
+        border: Border.all(color: AppColors.border),
       ),
       clipBehavior: Clip.antiAlias,
       child: Column(
@@ -55,14 +49,14 @@ class SearchResultsDropdown extends StatelessWidget {
             _buildSectionHeader(
               title: 'ENGLISH HYMNS',
               count: results.englishTotal,
-              headerColor: const Color(0xFF00357F),
+              headerColor: AppColors.primary,
             ),
             ...results.english.map(
               (hit) => _buildResultRow(
                 hit: hit,
-                pillColor: const Color(0xFFD9E2FF),
-                pillTextColor: const Color(0xFF001945),
-                chevronColor: const Color(0xFF00357F),
+                pillColor: AppColors.primaryTint,
+                pillTextColor: AppColors.primary,
+                chevronColor: AppColors.primary,
               ),
             ),
           ],
@@ -70,14 +64,14 @@ class SearchResultsDropdown extends StatelessWidget {
             _buildSectionHeader(
               title: 'TAGALOG HIMNARYO',
               count: results.tagalogTotal,
-              headerColor: const Color(0xFF735C00),
+              headerColor: AppColors.accentText,
             ),
             ...results.tagalog.map(
               (hit) => _buildResultRow(
                 hit: hit,
-                pillColor: const Color(0xFFFFE088),
-                pillTextColor: const Color(0xFF241A00),
-                chevronColor: const Color(0xFF735C00),
+                pillColor: AppColors.accentSoft,
+                pillTextColor: AppColors.accentText,
+                chevronColor: AppColors.accentText,
               ),
             ),
           ],
@@ -92,7 +86,7 @@ class SearchResultsDropdown extends StatelessWidget {
     required Color headerColor,
   }) {
     return Container(
-      color: const Color(0xFFF3F3F6),
+      color: AppColors.surfaceSubtle,
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -118,7 +112,7 @@ class SearchResultsDropdown extends StatelessWidget {
             style: const TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w500,
-              color: Color(0xFF737784),
+              color: AppColors.textMuted,
             ),
           ),
         ],
@@ -138,7 +132,7 @@ class SearchResultsDropdown extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: const BoxDecoration(
           border: Border(
-            bottom: BorderSide(color: Color(0xFFEEEEF0)),
+            bottom: BorderSide(color: AppColors.border),
           ),
         ),
         child: Row(
@@ -148,7 +142,7 @@ class SearchResultsDropdown extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
                   color: pillColor,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
                   '#${hit.number}',
@@ -174,7 +168,7 @@ class SearchResultsDropdown extends StatelessWidget {
                       fontFamily: 'Space Grotesk',
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
-                      color: Color(0xFF1A1C1E),
+                      color: AppColors.textPrimary,
                     ),
                   ),
                   if (hit.firstLine.isNotEmpty) ...[
@@ -186,7 +180,7 @@ class SearchResultsDropdown extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 11,
                         fontStyle: FontStyle.italic,
-                        color: Color(0xFF434653),
+                        color: AppColors.textMuted,
                       ),
                     ),
                   ],

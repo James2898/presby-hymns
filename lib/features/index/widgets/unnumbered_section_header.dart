@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:presby_hymns/core/theme/app_colors.dart';
 
 class UnnumberedSectionHeader extends StatelessWidget {
   const UnnumberedSectionHeader({super.key});
@@ -11,7 +12,7 @@ class UnnumberedSectionHeader extends StatelessWidget {
       margin: const EdgeInsets.only(top: 8, bottom: 6),
       child: const Row(
         children: [
-          Expanded(child: Divider(color: Color(0xFFC3C6D5), thickness: 1)),
+          Expanded(child: Divider(color: AppColors.borderStrong, thickness: 1)),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 12),
             child: Row(
@@ -19,7 +20,7 @@ class UnnumberedSectionHeader extends StatelessWidget {
                 Icon(
                   Icons.queue_music,
                   size: 16,
-                  color: Color(0xFF737784),
+                  color: AppColors.textMuted,
                 ),
                 SizedBox(width: 6),
                 Text(
@@ -28,13 +29,13 @@ class UnnumberedSectionHeader extends StatelessWidget {
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.0,
-                    color: Color(0xFF737784),
+                    color: AppColors.textMuted,
                   ),
                 ),
               ],
             ),
           ),
-          Expanded(child: Divider(color: Color(0xFFC3C6D5), thickness: 1)),
+          Expanded(child: Divider(color: AppColors.borderStrong, thickness: 1)),
         ],
       ),
     );
