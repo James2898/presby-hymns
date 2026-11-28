@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:sqlite3/sqlite3.dart';
 import 'package:presby_hymns/core/chordpro/chordpro_parser.dart';
+import 'package:presby_hymns/core/readings/responsive_reading_parser.dart';
 import 'package:presby_hymns/core/search/search_normalizer.dart';
 
 class ValidationError {
@@ -34,6 +35,8 @@ class ContentReport {
   final int tlCount;
   final int pairedCount;
   final int validatedChordsCount;
+  final int responsiveReadingsCount;
+  final int responsiveReadingLinesCount;
   final List<ValidationError> errors;
   final List<String> warnings;
 
@@ -46,6 +49,8 @@ class ContentReport {
     required this.tlCount,
     required this.pairedCount,
     required this.validatedChordsCount,
+    required this.responsiveReadingsCount,
+    required this.responsiveReadingLinesCount,
     required this.errors,
     required this.warnings,
   });
@@ -63,6 +68,12 @@ class ContentReport {
     buffer.writeln('- **Tagalog Hymn Texts:** $tlCount');
     buffer.writeln('- **Paired Bilingual Hymns:** $pairedCount');
     buffer.writeln('- **Validated Musical Chords:** $validatedChordsCount');
+    buffer.writeln(
+      '- **Tagalog Responsive Readings:** $responsiveReadingsCount',
+    );
+    buffer.writeln(
+      '- **Responsive Reading Lines:** $responsiveReadingLinesCount',
+    );
     buffer.writeln(
       '- **Verse Numbering Anomalies:** ${errors.where((e) => e.message.contains("Verse")).length}',
     );
@@ -82,7 +93,7 @@ class ContentReport {
       buffer.writeln('## Validation Passed');
       buffer.writeln();
       buffer.writeln(
-        'All hymn texts passed structural, chord syntax, contiguous verse numbering, and bilingual parity checks.',
+        'All hymn texts and responsive readings passed structural, chord syntax, contiguous verse numbering, and bilingual parity checks.',
       );
       buffer.writeln();
     }
@@ -319,6 +330,35 @@ void main() {
     }
   }
 
+  // Parse and validate Tagalog Responsive Readings (AC-9..AC-15)
+  final readingsFile = File('raw_content/Tagalog Responsive Readings.md');
+  List<ParsedResponsiveReading> parsedReadings = const [];
+  if (!readingsFile.existsSync()) {
+    errors.add(
+      ValidationError(
+        file: readingsFile.path,
+        message: 'Missing required Tagalog Responsive Readings source file.',
+      ),
+    );
+  } else {
+    final readingsRaw = readingsFile.readAsStringSync();
+    parsedReadings = ResponsiveReadingParser.parse(readingsRaw, language: 'TL');
+    final readingIssues = ResponsiveReadingParser.validate(
+      parsedReadings,
+      expectedCount: 57,
+      verifyReading1Fixture: true,
+    );
+    for (final issue in readingIssues) {
+      errors.add(
+        ValidationError(file: readingsFile.path, message: issue.toString()),
+      );
+    }
+  }
+  final totalReadingLines = parsedReadings.fold<int>(
+    0,
+    (sum, r) => sum + r.lines.length,
+  );
+
   // Count paired hymns
   final pairedCount = allNumbers
       .where((n) => enDocs.containsKey(n) && tlDocs.containsKey(n))
@@ -331,6 +371,8 @@ void main() {
     tlCount: tlDocs.length,
     pairedCount: pairedCount,
     validatedChordsCount: validatedChordsCount,
+    responsiveReadingsCount: parsedReadings.length,
+    responsiveReadingLinesCount: totalReadingLines,
     errors: errors,
     warnings: warnings,
   );
@@ -400,13 +442,39 @@ void main() {
       content_rowid='id',
       tokenize="unicode61 remove_diacritics 2"
     );
+
+    CREATE TABLE responsive_readings (
+      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+      language TEXT NOT NULL CHECK (language IN ('EN', 'TL')),
+      number INTEGER NOT NULL,
+      title TEXT NOT NULL,
+      sort_title TEXT NOT NULL,
+      scripture_reference TEXT NOT NULL,
+      UNIQUE (language, number)
+    );
+
+    CREATE INDEX idx_readings_lang_num ON responsive_readings(language, number);
+
+    CREATE TABLE responsive_reading_lines (
+      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+      reading_id INTEGER NOT NULL REFERENCES responsive_readings(id) ON DELETE CASCADE,
+      line_order INTEGER NOT NULL,
+      role TEXT NOT NULL CHECK (role IN ('leader', 'people', 'all')),
+      text TEXT NOT NULL,
+      UNIQUE (reading_id, line_order)
+    );
+
+    CREATE INDEX idx_reading_lines_reading_order
+      ON responsive_reading_lines(reading_id, line_order);
+
+    PRAGMA user_version = 2;
   ''');
 
   final now = DateTime.now().toIso8601String();
   db.execute("INSERT INTO meta(key, value) VALUES('content_version', ?);", [
     now,
   ]);
-  db.execute("INSERT INTO meta(key, value) VALUES('schema_version', '1');");
+  db.execute("INSERT INTO meta(key, value) VALUES('schema_version', '2');");
 
   int hymnsCount = 0;
   int enCount = 0;
@@ -493,12 +561,45 @@ void main() {
   // Populate FTS table
   db.execute("INSERT INTO hymn_fts(hymn_fts) VALUES('rebuild');");
 
+  // Insert Responsive Readings & ordered body lines
+  int readingsInserted = 0;
+  int readingLinesInserted = 0;
+  final insertReadingStmt = db.prepare('''
+    INSERT INTO responsive_readings(language, number, title, sort_title, scripture_reference)
+    VALUES(?, ?, ?, ?, ?);
+  ''');
+  final insertLineStmt = db.prepare('''
+    INSERT INTO responsive_reading_lines(reading_id, line_order, role, text)
+    VALUES(?, ?, ?, ?);
+  ''');
+
+  for (final reading in parsedReadings) {
+    insertReadingStmt.execute([
+      reading.language,
+      reading.number,
+      reading.title,
+      SearchNormalizer.normalize(reading.title),
+      reading.scriptureReference,
+    ]);
+    final readingId = db.lastInsertRowId;
+    readingsInserted++;
+
+    for (final line in reading.lines) {
+      insertLineStmt.execute([readingId, line.lineOrder, line.role, line.text]);
+      readingLinesInserted++;
+    }
+  }
+  insertReadingStmt.close();
+  insertLineStmt.close();
+
   // Summary
   print('Successfully compiled database:');
   print('  Unique Hymns: $hymnsCount');
   print('  English Texts: $enCount');
   print('  Tagalog Texts: $tlCount');
   print('  Hymns with transcribed chords: $chordsCount');
+  print('  Tagalog Responsive Readings: $readingsInserted');
+  print('  Responsive Reading Lines: $readingLinesInserted');
   print(
     '  Database size: ${(dbFile.lengthSync() / 1024).toStringAsFixed(1)} KB',
   );

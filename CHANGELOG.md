@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-11-29
+
+### Added
+- **Tagalog Responsive Readings Content Pipeline & Reader (`TASK-20261129-vy1`)**:
+  - Added `ResponsiveReadingParser` (`lib/core/readings/responsive_reading_parser.dart`) and build-time ingestion in `tool/build_content.dart` to parse and strictly validate all 57 Tagalog responsive readings (571 lines) from `raw_content/Tagalog Responsive Readings.md`.
+  - Added `ResponsiveReadings` and `ResponsiveReadingLines` Drift tables (`schemaVersion` `2`) and rebuilt `assets/db/hymns.db` (`PRAGMA user_version = 2`), preserving existing ChordPro hymn data and validation reports.
+  - Added `ReadingsListScreen` (`"Tugunang Pagbasa"`) with real-time trimmed number and diacritic-normalized title filtering and `ReadingDetailScreen` featuring the Tagalog Sanctuary Gold palette, `WakelockPlus`, role-formatted lines (`leader`, `people`, `all`), `A-`/`A+` text-size bounds and persistence (`12.0`–`28.0`), sequential previous/next navigation with scroll reset, and missing-reading fallback.
+  - Affected files: `raw_content/Tagalog Responsive Readings.md`, `lib/core/readings/responsive_reading_parser.dart`, `lib/data/database/app_database.dart`, `lib/data/database/app_database.g.dart`, `tool/build_content.dart`, `assets/db/hymns.db`, `lib/features/readings/`, `lib/main.dart`, `test/core/responsive_reading_parser_test.dart`, `test/features/readings_screens_test.dart`, `test/data/database_integrity_test.dart`
+
+### Changed
+- **Home Screen Navigation Redesign & Cache Sync (`TASK-20261129-vy1`)**:
+  - Consolidated separate English/Tagalog hymn cards into a single `"Hymns"` `CatalogCard` showing the unique hymn count (`173`) and opening the Hymn Index on `IndexTab.all`, added the `"Tugunang Pagbasa"` navigation card and disabled `"Westminster Shorter Catechism"` (`"Coming soon"`) placeholder card, and removed the AppBar `"Hymn Index"` icon button while keeping Home search hymns-only.
+  - Extended `CatalogCard` with optional count, styled badge pill (`badgeBackgroundColor`/`badgeTextColor`), and disabled visual/semantic state; removed stale `520`/`380` defaults from `CatalogStats` and `HomeRepository`.
+  - Bumped `kAppDbVersion` to `4` in `lib/data/database/connection/connection_native.dart` so existing installs refresh cached SQLite assets.
+  - Affected files: `lib/features/home/domain/models/catalog_stats.dart`, `lib/features/home/data/home_repository.dart`, `lib/features/home/presentation/widgets/catalog_card.dart`, `lib/features/home/presentation/home_screen.dart`, `lib/data/database/connection/connection_native.dart`, `test/features/screens_test.dart`, `test/widget_test.dart`
+
 ## [0.3.0] — 2026-11-26
 
 ### Added

@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -6,7 +7,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const int kAppDbVersion = 3;
+const int kAppDbVersion = 4;
 const String kDbVersionPrefKey = 'app_db_content_version';
 
 QueryExecutor openAppDatabaseConnection() {
@@ -17,7 +18,8 @@ QueryExecutor openAppDatabaseConnection() {
     final prefs = await SharedPreferences.getInstance();
     final storedVersion = prefs.getInt(kDbVersionPrefKey);
 
-    final needsCopy = !await file.exists() ||
+    final needsCopy =
+        !await file.exists() ||
         storedVersion == null ||
         storedVersion < kAppDbVersion;
 

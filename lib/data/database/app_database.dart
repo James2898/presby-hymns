@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'connection/connection_native.dart'
     if (dart.library.js_interop) 'connection/connection_web.dart';
 
@@ -32,12 +33,41 @@ class HymnTexts extends Table {
   TextColumn get firstLine => text()();
 }
 
-@DriftDatabase(tables: [Hymns, HymnTexts])
+class ResponsiveReadings extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get language => text()();
+  IntColumn get number => integer()();
+  TextColumn get title => text()();
+  TextColumn get sortTitle => text()();
+  TextColumn get scriptureReference => text()();
+
+  @override
+  List<Set<Column>> get uniqueKeys => [
+    {language, number},
+  ];
+}
+
+class ResponsiveReadingLines extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get readingId => integer().references(ResponsiveReadings, #id)();
+  IntColumn get lineOrder => integer()();
+  TextColumn get role => text()();
+  TextColumn get textContent => text().named('text')();
+
+  @override
+  List<Set<Column>> get uniqueKeys => [
+    {readingId, lineOrder},
+  ];
+}
+
+@DriftDatabase(
+  tables: [Hymns, HymnTexts, ResponsiveReadings, ResponsiveReadingLines],
+)
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? e]) : super(e ?? openAppDatabaseConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 }
 
 final appDatabaseProvider = Provider<AppDatabase>((ref) {

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'core/theme/app_colors.dart';
 import 'features/home/presentation/home_screen.dart';
 import 'features/index/index_screen.dart';
 import 'features/index/providers/index_provider.dart';
 import 'features/reader/reader_screen.dart';
+import 'features/readings/presentation/reading_detail_screen.dart';
+import 'features/readings/presentation/readings_list_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,10 +48,7 @@ class HomeNavigationHost extends ConsumerWidget {
   void _openReader(BuildContext context, int hymnId, String language) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => ReaderScreen(
-          hymnId: hymnId,
-          initialLanguage: language,
-        ),
+        builder: (_) => ReaderScreen(hymnId: hymnId, initialLanguage: language),
       ),
     );
   }
@@ -73,6 +73,26 @@ class HomeNavigationHost extends ConsumerWidget {
     );
   }
 
+  void _openReadingsList(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => ReadingsListScreen(
+          onReadingSelected: (readingId) {
+            _openReadingDetail(context, readingId);
+          },
+        ),
+      ),
+    );
+  }
+
+  void _openReadingDetail(BuildContext context, int readingId) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => ReadingDetailScreen(readingId: readingId),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return HomeScreen(
@@ -81,6 +101,9 @@ class HomeNavigationHost extends ConsumerWidget {
       },
       onBrowseCatalog: (language) {
         _openIndex(context, ref, language);
+      },
+      onBrowseReadings: () {
+        _openReadingsList(context);
       },
     );
   }
