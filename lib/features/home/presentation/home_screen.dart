@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:presby_hymns/core/theme/app_colors.dart';
+
 import 'providers/catalog_stats_provider.dart';
 import 'providers/home_search_provider.dart';
 import 'widgets/catalog_card.dart';
@@ -9,13 +10,16 @@ import 'widgets/search_bar_widget.dart';
 import 'widgets/search_results_dropdown.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
-  final void Function(int hymnId, int? hymnNumber, String language)? onHymnSelected;
+  final void Function(int hymnId, int? hymnNumber, String language)?
+  onHymnSelected;
   final void Function(String language)? onBrowseCatalog;
+  final VoidCallback? onBrowseReadings;
 
   const HomeScreen({
     super.key,
     this.onHymnSelected,
     this.onBrowseCatalog,
+    this.onBrowseReadings,
   });
 
   @override
@@ -35,6 +39,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     final searchState = ref.watch(homeSearchProvider);
     final statsAsync = ref.watch(catalogStatsProvider);
+    final totalHymns = statsAsync.whenOrNull(data: (stats) => stats.totalHymns);
 
     return Scaffold(
       backgroundColor: AppColors.canvasEn,
@@ -70,18 +75,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
           ],
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.menu_book_rounded, color: AppColors.primary),
-            tooltip: 'Hymn Index',
-            onPressed: () {
-              if (widget.onBrowseCatalog != null) {
-                widget.onBrowseCatalog!('ALL');
-              }
-            },
-          ),
-          const SizedBox(width: 8),
-        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -102,7 +95,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               },
             ),
             if (searchState.query.trim().isNotEmpty) ...[
-               const SizedBox(height: 8),
+              const SizedBox(height: 8),
               SearchResultsDropdown(
                 results: searchState.results,
                 onHymnSelected: (hymnId, number, language) {
@@ -113,49 +106,41 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
             ],
             const SizedBox(height: 20),
-            statsAsync.when(
-              data: (stats) => Column(
-                children: [
-                  CatalogCard(
-                    title: 'English Hymnal',
-                    description:
-                        'Liturgical psalmody & carols with lyrics and chords where available.',
-                    count: stats.english.total,
-                    countLabel: 'Hymns',
-                    primaryColor: AppColors.primary,
-                    topBarColor: AppColors.primary,
-                    buttonLabel: 'Browse English Hymns',
-                    onTap: () {
-                      if (widget.onBrowseCatalog != null) {
-                        widget.onBrowseCatalog!('EN');
-                      }
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  CatalogCard(
-                    title: 'Tagalog Himnaryo',
-                    description:
-                        'Banal na awitin at pagsambang may akmang tono ng gitara at titik sa Tagalog.',
-                    count: stats.tagalog.total,
-                    countLabel: 'Hymns',
-                    primaryColor: AppColors.accentText,
-                    topBarColor: AppColors.accent,
-                    buttonLabel: 'Tingnan sa Tagalog',
-                    onTap: () {
-                      if (widget.onBrowseCatalog != null) {
-                        widget.onBrowseCatalog!('TL');
-                      }
-                    },
-                  ),
-                ],
-              ),
-              loading: () => const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(24),
-                  child: CircularProgressIndicator(),
-                ),
-              ),
-              error: (err, _) => const SizedBox.shrink(),
+            CatalogCard(
+              title: 'Hymns',
+              description: 'English and Tagalog liturgical hymns with lyrics and chords where available.',
+              count: totalHymns,
+              countLabel: 'Hymns',
+              primaryColor: AppColors.primary,
+              topBarColor: AppColors.primary,
+              buttonLabel: 'Browse Hymns',
+              onTap: () {
+                widget.onBrowseCatalog?.call('ALL');
+              },
+            ),
+            const SizedBox(height: 16),
+            CatalogCard(
+              title: 'Tugunang Pagbasa',
+              description: 'Mga tugunang pagbasa mula sa Banal na Kasulatan para sa pagsamba.',
+              primaryColor: AppColors.accentText,
+              topBarColor: AppColors.accent,
+              buttonLabel: 'Tingnan ang mga Pagbasa',
+              onTap: () {
+                widget.onBrowseReadings?.call();
+              },
+            ),
+            const SizedBox(height: 16),
+            const CatalogCard(
+              title: 'Westminster Shorter Catechism',
+              description: 'Foundational Reformed questions and answers on Christian faith and duty.',
+              badgeText: 'Coming soon',
+              badgeBackgroundColor: AppColors.accentSoft,
+              badgeTextColor: AppColors.accentText,
+              primaryColor: AppColors.textMuted,
+              topBarColor: AppColors.borderStrong,
+              buttonLabel: 'Browse Catechism',
+              enabled: false,
+              onTap: null,
             ),
           ],
         ),

@@ -11,11 +11,13 @@ class CatalogCount {
 }
 
 class CatalogStats {
+  final int totalHymns;
   final CatalogCount english;
   final CatalogCount tagalog;
 
   const CatalogStats({
-    this.english = const CatalogCount(numberedCount: 520, unnumberedCount: 0),
-    this.tagalog = const CatalogCount(numberedCount: 380, unnumberedCount: 0),
+    this.totalHymns = 0,
+    this.english = const CatalogCount(numberedCount: 0, unnumberedCount: 0),
+    this.tagalog = const CatalogCount(numberedCount: 0, unnumberedCount: 0),
   });
 }

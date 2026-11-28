@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+
 import '../../../core/search/search_normalizer.dart';
 import '../../../data/database/app_database.dart';
 import '../domain/models/catalog_stats.dart';
@@ -30,17 +31,19 @@ class HomeRepository {
   }
 
   Future<GroupedSearchResults> _searchExactNumber(int number) async {
-    final rows = await _db.customSelect(
-      '''
+    final rows = await _db
+        .customSelect(
+          '''
       SELECT t.hymn_id, h.hymn_number, t.language, t.title, t.first_line
       FROM hymn_texts t
       JOIN hymns h ON h.id = t.hymn_id
       WHERE h.hymn_number = ?
       ORDER BY t.language ASC
       ''',
-      variables: [Variable.withInt(number)],
-      readsFrom: {_db.hymns, _db.hymnTexts},
-    ).get();
+          variables: [Variable.withInt(number)],
+          readsFrom: {_db.hymns, _db.hymnTexts},
+        )
+        .get();
 
     final english = <SearchHit>[];
     final tagalog = <SearchHit>[];
@@ -75,8 +78,9 @@ class HomeRepository {
 
     List<QueryRow> rows = [];
     try {
-      rows = await _db.customSelect(
-        '''
+      rows = await _db
+          .customSelect(
+            '''
         SELECT t.hymn_id, h.hymn_number, t.language, t.title, t.first_line,
                bm25(hymn_fts, 10.0, 5.0, 1.0) AS rank
         FROM hymn_fts
@@ -86,26 +90,29 @@ class HomeRepository {
         ORDER BY rank
         LIMIT 100
         ''',
-        variables: [Variable.withString(ftsQuery)],
-        readsFrom: {_db.hymns, _db.hymnTexts},
-      ).get();
+            variables: [Variable.withString(ftsQuery)],
+            readsFrom: {_db.hymns, _db.hymnTexts},
+          )
+          .get();
     } catch (_) {
       final clean = '%${SearchNormalizer.normalize(query)}%';
-      rows = await _db.customSelect(
-        '''
+      rows = await _db
+          .customSelect(
+            '''
         SELECT t.hymn_id, h.hymn_number, t.language, t.title, t.first_line
         FROM hymn_texts t
         JOIN hymns h ON h.id = t.hymn_id
         WHERE t.sort_title LIKE ? OR t.first_line LIKE ? OR t.lyrics_text LIKE ?
         LIMIT 100
         ''',
-        variables: [
-          Variable.withString(clean),
-          Variable.withString(clean),
-          Variable.withString(clean),
-        ],
-        readsFrom: {_db.hymns, _db.hymnTexts},
-      ).get();
+            variables: [
+              Variable.withString(clean),
+              Variable.withString(clean),
+              Variable.withString(clean),
+            ],
+            readsFrom: {_db.hymns, _db.hymnTexts},
+          )
+          .get();
     }
 
     final english = <SearchHit>[];
@@ -137,8 +144,17 @@ class HomeRepository {
 
   Future<CatalogStats> getCatalogStats() async {
     try {
-      final rows = await _db.customSelect(
-        '''
+      final totalRow = await _db
+          .customSelect(
+            'SELECT COUNT(*) AS total_hymns FROM hymns',
+            readsFrom: {_db.hymns},
+          )
+          .getSingle();
+      final totalHymns = totalRow.read<int>('total_hymns');
+
+      final rows = await _db
+          .customSelect(
+            '''
         SELECT
           t.language,
           COUNT(CASE WHEN h.hymn_number IS NOT NULL THEN 1 END) AS numbered_count,
@@ -147,11 +163,18 @@ class HomeRepository {
         JOIN hymns h ON h.id = t.hymn_id
         GROUP BY t.language
         ''',
-        readsFrom: {_db.hymns, _db.hymnTexts},
-      ).get();
+            readsFrom: {_db.hymns, _db.hymnTexts},
+          )
+          .get();
 
-      CatalogCount en = const CatalogCount(numberedCount: 520, unnumberedCount: 0);
-      CatalogCount tl = const CatalogCount(numberedCount: 380, unnumberedCount: 0);
+      CatalogCount en = const CatalogCount(
+        numberedCount: 0,
+        unnumberedCount: 0,
+      );
+      CatalogCount tl = const CatalogCount(
+        numberedCount: 0,
+        unnumberedCount: 0,
+      );
 
       for (final row in rows) {
         final lang = row.read<String>('language');
@@ -165,7 +188,7 @@ class HomeRepository {
         }
       }
 
-      return CatalogStats(english: en, tagalog: tl);
+      return CatalogStats(totalHymns: totalHymns, english: en, tagalog: tl);
     } catch (_) {
       return const CatalogStats();
     }

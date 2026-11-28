@@ -19,21 +19,27 @@ void main() {
     await db.close();
   });
 
-  testWidgets('App root launches and displays HomeScreen with Presbyterian Hymns',
-      (WidgetTester tester) async {
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          appDatabaseProvider.overrideWithValue(db),
-        ],
-        child: const PresbyHymnsApp(),
-      ),
-    );
-    await tester.pump();
-    await tester.pump(const Duration(milliseconds: 100));
+  testWidgets(
+    'App root launches and displays HomeScreen with redesigned catalog cards',
+    (WidgetTester tester) async {
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [appDatabaseProvider.overrideWithValue(db)],
+          child: const PresbyHymnsApp(),
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
 
-    expect(find.text('Presbyterian Hymns'), findsWidgets);
-    expect(find.text('English Hymnal'), findsOneWidget);
-    expect(find.text('Tagalog Himnaryo'), findsOneWidget);
-  });
+      expect(find.text('Presbyterian Hymns'), findsWidgets);
+      expect(find.byTooltip('Hymn Index'), findsNothing);
+      expect(find.text('Hymns'), findsOneWidget);
+      expect(find.text('Tugunang Pagbasa'), findsOneWidget);
+      expect(find.text('Tingnan ang mga Pagbasa'), findsOneWidget);
+      expect(find.text('Westminster Shorter Catechism'), findsOneWidget);
+      expect(find.text('Coming soon'), findsOneWidget);
+      expect(find.text('English Hymnal'), findsNothing);
+      expect(find.text('Tagalog Himnaryo'), findsNothing);
+    },
+  );
 }

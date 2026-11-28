@@ -13,6 +13,7 @@ class AppColors {
   static const Color accent = Color(0xFFC29B48);
   static const Color accentSoft = Color(0xFFF6EED9);
   static const Color accentText = Color(0xFF7A5E1B);
+  static const Color accentTextLight = Color(0xFF9A792F);
   static const Color accentOnDark = Color(0xFFE2C77D);
 
   // Surfaces & Canvases

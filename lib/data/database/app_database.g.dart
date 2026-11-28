@@ -1108,16 +1108,796 @@ class HymnTextsCompanion extends UpdateCompanion<HymnText> {
   }
 }
 
+class $ResponsiveReadingsTable extends ResponsiveReadings
+    with TableInfo<$ResponsiveReadingsTable, ResponsiveReading> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ResponsiveReadingsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _languageMeta = const VerificationMeta(
+    'language',
+  );
+  @override
+  late final GeneratedColumn<String> language = GeneratedColumn<String>(
+    'language',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _numberMeta = const VerificationMeta('number');
+  @override
+  late final GeneratedColumn<int> number = GeneratedColumn<int>(
+    'number',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+    'title',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sortTitleMeta = const VerificationMeta(
+    'sortTitle',
+  );
+  @override
+  late final GeneratedColumn<String> sortTitle = GeneratedColumn<String>(
+    'sort_title',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _scriptureReferenceMeta =
+      const VerificationMeta('scriptureReference');
+  @override
+  late final GeneratedColumn<String> scriptureReference =
+      GeneratedColumn<String>(
+        'scripture_reference',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    language,
+    number,
+    title,
+    sortTitle,
+    scriptureReference,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'responsive_readings';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ResponsiveReading> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('language')) {
+      context.handle(
+        _languageMeta,
+        language.isAcceptableOrUnknown(data['language']!, _languageMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_languageMeta);
+    }
+    if (data.containsKey('number')) {
+      context.handle(
+        _numberMeta,
+        number.isAcceptableOrUnknown(data['number']!, _numberMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_numberMeta);
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('sort_title')) {
+      context.handle(
+        _sortTitleMeta,
+        sortTitle.isAcceptableOrUnknown(data['sort_title']!, _sortTitleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_sortTitleMeta);
+    }
+    if (data.containsKey('scripture_reference')) {
+      context.handle(
+        _scriptureReferenceMeta,
+        scriptureReference.isAcceptableOrUnknown(
+          data['scripture_reference']!,
+          _scriptureReferenceMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_scriptureReferenceMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  List<Set<GeneratedColumn>> get uniqueKeys => [
+    {language, number},
+  ];
+  @override
+  ResponsiveReading map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ResponsiveReading(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      language: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}language'],
+      )!,
+      number: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}number'],
+      )!,
+      title: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title'],
+      )!,
+      sortTitle: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}sort_title'],
+      )!,
+      scriptureReference: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}scripture_reference'],
+      )!,
+    );
+  }
+
+  @override
+  $ResponsiveReadingsTable createAlias(String alias) {
+    return $ResponsiveReadingsTable(attachedDatabase, alias);
+  }
+}
+
+class ResponsiveReading extends DataClass
+    implements Insertable<ResponsiveReading> {
+  final int id;
+  final String language;
+  final int number;
+  final String title;
+  final String sortTitle;
+  final String scriptureReference;
+  const ResponsiveReading({
+    required this.id,
+    required this.language,
+    required this.number,
+    required this.title,
+    required this.sortTitle,
+    required this.scriptureReference,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['language'] = Variable<String>(language);
+    map['number'] = Variable<int>(number);
+    map['title'] = Variable<String>(title);
+    map['sort_title'] = Variable<String>(sortTitle);
+    map['scripture_reference'] = Variable<String>(scriptureReference);
+    return map;
+  }
+
+  ResponsiveReadingsCompanion toCompanion(bool nullToAbsent) {
+    return ResponsiveReadingsCompanion(
+      id: Value(id),
+      language: Value(language),
+      number: Value(number),
+      title: Value(title),
+      sortTitle: Value(sortTitle),
+      scriptureReference: Value(scriptureReference),
+    );
+  }
+
+  factory ResponsiveReading.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ResponsiveReading(
+      id: serializer.fromJson<int>(json['id']),
+      language: serializer.fromJson<String>(json['language']),
+      number: serializer.fromJson<int>(json['number']),
+      title: serializer.fromJson<String>(json['title']),
+      sortTitle: serializer.fromJson<String>(json['sortTitle']),
+      scriptureReference: serializer.fromJson<String>(
+        json['scriptureReference'],
+      ),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'language': serializer.toJson<String>(language),
+      'number': serializer.toJson<int>(number),
+      'title': serializer.toJson<String>(title),
+      'sortTitle': serializer.toJson<String>(sortTitle),
+      'scriptureReference': serializer.toJson<String>(scriptureReference),
+    };
+  }
+
+  ResponsiveReading copyWith({
+    int? id,
+    String? language,
+    int? number,
+    String? title,
+    String? sortTitle,
+    String? scriptureReference,
+  }) => ResponsiveReading(
+    id: id ?? this.id,
+    language: language ?? this.language,
+    number: number ?? this.number,
+    title: title ?? this.title,
+    sortTitle: sortTitle ?? this.sortTitle,
+    scriptureReference: scriptureReference ?? this.scriptureReference,
+  );
+  ResponsiveReading copyWithCompanion(ResponsiveReadingsCompanion data) {
+    return ResponsiveReading(
+      id: data.id.present ? data.id.value : this.id,
+      language: data.language.present ? data.language.value : this.language,
+      number: data.number.present ? data.number.value : this.number,
+      title: data.title.present ? data.title.value : this.title,
+      sortTitle: data.sortTitle.present ? data.sortTitle.value : this.sortTitle,
+      scriptureReference: data.scriptureReference.present
+          ? data.scriptureReference.value
+          : this.scriptureReference,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ResponsiveReading(')
+          ..write('id: $id, ')
+          ..write('language: $language, ')
+          ..write('number: $number, ')
+          ..write('title: $title, ')
+          ..write('sortTitle: $sortTitle, ')
+          ..write('scriptureReference: $scriptureReference')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, language, number, title, sortTitle, scriptureReference);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ResponsiveReading &&
+          other.id == this.id &&
+          other.language == this.language &&
+          other.number == this.number &&
+          other.title == this.title &&
+          other.sortTitle == this.sortTitle &&
+          other.scriptureReference == this.scriptureReference);
+}
+
+class ResponsiveReadingsCompanion extends UpdateCompanion<ResponsiveReading> {
+  final Value<int> id;
+  final Value<String> language;
+  final Value<int> number;
+  final Value<String> title;
+  final Value<String> sortTitle;
+  final Value<String> scriptureReference;
+  const ResponsiveReadingsCompanion({
+    this.id = const Value.absent(),
+    this.language = const Value.absent(),
+    this.number = const Value.absent(),
+    this.title = const Value.absent(),
+    this.sortTitle = const Value.absent(),
+    this.scriptureReference = const Value.absent(),
+  });
+  ResponsiveReadingsCompanion.insert({
+    this.id = const Value.absent(),
+    required String language,
+    required int number,
+    required String title,
+    required String sortTitle,
+    required String scriptureReference,
+  }) : language = Value(language),
+       number = Value(number),
+       title = Value(title),
+       sortTitle = Value(sortTitle),
+       scriptureReference = Value(scriptureReference);
+  static Insertable<ResponsiveReading> custom({
+    Expression<int>? id,
+    Expression<String>? language,
+    Expression<int>? number,
+    Expression<String>? title,
+    Expression<String>? sortTitle,
+    Expression<String>? scriptureReference,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (language != null) 'language': language,
+      if (number != null) 'number': number,
+      if (title != null) 'title': title,
+      if (sortTitle != null) 'sort_title': sortTitle,
+      if (scriptureReference != null) 'scripture_reference': scriptureReference,
+    });
+  }
+
+  ResponsiveReadingsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? language,
+    Value<int>? number,
+    Value<String>? title,
+    Value<String>? sortTitle,
+    Value<String>? scriptureReference,
+  }) {
+    return ResponsiveReadingsCompanion(
+      id: id ?? this.id,
+      language: language ?? this.language,
+      number: number ?? this.number,
+      title: title ?? this.title,
+      sortTitle: sortTitle ?? this.sortTitle,
+      scriptureReference: scriptureReference ?? this.scriptureReference,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (language.present) {
+      map['language'] = Variable<String>(language.value);
+    }
+    if (number.present) {
+      map['number'] = Variable<int>(number.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (sortTitle.present) {
+      map['sort_title'] = Variable<String>(sortTitle.value);
+    }
+    if (scriptureReference.present) {
+      map['scripture_reference'] = Variable<String>(scriptureReference.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ResponsiveReadingsCompanion(')
+          ..write('id: $id, ')
+          ..write('language: $language, ')
+          ..write('number: $number, ')
+          ..write('title: $title, ')
+          ..write('sortTitle: $sortTitle, ')
+          ..write('scriptureReference: $scriptureReference')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ResponsiveReadingLinesTable extends ResponsiveReadingLines
+    with TableInfo<$ResponsiveReadingLinesTable, ResponsiveReadingLine> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ResponsiveReadingLinesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _readingIdMeta = const VerificationMeta(
+    'readingId',
+  );
+  @override
+  late final GeneratedColumn<int> readingId = GeneratedColumn<int>(
+    'reading_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES responsive_readings (id)',
+    ),
+  );
+  static const VerificationMeta _lineOrderMeta = const VerificationMeta(
+    'lineOrder',
+  );
+  @override
+  late final GeneratedColumn<int> lineOrder = GeneratedColumn<int>(
+    'line_order',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _roleMeta = const VerificationMeta('role');
+  @override
+  late final GeneratedColumn<String> role = GeneratedColumn<String>(
+    'role',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _textContentMeta = const VerificationMeta(
+    'textContent',
+  );
+  @override
+  late final GeneratedColumn<String> textContent = GeneratedColumn<String>(
+    'text',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    readingId,
+    lineOrder,
+    role,
+    textContent,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'responsive_reading_lines';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ResponsiveReadingLine> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('reading_id')) {
+      context.handle(
+        _readingIdMeta,
+        readingId.isAcceptableOrUnknown(data['reading_id']!, _readingIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_readingIdMeta);
+    }
+    if (data.containsKey('line_order')) {
+      context.handle(
+        _lineOrderMeta,
+        lineOrder.isAcceptableOrUnknown(data['line_order']!, _lineOrderMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_lineOrderMeta);
+    }
+    if (data.containsKey('role')) {
+      context.handle(
+        _roleMeta,
+        role.isAcceptableOrUnknown(data['role']!, _roleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_roleMeta);
+    }
+    if (data.containsKey('text')) {
+      context.handle(
+        _textContentMeta,
+        textContent.isAcceptableOrUnknown(data['text']!, _textContentMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_textContentMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  List<Set<GeneratedColumn>> get uniqueKeys => [
+    {readingId, lineOrder},
+  ];
+  @override
+  ResponsiveReadingLine map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ResponsiveReadingLine(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      readingId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}reading_id'],
+      )!,
+      lineOrder: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}line_order'],
+      )!,
+      role: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}role'],
+      )!,
+      textContent: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}text'],
+      )!,
+    );
+  }
+
+  @override
+  $ResponsiveReadingLinesTable createAlias(String alias) {
+    return $ResponsiveReadingLinesTable(attachedDatabase, alias);
+  }
+}
+
+class ResponsiveReadingLine extends DataClass
+    implements Insertable<ResponsiveReadingLine> {
+  final int id;
+  final int readingId;
+  final int lineOrder;
+  final String role;
+  final String textContent;
+  const ResponsiveReadingLine({
+    required this.id,
+    required this.readingId,
+    required this.lineOrder,
+    required this.role,
+    required this.textContent,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['reading_id'] = Variable<int>(readingId);
+    map['line_order'] = Variable<int>(lineOrder);
+    map['role'] = Variable<String>(role);
+    map['text'] = Variable<String>(textContent);
+    return map;
+  }
+
+  ResponsiveReadingLinesCompanion toCompanion(bool nullToAbsent) {
+    return ResponsiveReadingLinesCompanion(
+      id: Value(id),
+      readingId: Value(readingId),
+      lineOrder: Value(lineOrder),
+      role: Value(role),
+      textContent: Value(textContent),
+    );
+  }
+
+  factory ResponsiveReadingLine.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ResponsiveReadingLine(
+      id: serializer.fromJson<int>(json['id']),
+      readingId: serializer.fromJson<int>(json['readingId']),
+      lineOrder: serializer.fromJson<int>(json['lineOrder']),
+      role: serializer.fromJson<String>(json['role']),
+      textContent: serializer.fromJson<String>(json['textContent']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'readingId': serializer.toJson<int>(readingId),
+      'lineOrder': serializer.toJson<int>(lineOrder),
+      'role': serializer.toJson<String>(role),
+      'textContent': serializer.toJson<String>(textContent),
+    };
+  }
+
+  ResponsiveReadingLine copyWith({
+    int? id,
+    int? readingId,
+    int? lineOrder,
+    String? role,
+    String? textContent,
+  }) => ResponsiveReadingLine(
+    id: id ?? this.id,
+    readingId: readingId ?? this.readingId,
+    lineOrder: lineOrder ?? this.lineOrder,
+    role: role ?? this.role,
+    textContent: textContent ?? this.textContent,
+  );
+  ResponsiveReadingLine copyWithCompanion(
+    ResponsiveReadingLinesCompanion data,
+  ) {
+    return ResponsiveReadingLine(
+      id: data.id.present ? data.id.value : this.id,
+      readingId: data.readingId.present ? data.readingId.value : this.readingId,
+      lineOrder: data.lineOrder.present ? data.lineOrder.value : this.lineOrder,
+      role: data.role.present ? data.role.value : this.role,
+      textContent: data.textContent.present
+          ? data.textContent.value
+          : this.textContent,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ResponsiveReadingLine(')
+          ..write('id: $id, ')
+          ..write('readingId: $readingId, ')
+          ..write('lineOrder: $lineOrder, ')
+          ..write('role: $role, ')
+          ..write('textContent: $textContent')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, readingId, lineOrder, role, textContent);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ResponsiveReadingLine &&
+          other.id == this.id &&
+          other.readingId == this.readingId &&
+          other.lineOrder == this.lineOrder &&
+          other.role == this.role &&
+          other.textContent == this.textContent);
+}
+
+class ResponsiveReadingLinesCompanion
+    extends UpdateCompanion<ResponsiveReadingLine> {
+  final Value<int> id;
+  final Value<int> readingId;
+  final Value<int> lineOrder;
+  final Value<String> role;
+  final Value<String> textContent;
+  const ResponsiveReadingLinesCompanion({
+    this.id = const Value.absent(),
+    this.readingId = const Value.absent(),
+    this.lineOrder = const Value.absent(),
+    this.role = const Value.absent(),
+    this.textContent = const Value.absent(),
+  });
+  ResponsiveReadingLinesCompanion.insert({
+    this.id = const Value.absent(),
+    required int readingId,
+    required int lineOrder,
+    required String role,
+    required String textContent,
+  }) : readingId = Value(readingId),
+       lineOrder = Value(lineOrder),
+       role = Value(role),
+       textContent = Value(textContent);
+  static Insertable<ResponsiveReadingLine> custom({
+    Expression<int>? id,
+    Expression<int>? readingId,
+    Expression<int>? lineOrder,
+    Expression<String>? role,
+    Expression<String>? textContent,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (readingId != null) 'reading_id': readingId,
+      if (lineOrder != null) 'line_order': lineOrder,
+      if (role != null) 'role': role,
+      if (textContent != null) 'text': textContent,
+    });
+  }
+
+  ResponsiveReadingLinesCompanion copyWith({
+    Value<int>? id,
+    Value<int>? readingId,
+    Value<int>? lineOrder,
+    Value<String>? role,
+    Value<String>? textContent,
+  }) {
+    return ResponsiveReadingLinesCompanion(
+      id: id ?? this.id,
+      readingId: readingId ?? this.readingId,
+      lineOrder: lineOrder ?? this.lineOrder,
+      role: role ?? this.role,
+      textContent: textContent ?? this.textContent,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (readingId.present) {
+      map['reading_id'] = Variable<int>(readingId.value);
+    }
+    if (lineOrder.present) {
+      map['line_order'] = Variable<int>(lineOrder.value);
+    }
+    if (role.present) {
+      map['role'] = Variable<String>(role.value);
+    }
+    if (textContent.present) {
+      map['text'] = Variable<String>(textContent.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ResponsiveReadingLinesCompanion(')
+          ..write('id: $id, ')
+          ..write('readingId: $readingId, ')
+          ..write('lineOrder: $lineOrder, ')
+          ..write('role: $role, ')
+          ..write('textContent: $textContent')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $HymnsTable hymns = $HymnsTable(this);
   late final $HymnTextsTable hymnTexts = $HymnTextsTable(this);
+  late final $ResponsiveReadingsTable responsiveReadings =
+      $ResponsiveReadingsTable(this);
+  late final $ResponsiveReadingLinesTable responsiveReadingLines =
+      $ResponsiveReadingLinesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [hymns, hymnTexts];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+    hymns,
+    hymnTexts,
+    responsiveReadings,
+    responsiveReadingLines,
+  ];
 }
 
 typedef $$HymnsTableCreateCompanionBuilder = HymnsCompanion Function({
@@ -1376,14 +2156,19 @@ class $$HymnsTableTableManager
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (hymnTextsRefs)
-                    await $_getPrefetchedData<Hymn, $HymnsTable, HymnText>(
+                    await $_getPrefetchedDataByColumns<
+                      Hymn,
+                      $HymnsTable,
+                      HymnText,
+                      $HymnTextsTable
+                    >(
                       currentTable: table,
                       referencedTable: $$HymnsTableReferences
                           ._hymnTextsRefsTable(db),
                       managerFromTypedResult: (p0) =>
                           $$HymnsTableReferences(db, table, p0).hymnTextsRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where((e) => e.hymnId == item.id),
+                      currentColumn: 'id',
+                      referencedColumn: 'hymn_id',
                       typedResults: items,
                     ),
                 ];
@@ -1875,6 +2660,689 @@ typedef $$HymnTextsTableProcessedTableManager =
       HymnText,
       PrefetchHooks Function({bool hymnId})
     >;
+typedef $$ResponsiveReadingsTableCreateCompanionBuilder =
+    ResponsiveReadingsCompanion Function({
+      Value<int> id,
+      required String language,
+      required int number,
+      required String title,
+      required String sortTitle,
+      required String scriptureReference,
+    });
+typedef $$ResponsiveReadingsTableUpdateCompanionBuilder =
+    ResponsiveReadingsCompanion Function({
+      Value<int> id,
+      Value<String> language,
+      Value<int> number,
+      Value<String> title,
+      Value<String> sortTitle,
+      Value<String> scriptureReference,
+    });
+
+final class $$ResponsiveReadingsTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $ResponsiveReadingsTable,
+          ResponsiveReading
+        > {
+  $$ResponsiveReadingsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static MultiTypedResultKey<
+    $ResponsiveReadingLinesTable,
+    List<ResponsiveReadingLine>
+  >
+  _responsiveReadingLinesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.responsiveReadingLines,
+        aliasName:
+            'responsive_readings__id__responsive_reading_lines__reading_id',
+      );
+
+  $$ResponsiveReadingLinesTableProcessedTableManager
+  get responsiveReadingLinesRefs {
+    final manager = $$ResponsiveReadingLinesTableTableManager(
+      $_db,
+      $_db.responsiveReadingLines,
+    ).filter((f) => f.readingId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _responsiveReadingLinesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$ResponsiveReadingsTableFilterComposer
+    extends Composer<_$AppDatabase, $ResponsiveReadingsTable> {
+  $$ResponsiveReadingsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get language => $composableBuilder(
+    column: $table.language,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get number => $composableBuilder(
+    column: $table.number,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sortTitle => $composableBuilder(
+    column: $table.sortTitle,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get scriptureReference => $composableBuilder(
+    column: $table.scriptureReference,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> responsiveReadingLinesRefs(
+    Expression<bool> Function($$ResponsiveReadingLinesTableFilterComposer f) f,
+  ) {
+    final $$ResponsiveReadingLinesTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.responsiveReadingLines,
+          getReferencedColumn: (t) => t.readingId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ResponsiveReadingLinesTableFilterComposer(
+                $db: $db,
+                $table: $db.responsiveReadingLines,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$ResponsiveReadingsTableOrderingComposer
+    extends Composer<_$AppDatabase, $ResponsiveReadingsTable> {
+  $$ResponsiveReadingsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get language => $composableBuilder(
+    column: $table.language,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get number => $composableBuilder(
+    column: $table.number,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sortTitle => $composableBuilder(
+    column: $table.sortTitle,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get scriptureReference => $composableBuilder(
+    column: $table.scriptureReference,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$ResponsiveReadingsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ResponsiveReadingsTable> {
+  $$ResponsiveReadingsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get language =>
+      $composableBuilder(column: $table.language, builder: (column) => column);
+
+  GeneratedColumn<int> get number =>
+      $composableBuilder(column: $table.number, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get sortTitle =>
+      $composableBuilder(column: $table.sortTitle, builder: (column) => column);
+
+  GeneratedColumn<String> get scriptureReference => $composableBuilder(
+    column: $table.scriptureReference,
+    builder: (column) => column,
+  );
+
+  Expression<T> responsiveReadingLinesRefs<T extends Object>(
+    Expression<T> Function($$ResponsiveReadingLinesTableAnnotationComposer a) f,
+  ) {
+    final $$ResponsiveReadingLinesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.responsiveReadingLines,
+          getReferencedColumn: (t) => t.readingId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ResponsiveReadingLinesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.responsiveReadingLines,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$ResponsiveReadingsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ResponsiveReadingsTable,
+          ResponsiveReading,
+          $$ResponsiveReadingsTableFilterComposer,
+          $$ResponsiveReadingsTableOrderingComposer,
+          $$ResponsiveReadingsTableAnnotationComposer,
+          $$ResponsiveReadingsTableCreateCompanionBuilder,
+          $$ResponsiveReadingsTableUpdateCompanionBuilder,
+          (ResponsiveReading, $$ResponsiveReadingsTableReferences),
+          ResponsiveReading,
+          PrefetchHooks Function({bool responsiveReadingLinesRefs})
+        > {
+  $$ResponsiveReadingsTableTableManager(
+    _$AppDatabase db,
+    $ResponsiveReadingsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ResponsiveReadingsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ResponsiveReadingsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ResponsiveReadingsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> language = const Value.absent(),
+                Value<int> number = const Value.absent(),
+                Value<String> title = const Value.absent(),
+                Value<String> sortTitle = const Value.absent(),
+                Value<String> scriptureReference = const Value.absent(),
+              }) => ResponsiveReadingsCompanion(
+                id: id,
+                language: language,
+                number: number,
+                title: title,
+                sortTitle: sortTitle,
+                scriptureReference: scriptureReference,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String language,
+                required int number,
+                required String title,
+                required String sortTitle,
+                required String scriptureReference,
+              }) => ResponsiveReadingsCompanion.insert(
+                id: id,
+                language: language,
+                number: number,
+                title: title,
+                sortTitle: sortTitle,
+                scriptureReference: scriptureReference,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$ResponsiveReadingsTable, ResponsiveReading>(
+                    table,
+                  ),
+                  $$ResponsiveReadingsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({responsiveReadingLinesRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (responsiveReadingLinesRefs) db.responsiveReadingLines,
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (responsiveReadingLinesRefs)
+                    await $_getPrefetchedDataByColumns<
+                      ResponsiveReading,
+                      $ResponsiveReadingsTable,
+                      ResponsiveReadingLine,
+                      $ResponsiveReadingLinesTable
+                    >(
+                      currentTable: table,
+                      referencedTable: $$ResponsiveReadingsTableReferences
+                          ._responsiveReadingLinesRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$ResponsiveReadingsTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).responsiveReadingLinesRefs,
+                      currentColumn: 'id',
+                      referencedColumn: 'reading_id',
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ResponsiveReadingsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ResponsiveReadingsTable,
+      ResponsiveReading,
+      $$ResponsiveReadingsTableFilterComposer,
+      $$ResponsiveReadingsTableOrderingComposer,
+      $$ResponsiveReadingsTableAnnotationComposer,
+      $$ResponsiveReadingsTableCreateCompanionBuilder,
+      $$ResponsiveReadingsTableUpdateCompanionBuilder,
+      (ResponsiveReading, $$ResponsiveReadingsTableReferences),
+      ResponsiveReading,
+      PrefetchHooks Function({bool responsiveReadingLinesRefs})
+    >;
+typedef $$ResponsiveReadingLinesTableCreateCompanionBuilder =
+    ResponsiveReadingLinesCompanion Function({
+      Value<int> id,
+      required int readingId,
+      required int lineOrder,
+      required String role,
+      required String textContent,
+    });
+typedef $$ResponsiveReadingLinesTableUpdateCompanionBuilder =
+    ResponsiveReadingLinesCompanion Function({
+      Value<int> id,
+      Value<int> readingId,
+      Value<int> lineOrder,
+      Value<String> role,
+      Value<String> textContent,
+    });
+
+final class $$ResponsiveReadingLinesTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $ResponsiveReadingLinesTable,
+          ResponsiveReadingLine
+        > {
+  $$ResponsiveReadingLinesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $ResponsiveReadingsTable _readingIdTable(_$AppDatabase db) =>
+      db.responsiveReadings.createAlias(
+        'responsive_reading_lines__reading_id__responsive_readings__id',
+      );
+
+  $$ResponsiveReadingsTableProcessedTableManager get readingId {
+    final $_column = $_itemColumn<int>('reading_id')!;
+
+    final manager = $$ResponsiveReadingsTableTableManager(
+      $_db,
+      $_db.responsiveReadings,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_readingIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ResponsiveReadingLinesTableFilterComposer
+    extends Composer<_$AppDatabase, $ResponsiveReadingLinesTable> {
+  $$ResponsiveReadingLinesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get lineOrder => $composableBuilder(
+    column: $table.lineOrder,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get role => $composableBuilder(
+    column: $table.role,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get textContent => $composableBuilder(
+    column: $table.textContent,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ResponsiveReadingsTableFilterComposer get readingId {
+    final $$ResponsiveReadingsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.readingId,
+      referencedTable: $db.responsiveReadings,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ResponsiveReadingsTableFilterComposer(
+            $db: $db,
+            $table: $db.responsiveReadings,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ResponsiveReadingLinesTableOrderingComposer
+    extends Composer<_$AppDatabase, $ResponsiveReadingLinesTable> {
+  $$ResponsiveReadingLinesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get lineOrder => $composableBuilder(
+    column: $table.lineOrder,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get role => $composableBuilder(
+    column: $table.role,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get textContent => $composableBuilder(
+    column: $table.textContent,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ResponsiveReadingsTableOrderingComposer get readingId {
+    final $$ResponsiveReadingsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.readingId,
+      referencedTable: $db.responsiveReadings,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ResponsiveReadingsTableOrderingComposer(
+            $db: $db,
+            $table: $db.responsiveReadings,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ResponsiveReadingLinesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ResponsiveReadingLinesTable> {
+  $$ResponsiveReadingLinesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get lineOrder =>
+      $composableBuilder(column: $table.lineOrder, builder: (column) => column);
+
+  GeneratedColumn<String> get role =>
+      $composableBuilder(column: $table.role, builder: (column) => column);
+
+  GeneratedColumn<String> get textContent => $composableBuilder(
+    column: $table.textContent,
+    builder: (column) => column,
+  );
+
+  $$ResponsiveReadingsTableAnnotationComposer get readingId {
+    final $$ResponsiveReadingsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.readingId,
+          referencedTable: $db.responsiveReadings,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ResponsiveReadingsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.responsiveReadings,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+}
+
+class $$ResponsiveReadingLinesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ResponsiveReadingLinesTable,
+          ResponsiveReadingLine,
+          $$ResponsiveReadingLinesTableFilterComposer,
+          $$ResponsiveReadingLinesTableOrderingComposer,
+          $$ResponsiveReadingLinesTableAnnotationComposer,
+          $$ResponsiveReadingLinesTableCreateCompanionBuilder,
+          $$ResponsiveReadingLinesTableUpdateCompanionBuilder,
+          (ResponsiveReadingLine, $$ResponsiveReadingLinesTableReferences),
+          ResponsiveReadingLine,
+          PrefetchHooks Function({bool readingId})
+        > {
+  $$ResponsiveReadingLinesTableTableManager(
+    _$AppDatabase db,
+    $ResponsiveReadingLinesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ResponsiveReadingLinesTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$ResponsiveReadingLinesTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$ResponsiveReadingLinesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> readingId = const Value.absent(),
+                Value<int> lineOrder = const Value.absent(),
+                Value<String> role = const Value.absent(),
+                Value<String> textContent = const Value.absent(),
+              }) => ResponsiveReadingLinesCompanion(
+                id: id,
+                readingId: readingId,
+                lineOrder: lineOrder,
+                role: role,
+                textContent: textContent,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int readingId,
+                required int lineOrder,
+                required String role,
+                required String textContent,
+              }) => ResponsiveReadingLinesCompanion.insert(
+                id: id,
+                readingId: readingId,
+                lineOrder: lineOrder,
+                role: role,
+                textContent: textContent,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<
+                    $ResponsiveReadingLinesTable,
+                    ResponsiveReadingLine
+                  >(table),
+                  $$ResponsiveReadingLinesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({readingId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (readingId) {
+                      state = state.withJoin(
+                        currentTable: table,
+                        currentColumn: table.readingId,
+                        referencedTable: $$ResponsiveReadingLinesTableReferences
+                            ._readingIdTable(db),
+                        referencedColumn:
+                            $$ResponsiveReadingLinesTableReferences
+                                ._readingIdTable(db)
+                                .id,
+                      ) as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ResponsiveReadingLinesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ResponsiveReadingLinesTable,
+      ResponsiveReadingLine,
+      $$ResponsiveReadingLinesTableFilterComposer,
+      $$ResponsiveReadingLinesTableOrderingComposer,
+      $$ResponsiveReadingLinesTableAnnotationComposer,
+      $$ResponsiveReadingLinesTableCreateCompanionBuilder,
+      $$ResponsiveReadingLinesTableUpdateCompanionBuilder,
+      (ResponsiveReadingLine, $$ResponsiveReadingLinesTableReferences),
+      ResponsiveReadingLine,
+      PrefetchHooks Function({bool readingId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -1883,4 +3351,11 @@ class $AppDatabaseManager {
       $$HymnsTableTableManager(_db, _db.hymns);
   $$HymnTextsTableTableManager get hymnTexts =>
       $$HymnTextsTableTableManager(_db, _db.hymnTexts);
+  $$ResponsiveReadingsTableTableManager get responsiveReadings =>
+      $$ResponsiveReadingsTableTableManager(_db, _db.responsiveReadings);
+  $$ResponsiveReadingLinesTableTableManager get responsiveReadingLines =>
+      $$ResponsiveReadingLinesTableTableManager(
+        _db,
+        _db.responsiveReadingLines,
+      );
 }
