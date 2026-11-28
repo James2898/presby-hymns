@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:presby_hymns/core/theme/app_colors.dart';
 
 class CatalogCard extends StatelessWidget {
   final String title;
@@ -22,8 +23,8 @@ class CatalogCard extends StatelessWidget {
     this.badgeText,
     required this.primaryColor,
     required this.topBarColor,
-    this.badgeBackgroundColor = const Color(0xFFD9E2FF),
-    this.badgeTextColor = const Color(0xFF001945),
+    this.badgeBackgroundColor = AppColors.primaryTint,
+    this.badgeTextColor = AppColors.primary,
     required this.buttonLabel,
     required this.onTap,
   });
@@ -32,23 +33,16 @@ class CatalogCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE2E2E5)),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x0A000000),
-            blurRadius: 6,
-            offset: Offset(0, 2),
-          ),
-        ],
+        border: Border.all(color: AppColors.border),
       ),
       clipBehavior: Clip.antiAlias,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            height: 5,
+            height: 4,
             color: topBarColor,
           ),
           Padding(
@@ -68,28 +62,19 @@ class CatalogCard extends StatelessWidget {
                           style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
-                            color: Color(0xFF434653),
+                            color: AppColors.textMuted,
                           ),
                         ),
                       ],
                     ),
                     if (badgeText != null)
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 3,
-                        ),
-                        decoration: BoxDecoration(
-                          color: badgeBackgroundColor,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Text(
-                          badgeText!,
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w700,
-                            color: badgeTextColor,
-                          ),
+                      Text(
+                        badgeText!,
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 0.5,
+                          color: badgeTextColor,
                         ),
                       ),
                   ],
@@ -111,7 +96,7 @@ class CatalogCard extends StatelessWidget {
                     fontSize: 12,
                     height: 1.4,
                     fontStyle: FontStyle.italic,
-                    color: Color(0xFF737784),
+                    color: AppColors.textMuted,
                   ),
                 ),
                 const SizedBox(height: 16),

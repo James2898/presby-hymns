@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:presby_hymns/core/music/key_speller.dart';
+import 'package:presby_hymns/core/theme/app_colors.dart';
 import 'package:presby_hymns/features/reader/models/reader_models.dart';
 
 class SongControlsToolbar extends StatefulWidget {
@@ -73,7 +74,7 @@ class _SongControlsToolbarState extends State<SongControlsToolbar> {
                     fontFamily: 'Space Grotesk',
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF00357F),
+                    color: AppColors.primary,
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -86,11 +87,11 @@ class _SongControlsToolbarState extends State<SongControlsToolbar> {
                     return ChoiceChip(
                       label: Text(k),
                       selected: isSelected,
-                      selectedColor: const Color(0xFF004AAD),
+                      selectedColor: AppColors.primary,
                       labelStyle: TextStyle(
                         fontFamily: 'Inter',
                         fontWeight: FontWeight.bold,
-                        color: isSelected ? Colors.white : const Color(0xFF1A1C1E),
+                        color: isSelected ? Colors.white : AppColors.textPrimary,
                       ),
                       onSelected: (val) {
                         Navigator.pop(context);
@@ -109,7 +110,7 @@ class _SongControlsToolbarState extends State<SongControlsToolbar> {
 
   @override
   Widget build(BuildContext context) {
-    const primaryColor = Color(0xFF00357F);
+    const primaryColor = AppColors.primary;
     final summaryText = widget.hasChords
         ? 'Capo ${widget.capo} • Key ${widget.soundingKey}'
         : 'Key ${widget.soundingKey} • Text Size ${widget.fontSize.toInt()}px';
@@ -117,16 +118,9 @@ class _SongControlsToolbarState extends State<SongControlsToolbar> {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFC3C6D5).withValues(alpha: 0.5)),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x08000000),
-            blurRadius: 4,
-            offset: Offset(0, 1),
-          ),
-        ],
+        border: Border.all(color: AppColors.border),
       ),
       child: Column(
         children: [
@@ -164,7 +158,7 @@ class _SongControlsToolbarState extends State<SongControlsToolbar> {
                     style: const TextStyle(
                       fontFamily: 'Inter',
                       fontSize: 11,
-                      color: Color(0xFF434653),
+                      color: AppColors.textMuted,
                     ),
                   ),
                 ],
@@ -173,7 +167,7 @@ class _SongControlsToolbarState extends State<SongControlsToolbar> {
           ),
 
           if (_isExpanded) ...[
-            const Divider(height: 1, thickness: 1, color: Color(0xFFE8E8EA)),
+            const Divider(height: 1, thickness: 1, color: AppColors.border),
             Padding(
               padding: const EdgeInsets.all(12),
               child: Column(
@@ -207,7 +201,7 @@ class _SongControlsToolbarState extends State<SongControlsToolbar> {
                           height: 30,
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF004AAD),
+                            color: AppColors.primary,
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Row(
@@ -279,10 +273,10 @@ class _SongControlsToolbarState extends State<SongControlsToolbar> {
                                       height: 28,
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
-                                        color: isSelected ? const Color(0xFF004AAD) : const Color(0xFFF3F3F6),
+                                        color: isSelected ? AppColors.primary : AppColors.canvasEn,
                                         borderRadius: BorderRadius.circular(6),
                                         border: Border.all(
-                                          color: isSelected ? const Color(0xFF004AAD) : const Color(0xFFC3C6D5),
+                                          color: isSelected ? AppColors.primary : AppColors.borderStrong,
                                         ),
                                       ),
                                       child: Text(
@@ -291,7 +285,7 @@ class _SongControlsToolbarState extends State<SongControlsToolbar> {
                                           fontFamily: 'Inter',
                                           fontSize: 11,
                                           fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                                          color: isSelected ? Colors.white : const Color(0xFF1A1C1E),
+                                          color: isSelected ? Colors.white : AppColors.textPrimary,
                                         ),
                                       ),
                                     ),
@@ -338,13 +332,13 @@ class _SongControlsToolbarState extends State<SongControlsToolbar> {
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
                                     color: isActive
-                                        ? const Color(0xFF004AAD)
-                                        : (isEnabled ? const Color(0xFFF3F3F6) : const Color(0xFFE8E8EA)),
+                                        ? AppColors.primary
+                                        : (isEnabled ? AppColors.canvasEn : AppColors.surfaceSubtle),
                                     borderRadius: BorderRadius.circular(6),
                                     border: Border.all(
                                       color: isActive
-                                          ? const Color(0xFF004AAD)
-                                          : (isEnabled ? const Color(0xFFC3C6D5) : Colors.transparent),
+                                          ? AppColors.primary
+                                          : (isEnabled ? AppColors.borderStrong : Colors.transparent),
                                     ),
                                   ),
                                   child: Text(
@@ -355,7 +349,7 @@ class _SongControlsToolbarState extends State<SongControlsToolbar> {
                                       fontWeight: FontWeight.bold,
                                       color: isActive
                                           ? Colors.white
-                                          : (isEnabled ? const Color(0xFF1A1C1E) : const Color(0xFF737784)),
+                                          : (isEnabled ? AppColors.textPrimary : AppColors.textMuted),
                                     ),
                                   ),
                                 ),
@@ -412,8 +406,8 @@ class _SongControlsToolbarState extends State<SongControlsToolbar> {
                             height: 30,
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
-                              color: widget.hideChords ? const Color(0xFF004AAD) : Colors.transparent,
-                              border: Border.all(color: const Color(0xFF004AAD)),
+                              color: widget.hideChords ? AppColors.primary : Colors.transparent,
+                              border: Border.all(color: AppColors.primary),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Row(
@@ -421,7 +415,7 @@ class _SongControlsToolbarState extends State<SongControlsToolbar> {
                                 Icon(
                                   widget.hideChords ? Icons.visibility_off : Icons.visibility,
                                   size: 14,
-                                  color: widget.hideChords ? Colors.white : const Color(0xFF00357F),
+                                  color: widget.hideChords ? Colors.white : AppColors.primary,
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
@@ -430,7 +424,7 @@ class _SongControlsToolbarState extends State<SongControlsToolbar> {
                                     fontFamily: 'Inter',
                                     fontSize: 11,
                                     fontWeight: FontWeight.w600,
-                                    color: widget.hideChords ? Colors.white : const Color(0xFF00357F),
+                                    color: widget.hideChords ? Colors.white : AppColors.primary,
                                   ),
                                 ),
                               ],
@@ -561,16 +555,16 @@ class _AlignBtn extends StatelessWidget {
           height: 28,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: isSelected ? const Color(0xFF004AAD) : const Color(0xFFF3F3F6),
+            color: isSelected ? AppColors.primary : AppColors.canvasEn,
             borderRadius: BorderRadius.circular(6),
             border: Border.all(
-              color: isSelected ? const Color(0xFF004AAD) : const Color(0xFFC3C6D5),
+              color: isSelected ? AppColors.primary : AppColors.borderStrong,
             ),
           ),
           child: Icon(
             icon,
             size: 16,
-            color: isSelected ? Colors.white : const Color(0xFF1A1C1E),
+            color: isSelected ? Colors.white : AppColors.textPrimary,
           ),
         ),
       ),
@@ -594,9 +588,9 @@ class _SmallBtn extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: const Color(0xFFF3F3F6),
+          color: AppColors.canvasEn,
           borderRadius: BorderRadius.circular(6),
-          border: Border.all(color: const Color(0xFFC3C6D5)),
+          border: Border.all(color: AppColors.borderStrong),
         ),
         child: Text(
           label,
@@ -604,7 +598,7 @@ class _SmallBtn extends StatelessWidget {
             fontFamily: 'Inter',
             fontSize: 11,
             fontWeight: FontWeight.w600,
-            color: Color(0xFF1A1C1E),
+            color: AppColors.textPrimary,
           ),
         ),
       ),

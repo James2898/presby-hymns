@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:presby_hymns/core/theme/app_colors.dart';
 
 class CueBar extends StatefulWidget {
   final String soundingKey;
@@ -132,7 +133,7 @@ class _CueBarState extends State<CueBar> {
                     fontFamily: 'Space Grotesk',
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF00357F),
+                    color: AppColors.primary,
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -146,13 +147,16 @@ class _CueBarState extends State<CueBar> {
                     return ChoiceChip(
                       label: Text(k),
                       selected: isSelected,
-                      selectedColor: const Color(0xFFFED65B),
+                      selectedColor: AppColors.accentSoft,
+                      side: BorderSide(
+                        color: isSelected ? AppColors.accent : AppColors.borderStrong,
+                      ),
                       labelStyle: TextStyle(
                         fontFamily: 'Inter',
                         fontWeight: FontWeight.bold,
                         color: isSelected
-                            ? const Color(0xFF745C00)
-                            : const Color(0xFF1A1C1E),
+                            ? AppColors.accentText
+                            : AppColors.textPrimary,
                       ),
                       onSelected: (val) {
                         Navigator.pop(context);
@@ -171,12 +175,12 @@ class _CueBarState extends State<CueBar> {
 
   @override
   Widget build(BuildContext context) {
-    const primaryColor = Color(0xFF00357F);
+    const primaryColor = AppColors.primary;
 
     return Container(
       decoration: const BoxDecoration(
-        color: Colors.white,
-        border: Border(top: BorderSide(color: Color(0xFFC3C6D5), width: 1)),
+        color: AppColors.surface,
+        border: Border(top: BorderSide(color: AppColors.border, width: 1)),
       ),
       child: SafeArea(
         top: false,
@@ -195,7 +199,7 @@ class _CueBarState extends State<CueBar> {
                       width: 32,
                       height: 3,
                       decoration: BoxDecoration(
-                        color: const Color(0xFFC3C6D5),
+                        color: AppColors.borderStrong,
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
@@ -230,7 +234,7 @@ class _CueBarState extends State<CueBar> {
                           style: const TextStyle(
                             fontFamily: 'Inter',
                             fontSize: 11,
-                            color: Color(0xFF434653),
+                            color: AppColors.textMuted,
                           ),
                         ),
                       ],
@@ -241,7 +245,7 @@ class _CueBarState extends State<CueBar> {
             ),
 
             if (_isExpanded) ...[
-              const Divider(height: 1, thickness: 1, color: Color(0xFFE8E8EA)),
+              const Divider(height: 1, thickness: 1, color: AppColors.border),
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
@@ -258,8 +262,8 @@ class _CueBarState extends State<CueBar> {
                           height: 8,
                           decoration: BoxDecoration(
                             color: _isPlaying
-                                ? const Color(0xFF735C00)
-                                : const Color(0xFFC3C6D5),
+                                ? AppColors.accent
+                                : AppColors.borderStrong,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -274,7 +278,7 @@ class _CueBarState extends State<CueBar> {
                                 fontFamily: 'Inter',
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
-                                color: Color(0xFF1A1C1E),
+                                color: AppColors.textPrimary,
                               ),
                             ),
                             Text(
@@ -282,7 +286,7 @@ class _CueBarState extends State<CueBar> {
                               style: TextStyle(
                                 fontFamily: 'Inter',
                                 fontSize: 10,
-                                color: Color(0xFF434653),
+                                color: AppColors.textMuted,
                               ),
                             ),
                           ],
@@ -300,10 +304,10 @@ class _CueBarState extends State<CueBar> {
                             height: 32,
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFF3F3F6),
+                              color: AppColors.canvasEn,
                               borderRadius: BorderRadius.circular(8),
                               border: Border.all(
-                                color: const Color(0xFFC3C6D5),
+                                color: AppColors.borderStrong,
                               ),
                             ),
                             child: Row(
@@ -314,7 +318,7 @@ class _CueBarState extends State<CueBar> {
                                     fontFamily: 'Inter',
                                     fontSize: 10,
                                     fontWeight: FontWeight.w700,
-                                    color: Color(0xFF434653),
+                                    color: AppColors.textMuted,
                                   ),
                                 ),
                                 Text(
@@ -323,13 +327,13 @@ class _CueBarState extends State<CueBar> {
                                     fontFamily: 'Space Grotesk',
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
-                                    color: Color(0xFF00357F),
+                                    color: AppColors.primary,
                                   ),
                                 ),
                                 const Icon(
                                   Icons.arrow_drop_down,
                                   size: 16,
-                                  color: Color(0xFF434653),
+                                  color: AppColors.textMuted,
                                 ),
                               ],
                             ),
@@ -339,8 +343,9 @@ class _CueBarState extends State<CueBar> {
                         ElevatedButton.icon(
                           onPressed: _isPlaying ? null : _playTonicCue,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFFFED65B),
-                            foregroundColor: const Color(0xFF745C00),
+                            backgroundColor: AppColors.accentSoft,
+                            foregroundColor: AppColors.accentText,
+                            side: const BorderSide(color: AppColors.accent),
                             elevation: 0,
                             padding: const EdgeInsets.symmetric(
                               horizontal: 12,

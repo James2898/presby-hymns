@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:presby_hymns/core/theme/app_colors.dart';
 import '../providers/index_provider.dart';
 
 class SortToggle extends ConsumerWidget {
@@ -14,8 +15,8 @@ class SortToggle extends ConsumerWidget {
         Container(
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
-            color: const Color(0xFFE8E8EA),
-            borderRadius: BorderRadius.circular(12),
+            color: AppColors.surfaceSubtle,
+            borderRadius: BorderRadius.circular(10),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -55,24 +56,15 @@ class SortToggle extends ConsumerWidget {
         duration: const Duration(milliseconds: 150),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: isActive ? const Color(0xFF004AAD) : Colors.transparent,
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: isActive
-              ? [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.08),
-                    blurRadius: 3,
-                    offset: const Offset(0, 1),
-                  ),
-                ]
-              : null,
+          color: isActive ? AppColors.primary : Colors.transparent,
+          borderRadius: BorderRadius.circular(7),
         ),
         child: Row(
           children: [
             Icon(
               icon,
               size: 15,
-              color: isActive ? Colors.white : const Color(0xFF434653),
+              color: isActive ? Colors.white : AppColors.textMuted,
             ),
             const SizedBox(width: 4),
             Text(
@@ -80,7 +72,7 @@ class SortToggle extends ConsumerWidget {
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: isActive ? Colors.white : const Color(0xFF434653),
+                color: isActive ? Colors.white : AppColors.textMuted,
               ),
             ),
           ],

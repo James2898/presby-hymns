@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
+import 'package:presby_hymns/core/theme/app_colors.dart';
 import 'package:presby_hymns/features/reader/providers/reader_providers.dart';
 import 'package:presby_hymns/features/reader/widgets/cue_bar.dart';
 import 'package:presby_hymns/features/reader/widgets/empty_counterpart_view.dart';
@@ -71,10 +72,10 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   Widget build(BuildContext context) {
     final readerAsync = ref.watch(readerDataProvider((hymnId: _currentHymnId, lang: _currentLanguage)));
 
-    // AC-11 & AC-12: Canvas tinting (EN: #FBF9F5, TG: #F5EFE6)
+    // AC-11 & AC-12: Canvas tinting (EN: Alabaster Mist, TL: Sandstone)
     final canvasBackgroundColor = _currentLanguage.toUpperCase() == 'TL'
-        ? const Color(0xFFF5EFE6)
-        : const Color(0xFFFBF9F5);
+        ? AppColors.canvasTl
+        : AppColors.canvasEn;
 
     return readerAsync.when(
       loading: () => Scaffold(
@@ -198,10 +199,14 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                               child: OutlinedButton.icon(
                                 style: OutlinedButton.styleFrom(
                                   padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                                  side: const BorderSide(color: Color(0xFFC3C6D5)),
+                                  side: const BorderSide(color: AppColors.borderStrong),
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                                 ),
-                                icon: const Icon(Icons.arrow_back, size: 16, color: Color(0xFF00357F)),
+                                icon: Icon(
+                                  Icons.arrow_back,
+                                  size: 16,
+                                  color: prevHymn != null ? AppColors.primary : AppColors.textMuted,
+                                ),
                                 label: Text(
                                   prevHymn != null ? 'Hymn #${prevHymn.hymnNumber}' : 'First Hymn',
                                   maxLines: 1,
@@ -210,7 +215,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                                     fontFamily: 'Space Grotesk',
                                     fontSize: 13,
                                     fontWeight: FontWeight.w700,
-                                    color: prevHymn != null ? const Color(0xFF00357F) : const Color(0xFF9E9E9E),
+                                    color: prevHymn != null ? AppColors.primary : AppColors.textMuted,
                                   ),
                                 ),
                                 onPressed: prevHymn != null ? () => _navigateToHymn(prevHymn.id) : null,
@@ -221,11 +226,15 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                               child: OutlinedButton.icon(
                                 style: OutlinedButton.styleFrom(
                                   padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                                  side: const BorderSide(color: Color(0xFFC3C6D5)),
+                                  side: const BorderSide(color: AppColors.borderStrong),
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                                 ),
                                 iconAlignment: IconAlignment.end,
-                                icon: const Icon(Icons.arrow_forward, size: 16, color: Color(0xFF00357F)),
+                                icon: Icon(
+                                  Icons.arrow_forward,
+                                  size: 16,
+                                  color: nextHymn != null ? AppColors.primary : AppColors.textMuted,
+                                ),
                                 label: Text(
                                   nextHymn != null ? 'Hymn #${nextHymn.hymnNumber}' : 'Last Hymn',
                                   maxLines: 1,
@@ -234,7 +243,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                                     fontFamily: 'Space Grotesk',
                                     fontSize: 13,
                                     fontWeight: FontWeight.w700,
-                                    color: nextHymn != null ? const Color(0xFF00357F) : const Color(0xFF9E9E9E),
+                                    color: nextHymn != null ? AppColors.primary : AppColors.textMuted,
                                   ),
                                 ),
                                 onPressed: nextHymn != null ? () => _navigateToHymn(nextHymn.id) : null,

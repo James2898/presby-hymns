@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'core/theme/app_colors.dart';
 import 'features/home/presentation/home_screen.dart';
 import 'features/index/index_screen.dart';
 import 'features/index/providers/index_provider.dart';
@@ -21,13 +22,14 @@ class PresbyHymnsApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF004AAD),
-          primary: const Color(0xFF004AAD),
-          surface: const Color(0xFFF9F9FC),
+          seedColor: AppColors.primary,
+          primary: AppColors.primary,
+          secondary: AppColors.accent,
+          surface: AppColors.canvasEn,
         ),
-        scaffoldBackgroundColor: const Color(0xFFF9F9FC),
+        scaffoldBackgroundColor: AppColors.canvasEn,
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF00357F),
+          backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
           elevation: 0,
         ),

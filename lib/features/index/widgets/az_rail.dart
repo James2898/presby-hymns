@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:presby_hymns/core/theme/app_colors.dart';
 
 class AzRail extends StatelessWidget {
   final Set<String> availableLetters;
@@ -26,15 +27,8 @@ class AzRail extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: const Color(0xFFF3F3F6),
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
-            blurRadius: 4,
-            offset: const Offset(0, 1),
-          ),
-        ],
+        color: AppColors.surfaceSubtle,
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
         children: [
@@ -45,7 +39,7 @@ class AzRail extends StatelessWidget {
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF737784),
+                color: AppColors.textMuted,
               ),
             ),
           ),
@@ -68,9 +62,9 @@ class AzRail extends StatelessWidget {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: isSelected
-                          ? const Color(0xFF00357F)
+                          ? AppColors.primary
                           : isAvailable
-                              ? const Color(0xFFD9E2FF)
+                              ? AppColors.primaryTint
                               : Colors.transparent,
                       borderRadius: BorderRadius.circular(6),
                     ),
@@ -84,8 +78,8 @@ class AzRail extends StatelessWidget {
                         color: isSelected
                             ? Colors.white
                             : isAvailable
-                                ? const Color(0xFF00357F)
-                                : const Color(0xFFC3C6D5),
+                                ? AppColors.primary
+                                : AppColors.borderStrong,
                       ),
                     ),
                   ),

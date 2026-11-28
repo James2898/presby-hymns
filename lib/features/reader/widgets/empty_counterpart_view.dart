@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:presby_hymns/core/theme/app_colors.dart';
 
 class EmptyCounterpartView extends StatelessWidget {
   final String targetLanguage;
@@ -25,15 +26,9 @@ class EmptyCounterpartView extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(24.0),
           decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0x0A000000),
-                blurRadius: 8,
-                offset: Offset(0, 2),
-              ),
-            ],
+            color: AppColors.surface,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: AppColors.border),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -41,7 +36,7 @@ class EmptyCounterpartView extends StatelessWidget {
               const Icon(
                 Icons.menu_book_outlined,
                 size: 48,
-                color: Color(0xFFC3C6D5),
+                color: AppColors.borderStrong,
               ),
               const SizedBox(height: 16),
               Text(
@@ -50,7 +45,7 @@ class EmptyCounterpartView extends StatelessWidget {
                   fontFamily: 'Space Grotesk',
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xFF00357F),
+                  color: AppColors.primary,
                 ),
               ),
               const SizedBox(height: 8),
@@ -60,7 +55,7 @@ class EmptyCounterpartView extends StatelessWidget {
                 style: const TextStyle(
                   fontFamily: 'Inter',
                   fontSize: 13,
-                  color: Color(0xFF434653),
+                  color: AppColors.textMuted,
                   height: 1.4,
                 ),
               ),
@@ -68,8 +63,9 @@ class EmptyCounterpartView extends StatelessWidget {
               ElevatedButton.icon(
                 onPressed: onReturn,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF004AAD),
+                  backgroundColor: AppColors.primary,
                   foregroundColor: Colors.white,
+                  elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

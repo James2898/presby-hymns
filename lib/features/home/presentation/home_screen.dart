@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:presby_hymns/core/theme/app_colors.dart';
 import 'providers/catalog_stats_provider.dart';
 import 'providers/home_search_provider.dart';
 import 'widgets/catalog_card.dart';
@@ -36,9 +37,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final statsAsync = ref.watch(catalogStatsProvider);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF9F9FC),
+      backgroundColor: AppColors.canvasEn,
       appBar: AppBar(
-        backgroundColor: const Color(0xFFF9F9FC),
+        backgroundColor: AppColors.canvasEn,
         elevation: 0,
         surfaceTintColor: Colors.transparent,
         title: Row(
@@ -47,13 +48,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               width: 32,
               height: 32,
               decoration: BoxDecoration(
-                color: const Color(0xFFD9E2FF),
+                color: AppColors.primaryTint,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Icon(
                 Icons.church_rounded,
                 size: 20,
-                color: Color(0xFF00357F),
+                color: AppColors.primary,
               ),
             ),
             const SizedBox(width: 10),
@@ -64,14 +65,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
                 letterSpacing: 0.5,
-                color: Color(0xFF00357F),
+                color: AppColors.primary,
               ),
             ),
           ],
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.menu_book_rounded, color: Color(0xFF00357F)),
+            icon: const Icon(Icons.menu_book_rounded, color: AppColors.primary),
             tooltip: 'Hymn Index',
             onPressed: () {
               if (widget.onBrowseCatalog != null) {
@@ -121,8 +122,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         'Liturgical psalmody & carols with lyrics and chords where available.',
                     count: stats.english.total,
                     countLabel: 'Hymns',
-                    primaryColor: const Color(0xFF00357F),
-                    topBarColor: const Color(0xFF004AAD),
+                    primaryColor: AppColors.primary,
+                    topBarColor: AppColors.primary,
                     buttonLabel: 'Browse English Hymns',
                     onTap: () {
                       if (widget.onBrowseCatalog != null) {
@@ -137,8 +138,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         'Banal na awitin at pagsambang may akmang tono ng gitara at titik sa Tagalog.',
                     count: stats.tagalog.total,
                     countLabel: 'Hymns',
-                    primaryColor: const Color(0xFF735C00),
-                    topBarColor: const Color(0xFFFED65B),
+                    primaryColor: AppColors.accentText,
+                    topBarColor: AppColors.accent,
                     buttonLabel: 'Tingnan sa Tagalog',
                     onTap: () {
                       if (widget.onBrowseCatalog != null) {

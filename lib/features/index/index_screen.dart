@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:presby_hymns/core/theme/app_colors.dart';
 import 'models/index_item.dart';
 import 'providers/index_provider.dart';
 import 'widgets/az_rail.dart';
@@ -76,9 +77,9 @@ class _IndexScreenState extends ConsumerState<IndexScreen> {
     final activeSort = ref.watch(indexSortProvider);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF9F9FC),
+      backgroundColor: AppColors.canvasEn,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF00357F),
+        backgroundColor: AppColors.primary,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -106,22 +107,16 @@ class _IndexScreenState extends ConsumerState<IndexScreen> {
         children: [
           // Sticky Top Controls Section
           Container(
-            color: const Color(0xFFF9F9FC),
+            color: AppColors.canvasEn,
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
             child: Column(
               children: [
                 // Search Input
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.04),
-                        blurRadius: 4,
-                        offset: const Offset(0, 1),
-                      ),
-                    ],
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: AppColors.border),
                   ),
                   child: TextField(
                     controller: _searchController,
@@ -137,11 +132,11 @@ class _IndexScreenState extends ConsumerState<IndexScreen> {
                       hintText: 'Search #, title, or lyrics...',
                       hintStyle: const TextStyle(
                         fontSize: 14,
-                        color: Color(0xFF737784),
+                        color: AppColors.textMuted,
                       ),
                       prefixIcon: const Icon(
                         Icons.search,
-                        color: Color(0xFF00357F),
+                        color: AppColors.primary,
                         size: 20,
                       ),
                       suffixIcon: _searchController.text.isNotEmpty
@@ -174,7 +169,7 @@ class _IndexScreenState extends ConsumerState<IndexScreen> {
           Expanded(
             child: listAsync.when(
               loading: () => const Center(
-                child: CircularProgressIndicator(color: Color(0xFF00357F)),
+                child: CircularProgressIndicator(color: AppColors.primary),
               ),
               error: (err, stack) => Center(
                 child: Padding(
@@ -193,7 +188,7 @@ class _IndexScreenState extends ConsumerState<IndexScreen> {
                       'No hymns found matching criteria.',
                       style: TextStyle(
                         fontSize: 15,
-                        color: Color(0xFF737784),
+                        color: AppColors.textMuted,
                       ),
                     ),
                   );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:presby_hymns/core/music/key_speller.dart';
+import 'package:presby_hymns/core/theme/app_colors.dart';
 
 class ReaderMetadataCard extends StatelessWidget {
   final int? hymnNumber;
@@ -25,7 +26,7 @@ class ReaderMetadataCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const primaryColor = Color(0xFF00357F);
+    const primaryColor = AppColors.primary;
     final isMinor = soundingKey.endsWith('m');
     final rootOnly = soundingKey.replaceAll('m', '');
     final shapeKeyRoot = capo > 0
@@ -47,15 +48,9 @@ class ReaderMetadataCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x0A000000),
-            blurRadius: 4,
-            offset: Offset(0, 2),
-          ),
-        ],
+        border: Border.all(color: AppColors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,16 +59,16 @@ class ReaderMetadataCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF004AAD),
-                  borderRadius: BorderRadius.circular(18),
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
                   hymnNumber != null ? 'HYMN #$hymnNumber' : 'SONG',
                   style: const TextStyle(
                     fontFamily: 'Space Grotesk',
-                    fontSize: 15,
+                    fontSize: 14,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 0.9,
                     color: Colors.white,
@@ -82,7 +77,7 @@ class ReaderMetadataCard extends StatelessWidget {
               ),
               Row(
                 children: [
-                  const Icon(Icons.music_note, size: 16, color: Color(0xFF735C00)),
+                  const Icon(Icons.music_note, size: 16, color: AppColors.accentText),
                   const SizedBox(width: 4),
                   Text(
                     keyLabel,
@@ -90,7 +85,7 @@ class ReaderMetadataCard extends StatelessWidget {
                       fontFamily: 'Inter',
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
-                      color: Color(0xFF745C00),
+                      color: AppColors.accentText,
                     ),
                   ),
                 ],
@@ -113,7 +108,7 @@ class ReaderMetadataCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               decoration: BoxDecoration(
-                color: const Color(0xFFF3F3F6),
+                color: AppColors.canvasEn,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Wrap(
@@ -124,7 +119,7 @@ class ReaderMetadataCard extends StatelessWidget {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.straighten, size: 14, color: Color(0xFF735C00)),
+                        const Icon(Icons.straighten, size: 14, color: AppColors.accentText),
                         const SizedBox(width: 4),
                         Text(
                           'Meter: $meter',
@@ -132,26 +127,26 @@ class ReaderMetadataCard extends StatelessWidget {
                             fontFamily: 'Inter',
                             fontSize: 11,
                             fontWeight: FontWeight.w500,
-                            color: Color(0xFF434653),
+                            color: AppColors.textMuted,
                           ),
                         ),
                       ],
                     ),
                     if (authorYear.isNotEmpty)
-                      const Text('•', style: TextStyle(color: Color(0xFFC3C6D5))),
+                      const Text('•', style: TextStyle(color: AppColors.borderStrong)),
                   ],
                   if (authorYear.isNotEmpty)
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.history_edu, size: 14, color: Color(0xFF735C00)),
+                        const Icon(Icons.history_edu, size: 14, color: AppColors.accentText),
                         const SizedBox(width: 4),
                         Text(
                           authorYear,
                           style: const TextStyle(
                             fontFamily: 'Inter',
                             fontSize: 11,
-                            color: Color(0xFF434653),
+                            color: AppColors.textMuted,
                           ),
                         ),
                       ],

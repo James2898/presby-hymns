@@ -1,16 +1,9 @@
-import 'dart:io';
 import 'package:drift/drift.dart';
-import 'package:drift/native.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as p;
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'connection/connection_native.dart'
+    if (dart.library.js_interop) 'connection/connection_web.dart';
 
 part 'app_database.g.dart';
-
-const int kAppDbVersion = 3;
-const String kDbVersionPrefKey = 'app_db_content_version';
 
 class Hymns extends Table {
   IntColumn get id => integer()();
@@ -41,36 +34,10 @@ class HymnTexts extends Table {
 
 @DriftDatabase(tables: [Hymns, HymnTexts])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase([QueryExecutor? e]) : super(e ?? _openConnection());
+  AppDatabase([QueryExecutor? e]) : super(e ?? openAppDatabaseConnection());
 
   @override
   int get schemaVersion => 1;
-
-  static LazyDatabase _openConnection() {
-    return LazyDatabase(() async {
-      final dbFolder = await getApplicationDocumentsDirectory();
-      final file = File(p.join(dbFolder.path, 'hymns.db'));
-
-      final prefs = await SharedPreferences.getInstance();
-      final storedVersion = prefs.getInt(kDbVersionPrefKey);
-
-      final needsCopy = !await file.exists() ||
-          storedVersion == null ||
-          storedVersion < kAppDbVersion;
-
-      // Copy from bundled asset if not exists or updating
-      if (needsCopy) {
-        final blob = await rootBundle.load('assets/db/hymns.db');
-        final buffer = blob.buffer;
-        await file.writeAsBytes(
-          buffer.asUint8List(blob.offsetInBytes, blob.lengthInBytes),
-          flush: true,
-        );
-        await prefs.setInt(kDbVersionPrefKey, kAppDbVersion);
-      }
-      return NativeDatabase.createInBackground(file);
-    });
-  }
 }
 
 final appDatabaseProvider = Provider<AppDatabase>((ref) {
